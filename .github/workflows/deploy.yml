@@ -1,37 +1,39 @@
 # =====================================================
-# GanchoReel — Deploy automático no GitHub Pages
+# GanchoReel — Deploy automático via SSH para VPS
 #
 # Dispara em todo push para a branch main.
-# O site fica disponível em:
-# https://<seu-usuario>.github.io/<nome-do-repo>/
 #
-# ATIVAÇÃO (faça uma vez no repositório):
-#   Settings → Pages → Source → GitHub Actions
+# SEGREDOS necessários no repositório (Settings → Secrets → Actions):
+#   VPS_HOST              → IP ou hostname do servidor (ex: 123.45.67.89)
+#   VPS_USER              → Usuário SSH (ex: root ou ubuntu)
+#   VPS_SSH_KEY           → Chave SSH privada (ed25519 recomendado)
+#   GOOGLE_APPS_SCRIPT_URL → URL do Web App do Google Apps Script (opcional)
+#
+# PREPARAÇÃO NO VPS (execute uma vez):
+#   mkdir -p /var/www/rhinotreinamentos.com
+#   # Adicione a chave pública SSH em ~/.ssh/authorized_keys
+#
+# COMO GERAR O PAR DE CHAVES:
+#   ssh-keygen -t ed25519 -C "github-deploy" -f ~/.ssh/github_deploy
+#   # Adicione o conteúdo de github_deploy.pub no VPS
+#   # Adicione o conteúdo de github_deploy como segredo VPS_SSH_KEY
 # =====================================================
 
-name: Deploy to GitHub Pages
+name: Deploy to VPS
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:       # permite disparar manualmente na UI do GitHub
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  workflow_dispatch:
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
 
     steps:
       # 1. Checkout do código
@@ -41,30 +43,45 @@ jobs:
       # 2. Valida arquivos essenciais
       - name: Validate required files
         run: |
-          echo "Verificando arquivos..."
+          echo "Verificando arquivos essenciais..."
           test -f index.html    || (echo "❌ index.html não encontrado" && exit 1)
           test -f css/style.css || (echo "❌ css/style.css não encontrado" && exit 1)
           test -f js/app.js     || (echo "❌ js/app.js não encontrado" && exit 1)
           echo "✅ Todos os arquivos presentes"
 
-      # 3. Configura o GitHub Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      # 3. Injeta a URL do Google Apps Script (se o segredo estiver configurado)
+      - name: Inject Google Apps Script URL
+        env:
+          APPS_SCRIPT_URL: ${{ secrets.GOOGLE_APPS_SCRIPT_URL }}
+        run: |
+          if [ -n "$APPS_SCRIPT_URL" ]; then
+            sed -i "s|const API_URL = '';|const API_URL = '${APPS_SCRIPT_URL}';|" js/api.js
+            echo "✅ API_URL configurado com Google Apps Script URL"
+          else
+            echo "ℹ️  GOOGLE_APPS_SCRIPT_URL não configurado — app usará modo offline com templates estáticos"
+          fi
 
-      # 4. Empacota o site estático
-      #    Exclui a pasta backend/ (apenas para referência, não vai ao deploy)
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-          # Exclui arquivos que não devem ir ao GitHub Pages
-          # (o upload-pages-artifact usa .gitignore automaticamente)
+      # 4. Configura a chave SSH
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
 
-      # 5. Publica no GitHub Pages
-      - name: Deploy
-        id: deploy
-        uses: actions/deploy-pages@v4
+      # 5. Deploy via rsync (envia apenas os arquivos do site estático)
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git/' \
+            --exclude='backend/' \
+            --exclude='.github/' \
+            --exclude='nginx.conf' \
+            --exclude='README.md' \
+            --exclude='.gitignore' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/rhinotreinamentos.com/
 
-      # 6. Log da URL publicada
-      - name: Log deployed URL
-        run: echo "✅ Publicado em ${{ steps.deploy.outputs.page_url }}"
+      # 6. Confirma deploy
+      - name: Done
+        run: echo "✅ Deploy concluído em rhinotreinamentos.com"

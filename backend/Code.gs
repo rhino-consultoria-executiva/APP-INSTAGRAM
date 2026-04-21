@@ -13,7 +13,7 @@
 //   7. Copie a URL gerada e cole em js/api.js → API_URL
 // =====================================================
 
-const SPREADSHEET_ID = 'COLE_SEU_SPREADSHEET_ID_AQUI';
+const SPREADSHEET_ID = '1ba_t8gZp12okFieDTwAdOpP0ufHOdnRTSpsHgOlRIb8';
 
 const SHEET = {
   TEMPLATES: 'Templates',
