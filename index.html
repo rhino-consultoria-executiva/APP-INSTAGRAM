@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gerador de Ganchos para Instagram Reels — Crie aberturas irresistíveis para seus vídeos">
+  <meta name="theme-color" content="#833AB4">
+  <meta property="og:title" content="GanchoReel — Gerador de Ganchos para Reels">
+  <meta property="og:description" content="Gere ganchos irresistíveis para seus Reels em segundos. 10 categorias, centenas de possibilidades.">
+  <title>GanchoReel ✨ — Gerador de Ganchos para Reels</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="app-header">
+    <div class="header-inner">
+      <a class="logo" href="#">
+        <span class="logo-icon">✨</span>
+        <span class="logo-text">GanchoReel</span>
+        <span class="logo-badge">PRO</span>
+      </a>
+      <div class="header-actions">
+        <button class="btn-header" id="btn-toggle-favorites" title="Meus Favoritos">
+          ❤️ <span class="btn-header-label">Favoritos</span>
+          <span class="header-badge" id="favorites-count">0</span>
+        </button>
+        <button class="btn-theme" id="btn-toggle-theme" aria-label="Alternar tema">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-tag">Para criadores de conteúdo brasileiros ✦</div>
+      <h1 class="hero-title">Ganchos que <em class="gradient-text">param o scroll</em></h1>
+      <p class="hero-subtitle">
+        Gere aberturas irresistíveis para seus Reels em segundos.
+        <strong>10 categorias</strong>, centenas de possibilidades — com backup no Google Sheets.
+      </p>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">10</span><span class="stat-label">Categorias</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">60+</span><span class="stat-label">Templates</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num">8</span><span class="stat-label">Nichos</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAIN APP ===== -->
+  <main class="app-main">
+    <div class="container">
+
+      <!-- INPUT CARD -->
+      <section class="card input-section" id="input-section">
+        <div class="card-header">
+          <h2 class="card-title">⚙️ Configure seu gancho</h2>
+          <span class="api-status" id="api-status" title="Status da API"></span>
+        </div>
+
+        <!-- Topic Input -->
+        <div class="field-group">
+          <label class="field-label" for="input-topic">Tema / Tópico do Reel</label>
+          <div class="input-wrapper">
+            <span class="input-icon">🎯</span>
+            <input
+              type="text"
+              id="input-topic"
+              class="topic-input"
+              placeholder="Ex: como ganhar dinheiro na internet..."
+              autocomplete="off"
+              spellcheck="false"
+              maxlength="120"
+            >
+            <button class="input-clear" id="btn-clear" title="Limpar campo">✕</button>
+          </div>
+          <span class="input-hint">Seja específico para ganchos mais precisos 💡</span>
+        </div>
+
+        <!-- Nicho Selector -->
+        <div class="field-group">
+          <label class="field-label">Nicho (opcional)</label>
+          <div class="pills-container" id="nichos-container">
+            <!-- Preenchido pelo JS -->
+          </div>
+        </div>
+
+        <!-- Category Selector -->
+        <div class="field-group">
+          <label class="field-label">Tipo de Gancho <span class="field-badge">Múltipla escolha</span></label>
+          <div class="categories-grid" id="categories-container">
+            <!-- Preenchido pelo JS -->
+          </div>
+        </div>
+
+        <!-- Generate Button -->
+        <button class="btn-generate" id="btn-generate">
+          <span class="btn-generate-content">
+            <span>⚡</span>
+            <span>Gerar Ganchos</span>
+          </span>
+          <span class="btn-generate-badge">GRÁTIS</span>
+        </button>
+      </section>
+
+      <!-- RESULTS SECTION -->
+      <section class="results-section" id="results-section" hidden>
+        <div class="results-header">
+          <div>
+            <h2 class="section-title">Seus Ganchos</h2>
+            <p class="results-meta" id="results-meta"></p>
+          </div>
+          <button class="btn-regenerate" id="btn-regenerate" title="Gerar novamente">🔄 Regenerar</button>
+        </div>
+        <div class="hooks-grid" id="hooks-container">
+          <!-- Preenchido pelo JS -->
+        </div>
+      </section>
+
+      <!-- FAVORITES SECTION -->
+      <section class="favorites-section" id="favorites-section" hidden>
+        <div class="favorites-header">
+          <h2 class="section-title">❤️ Favoritos</h2>
+          <button class="btn-clear-all" id="btn-clear-favorites">Limpar todos</button>
+        </div>
+        <div class="favorites-grid" id="favorites-container">
+          <!-- Preenchido pelo JS -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <p>Feito com ❤️ para criadores de conteúdo brasileiros</p>
+      <p class="footer-sub">Dados salvos no Google Sheets &bull; Deploy via GitHub Pages &bull; Funciona offline</p>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/templates.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
