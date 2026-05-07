@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Calendário Inteligente de Conteúdo — Instagram 2026</title>
+<meta name="theme-color" content="#07080F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Calendário Insta">
+<link id="pwa-manifest" rel="manifest">
+<style>
+/* ── HUB NAV BAR ── */
+.hub-nav{background:#0A0B15;border-bottom:1px solid #1C1D30;padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:60}
+.hub-nav-back{display:flex;align-items:center;gap:6px;color:#5A5B72;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+.hub-nav-back:hover{color:#C8FF3C}
+.hub-nav-sep{color:#1C1D30;font-size:14px}
+.hub-nav-current{font-size:11px;color:#5A5B72;font-weight:600}
+.hub-nav-ebook{margin-left:auto;background:rgba(200,255,60,.1);border:1px solid rgba(200,255,60,.25);color:#C8FF3C;font-size:10px;font-weight:700;padding:5px 12px;border-radius:6px;text-decoration:none;letter-spacing:.5px;transition:all .2s}
+.hub-nav-ebook:hover{background:rgba(200,255,60,.2)}
+</style>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080F;--surface:#0E0F1A;--surface2:#141526;--border:#1C1D30;
+  --accent:#C8FF3C;--accent2:#FF4D6D;--accent3:#3DDFFF;--accent4:#FF9F3C;
+  --text:#EEEEF8;--muted:#5A5B72;--success:#3DFFAA;
+  --font-head:'Georgia','Times New Roman',serif;
+  --font-body:'Trebuchet MS','Lucida Grande',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-height:100vh;overflow-x:hidden}
+
+/* ── ONBOARDING ── */
+#screen-onboarding{
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px 20px;text-align:center;position:relative;overflow:hidden;
+}
+#screen-onboarding::before{
+  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;background:radial-gradient(ellipse,rgba(200,255,60,.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.ob-badge{
+  display:inline-block;background:var(--accent);color:#000;font-size:9px;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;padding:4px 16px;border-radius:20px;margin-bottom:18px;
+}
+.ob-title{font-family:var(--font-head);font-size:clamp(26px,6vw,38px);font-weight:700;line-height:1.15;margin-bottom:10px;}
+.ob-title span{color:var(--accent)}
+.ob-sub{font-size:13px;color:var(--muted);margin-bottom:32px;max-width:340px;line-height:1.6}
+.ob-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;text-align:left}
+.niche-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;max-width:400px;margin-bottom:24px}
+.niche-btn{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:12px;
+  padding:14px 12px;cursor:pointer;transition:all .2s;text-align:center;color:var(--muted);
+  font-family:var(--font-body);
+}
+.niche-btn .nb-icon{font-size:22px;display:block;margin-bottom:5px}
+.niche-btn .nb-name{font-size:12px;font-weight:700;color:var(--text);display:block}
+.niche-btn .nb-sub{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3}
+.niche-btn.sel{border-color:var(--accent);background:rgba(200,255,60,.07);color:var(--accent)}
+.niche-btn.sel .nb-name{color:var(--accent)}
+.goal-grid{display:flex;gap:8px;width:100%;max-width:400px;margin-bottom:24px;flex-wrap:wrap;justify-content:center}
+.goal-btn{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:10px;
+  padding:10px 16px;cursor:pointer;transition:all .2s;color:var(--muted);
+  font-family:var(--font-body);font-size:12px;font-weight:700;flex:1;min-width:100px;text-align:center;
+}
+.goal-btn.sel{border-color:var(--accent2);background:rgba(255,77,109,.08);color:var(--accent2)}
+.btn-start{
+  width:100%;max-width:400px;background:var(--accent);color:#000;border:none;
+  border-radius:12px;padding:16px;font-family:var(--font-body);font-size:15px;font-weight:700;
+  cursor:pointer;transition:all .2s;letter-spacing:.5px;
+}
+.btn-start:hover{background:#d9ff55;transform:translateY(-1px);box-shadow:0 6px 24px rgba(200,255,60,.3)}
+.btn-start:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* ── MAIN APP ── */
+#screen-app{display:none;min-height:100vh}
+.app-header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:16px 18px;position:sticky;top:0;z-index:50;
+}
+.app-header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.app-niche-info{display:flex;align-items:center;gap:10px}
+.app-niche-icon{font-size:22px}
+.app-niche-name{font-size:13px;font-weight:700;color:var(--text)}
+.app-niche-goal{font-size:10px;color:var(--muted)}
+.btn-reset{background:none;border:1px solid var(--border);border-radius:8px;padding:6px 12px;
+  color:var(--muted);font-size:11px;cursor:pointer;font-family:var(--font-body);transition:all .2s}
+.btn-reset:hover{border-color:var(--accent2);color:var(--accent2)}
+.month-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.month-tab{
+  flex:1;padding:8px 4px;background:none;border:none;color:var(--muted);
+  font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;
+  transition:all .2s;position:relative;text-align:center;
+}
+.month-tab.active{background:var(--accent);color:#000}
+.month-tab.locked{opacity:.4;cursor:not-allowed}
+.lock-icon{font-size:10px;display:block}
+.progress-bar-wrap{margin-top:10px}
+.progress-bar-label{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:4px}
+.progress-bar-label span:last-child{color:var(--accent);font-weight:700}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-bar-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .5s ease}
+
+/* ── CALENDAR ── */
+.calendar-wrap{padding:16px 14px 80px}
+.cal-legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.leg-chip{
+  display:flex;align-items:center;gap:4px;font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+}
+.cal-grid-header{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
+.cal-day-header{text-align:center;font-size:9px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.5px;padding:4px 0}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.cal-cell{
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  min-height:64px;padding:4px;cursor:pointer;transition:all .2s;position:relative;
+  display:flex;flex-direction:column;
+}
+.cal-cell:hover{border-color:rgba(200,255,60,.4);background:rgba(200,255,60,.03)}
+.cal-cell.rest{background:transparent;border-color:transparent;cursor:default;opacity:.3}
+.cal-cell.rest:hover{border-color:transparent;background:transparent}
+.cal-cell.done{border-color:rgba(61,255,170,.35);background:rgba(61,255,170,.04)}
+.cal-cell.done::after{
+  content:'✓';position:absolute;top:4px;right:4px;font-size:9px;
+  font-weight:700;color:var(--success);
+}
+.cal-cell.locked-cell{opacity:.4;cursor:not-allowed;filter:grayscale(.6)}
+.cal-cell.locked-cell:hover{border-color:var(--border);background:var(--surface)}
+.cell-day{font-size:9px;font-weight:700;color:var(--muted);margin-bottom:3px}
+.cell-chip{
+  font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  padding:2px 5px;border-radius:4px;display:inline-block;margin-bottom:3px;
+}
+.chip-reels{background:rgba(255,77,109,.18);color:var(--accent2)}
+.chip-carrossel{background:rgba(61,223,255,.18);color:var(--accent3)}
+.chip-stories{background:rgba(200,255,60,.18);color:var(--accent)}
+.chip-feed{background:rgba(61,255,170,.18);color:var(--success)}
+.chip-live{background:rgba(255,159,60,.18);color:var(--accent4)}
+.cell-tema{font-size:9px;color:var(--text);line-height:1.3;flex:1;overflow:hidden}
+.unlock-banner{
+  background:linear-gradient(135deg,rgba(200,255,60,.08),rgba(61,223,255,.05));
+  border:1px solid rgba(200,255,60,.2);border-radius:12px;padding:16px;
+  text-align:center;margin-bottom:16px;
+}
+.unlock-banner .ub-icon{font-size:28px;display:block;margin-bottom:6px}
+.unlock-banner .ub-title{font-size:14px;font-weight:700;color:var(--accent);margin-bottom:4px}
+.unlock-banner .ub-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.unlock-banner .ub-bar{
+  height:8px;background:var(--border);border-radius:4px;margin:10px 0 6px;overflow:hidden;
+}
+.unlock-banner .ub-bar-fill{height:100%;background:var(--accent);border-radius:4px;transition:width .5s}
+.unlock-banner .ub-pct{font-size:12px;font-weight:700;color:var(--accent)}
+
+/* ── POST MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.88);
+  display:none;align-items:flex-end;justify-content:center;z-index:200;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal{
+  background:var(--surface);border:1px solid var(--border);border-radius:20px 20px 0 0;
+  padding:22px 18px 36px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;
+}
+.modal-drag{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.modal-header{margin-bottom:16px}
+.modal-day{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.modal-title{font-family:var(--font-head);font-size:20px;font-weight:700;line-height:1.2;margin-bottom:8px}
+.modal-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.modal-chip{
+  font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+}
+.modal-section{margin-bottom:16px}
+.modal-section-title{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);
+}
+.modal-section p,.modal-section li{font-size:12.5px;line-height:1.7;color:rgba(238,238,248,.82)}
+.modal-section ul{padding-left:16px}
+.hook-box{
+  background:var(--surface2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;
+  padding:10px 12px;font-size:13px;font-weight:700;color:var(--text);cursor:pointer;
+  transition:all .2s;position:relative;padding-right:36px;line-height:1.5;
+}
+.hook-box:hover{background:rgba(200,255,60,.06)}
+.hook-box::after{content:'📋';position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.5}
+.hook-type{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--accent);opacity:.7;margin-bottom:4px}
+.caption-block{background:var(--surface2);border-radius:8px;padding:12px;margin-bottom:8px}
+.caption-block-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.caption-block p{font-size:12px;color:rgba(238,238,248,.82);margin:0}
+.image-idea-box{
+  background:var(--surface2);border:1px dashed var(--border);border-radius:8px;
+  padding:12px;display:flex;align-items:flex-start;gap:10px;
+}
+.image-idea-icon{font-size:22px;flex-shrink:0}
+.image-idea-text{font-size:12px;color:rgba(238,238,248,.82);line-height:1.6}
+.trick-item{
+  display:flex;gap:8px;align-items:flex-start;padding:8px 0;
+  border-bottom:1px solid var(--border);font-size:12px;color:rgba(238,238,248,.82);line-height:1.5;
+}
+.trick-item:last-child{border-bottom:none}
+.trick-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;margin-top:5px}
+.btn-done{
+  width:100%;background:var(--success);color:#000;border:none;border-radius:12px;
+  padding:14px;font-family:var(--font-body);font-size:14px;font-weight:700;cursor:pointer;
+  margin-top:16px;transition:all .2s;
+}
+.btn-done:hover{background:#5affbb}
+.btn-done.undone{background:var(--surface2);color:var(--muted);border:1.5px solid var(--border)}
+.btn-done.undone:hover{border-color:var(--accent2);color:var(--accent2)}
+.btn-close-modal{
+  width:100%;background:none;border:1px solid var(--border);border-radius:10px;
+  padding:12px;color:var(--muted);font-family:var(--font-body);font-size:13px;font-weight:600;
+  cursor:pointer;margin-top:8px;transition:all .2s;
+}
+.btn-close-modal:hover{border-color:var(--border);color:var(--text)}
+
+/* ── TOAST ── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:var(--success);color:#000;padding:9px 18px;border-radius:20px;
+  font-size:13px;font-weight:700;opacity:0;transition:all .3s;pointer-events:none;z-index:300;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media(max-width:400px){
+  .niche-grid{grid-template-columns:repeat(2,1fr)}
+  .cal-cell{min-height:54px}
+}
+
+/* ── INSTALL BUTTON ── */
+.btn-install{
+  background:rgba(200,255,60,.1);border:1px solid rgba(200,255,60,.3);
+  border-radius:8px;padding:6px 12px;color:var(--accent);font-size:11px;
+  font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s;
+  display:none;
+}
+.btn-install:hover{background:rgba(200,255,60,.2)}
+.btn-install.visible{display:inline-block}
+
+/* ── PWA INSTALL BANNER ── */
+.pwa-banner{
+  position:fixed;bottom:80px;left:16px;right:16px;
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  padding:14px 16px;z-index:400;animation:slideUp .3s ease;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);display:none;
+}
+.pwa-banner.show{display:block}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+.pwa-banner-title{font-size:13px;font-weight:700;margin-bottom:4px;color:var(--text)}
+.pwa-banner-sub{font-size:11px;color:var(--muted);margin-bottom:10px;line-height:1.5}
+.pwa-banner-btns{display:flex;gap:8px}
+.pwa-btn-yes{
+  flex:1;background:var(--accent);color:#000;border:none;border-radius:8px;
+  padding:9px;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;
+}
+.pwa-btn-no{
+  background:none;border:1px solid var(--border);border-radius:8px;padding:9px 14px;
+  color:var(--muted);font-family:var(--font-body);font-size:12px;cursor:pointer;
+}
+
+/* ── RESULTS PANEL ── */
+#screen-results{
+  display:none;position:fixed;inset:0;background:var(--bg);z-index:100;overflow-y:auto;
+}
+.results-header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:16px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;
+}
+.results-back{
+  background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;
+  line-height:1;padding:4px;
+}
+.results-title{font-family:var(--font-head);font-size:18px;font-weight:700}
+.results-body{padding:16px 16px 80px}
+.results-section-title{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin:20px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);
+}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:4px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:14px;text-align:center;
+}
+.stat-card .sv{font-family:var(--font-head);font-size:30px;font-weight:700;color:var(--accent);line-height:1}
+.stat-card .sl{font-size:10px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+.format-row{
+  display:flex;align-items:center;gap:10px;padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+.format-row:last-child{border-bottom:none}
+.format-row-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.format-row-info{flex:1}
+.format-row-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.format-row-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:2px}
+.format-row-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.format-row-stat{font-size:10px;color:var(--muted)}
+.format-row-val{font-size:13px;font-weight:700;color:var(--text);min-width:40px;text-align:right}
+.post-history-item{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:12px;margin-bottom:8px;
+}
+.phi-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.phi-chip{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:2px 8px;border-radius:10px}
+.phi-tema{font-size:12px;font-weight:700;color:var(--text);flex:1}
+.phi-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.phi-metric{background:var(--surface2);border-radius:6px;padding:6px 4px;text-align:center}
+.phi-metric .pmv{font-size:13px;font-weight:700;color:var(--accent)}
+.phi-metric .pml{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.3px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px;line-height:1.7}
+.empty-state .ei{font-size:32px;display:block;margin-bottom:10px}
+
+/* ── METRICS FORM (in modal) ── */
+.metrics-form{
+  border-top:1px solid var(--border);margin-top:14px;padding-top:14px;
+  display:none;
+}
+.metrics-form.show{display:block}
+.metrics-form-title{
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:10px;
+}
+.metrics-inputs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:10px}
+.metric-input-wrap label{
+  display:block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:4px;
+}
+.metric-input-wrap input{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;
+  padding:9px 10px;color:var(--text);font-family:var(--font-body);font-size:14px;
+  outline:none;transition:border-color .2s;
+}
+.metric-input-wrap input:focus{border-color:var(--accent)}
+.metric-input-wrap input::placeholder{color:var(--muted)}
+.btn-save-metrics{
+  width:100%;background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:10px;padding:11px;color:var(--accent);font-family:var(--font-body);
+  font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.btn-save-metrics:hover{border-color:var(--accent);background:rgba(200,255,60,.06)}
+.results-btn{
+  display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--border);
+  border-radius:8px;padding:6px 12px;color:var(--muted);font-size:11px;font-weight:700;
+  cursor:pointer;font-family:var(--font-body);transition:all .2s;
+}
+.results-btn:hover{border-color:var(--accent3);color:var(--accent3)}
+</style>
+</head>
+<body>
+
+<!-- ── HUB NAVIGATION ── -->
+<div class="hub-nav">
+  <a class="hub-nav-back" href="index.html">← Área do Produto</a>
+  <span class="hub-nav-sep">/</span>
+  <span class="hub-nav-current">Calendário Inteligente</span>
+  <a class="hub-nav-ebook" href="ebook.html">📖 Ebook</a>
+</div>
+
+<!-- ═══════════════ ONBOARDING ═══════════════ -->
+<div id="screen-onboarding">
+  <div class="ob-badge">✦ Calendário Inteligente 2026</div>
+  <h1 class="ob-title">Seu Conteúdo<br><span>Planejado</span></h1>
+  <p class="ob-sub">Escolha seu nicho e objetivo. Receba 3 meses de estratégia completa — estrutura, hook, legenda, ideia de imagem e truques para cada post.</p>
+
+  <div class="ob-label" style="width:100%;max-width:400px">Seu Nicho</div>
+  <div class="niche-grid" id="niche-grid"></div>
+
+  <div class="ob-label" style="width:100%;max-width:400px">Seu Objetivo</div>
+  <div class="goal-grid" id="goal-grid"></div>
+
+  <button class="btn-start" id="btn-start" disabled onclick="startApp()">→ GERAR MEU CALENDÁRIO</button>
+</div>
+
+<!-- ═══════════════ MAIN APP ═══════════════ -->
+<div id="screen-app">
+  <div class="app-header">
+    <div class="app-header-top">
+      <div class="app-niche-info">
+        <div class="app-niche-icon" id="hdr-icon"></div>
+        <div>
+          <div class="app-niche-name" id="hdr-name"></div>
+          <div class="app-niche-goal" id="hdr-goal"></div>
+        </div>
+      </div>
+      <button class="btn-reset" onclick="resetApp()">↺ Trocar nicho</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:10px">
+      <button class="results-btn" onclick="openResults()">📊 Resultados</button>
+      <button class="btn-install" id="btn-install" onclick="installPWA()">📲 Instalar App</button>
+    </div>
+    <div class="month-tabs" id="month-tabs">
+      <button class="month-tab active" data-m="1" onclick="switchMonth(1)">
+        Mês 1<br><span style="font-size:9px;font-weight:400">Fundação</span>
+      </button>
+      <button class="month-tab locked" data-m="2" onclick="switchMonth(2)">
+        Mês 2<br><span class="lock-icon">🔒</span>
+      </button>
+      <button class="month-tab locked" data-m="3" onclick="switchMonth(3)">
+        Mês 3<br><span class="lock-icon">🔒</span>
+      </button>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-label">
+        <span id="prog-label">0 de 22 posts concluídos</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <div class="calendar-wrap">
+    <div class="cal-legend">
+      <div class="leg-chip chip-reels">🎬 Reels</div>
+      <div class="leg-chip chip-carrossel">🖼️ Carrossel</div>
+      <div class="leg-chip chip-stories">⭕ Stories</div>
+      <div class="leg-chip chip-feed">📷 Feed</div>
+    </div>
+    <div id="unlock-banner" style="display:none"></div>
+    <div class="cal-grid-header">
+      <div class="cal-day-header">Seg</div>
+      <div class="cal-day-header">Ter</div>
+      <div class="cal-day-header">Qua</div>
+      <div class="cal-day-header">Qui</div>
+      <div class="cal-day-header">Sex</div>
+      <div class="cal-day-header">Sáb</div>
+      <div class="cal-day-header">Dom</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ RESULTS SCREEN ═══════════════ -->
+<div id="screen-results">
+  <div class="results-header">
+    <button class="results-back" onclick="closeResults()">←</button>
+    <div class="results-title">📊 Resultados</div>
+  </div>
+  <div class="results-body">
+    <div class="results-section-title">Resumo Geral</div>
+    <div class="stat-grid" id="res-stats"></div>
+
+    <div class="results-section-title">Performance por Formato</div>
+    <div id="res-formats"></div>
+
+    <div class="results-section-title">Histórico de Posts</div>
+    <div id="res-history"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PWA INSTALL BANNER ═══════════════ -->
+<div class="pwa-banner" id="pwa-banner">
+  <div class="pwa-banner-title">📲 Instalar o Calendário no celular?</div>
+  <div class="pwa-banner-sub">Adicione à tela inicial para acessar como um app — sem abrir o navegador.</div>
+  <div class="pwa-banner-btns">
+    <button class="pwa-btn-yes" onclick="installPWA()">Instalar agora</button>
+    <button class="pwa-btn-no" onclick="dismissInstall()">Agora não</button>
+  </div>
+</div>
+
+<!-- ═══════════════ MODAL ═══════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-drag"></div>
+    <div class="modal-header">
+      <div class="modal-day" id="m-day"></div>
+      <div class="modal-title" id="m-title"></div>
+      <div class="modal-chips" id="m-chips"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Hook — Primeiros 3 Segundos</div>
+      <div class="hook-box" id="m-hook" onclick="copyHook()"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Framework da Legenda</div>
+      <div id="m-caption"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Ideia de Imagem / Arte</div>
+      <div class="image-idea-box">
+        <div class="image-idea-icon" id="m-img-icon"></div>
+        <div class="image-idea-text" id="m-img-text"></div>
+      </div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-title">Truques e Dicas Estratégicas</div>
+      <div id="m-tricks"></div>
+    </div>
+    <button class="btn-done" id="btn-done" onclick="toggleDone()"></button>
+
+    <div class="metrics-form" id="metrics-form">
+      <div class="metrics-form-title">📊 Registrar Resultados (opcional)</div>
+      <div class="metrics-inputs">
+        <div class="metric-input-wrap">
+          <label>Alcance</label>
+          <input type="number" id="mi-alcance" placeholder="ex: 1200">
+        </div>
+        <div class="metric-input-wrap">
+          <label>Saves</label>
+          <input type="number" id="mi-saves" placeholder="ex: 48">
+        </div>
+        <div class="metric-input-wrap">
+          <label>Compartilhamentos</label>
+          <input type="number" id="mi-shares" placeholder="ex: 23">
+        </div>
+        <div class="metric-input-wrap">
+          <label>Novos seguidores</label>
+          <input type="number" id="mi-followers" placeholder="ex: 12">
+        </div>
+      </div>
+      <button class="btn-save-metrics" onclick="saveMetrics()">💾 Salvar métricas</button>
+    </div>
+
+    <button class="btn-close-modal" onclick="closeModal()">Fechar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+const niches = [
+  { id:'fitness', icon:'💪', name:'Personal / Fitness', sub:'Treino, saúde e corpo' },
+  { id:'beauty',  icon:'✨', name:'Esteticista / Beleza', sub:'Skincare, estética, maquiagem' },
+  { id:'coach',   icon:'🧠', name:'Coach / Mentoria', sub:'Mindset, produtividade, propósito' },
+  { id:'business',icon:'📈', name:'Negócios / Empreendedor', sub:'Vendas, marketing, gestão' },
+  { id:'food',    icon:'🍽️', name:'Gastronomia / Food', sub:'Receitas, restaurante, chef' },
+  { id:'fashion', icon:'👗', name:'Moda / Estilo', sub:'Looks, styling, tendências' },
+  { id:'photo',   icon:'📸', name:'Fotógrafo / Criativo', sub:'Fotografia, edição, arte' },
+  { id:'liberal', icon:'⚖️', name:'Profissional Liberal', sub:'Advogado, médico, psicólogo' }
+];
+
+const goals = [
+  { id:'crescer', label:'🚀 Crescer o perfil' },
+  { id:'empresa', label:'🏪 Vender pelo Insta' },
+  { id:'influencer', label:'⭐ Ser influencer' }
+];
+
+// Day-of-week → format + funnel + label
+// Week pattern (0=Mon to 6=Sun)
+const weekPattern = [
+  { format:'reels',     funnel:'alcance',      label:'Reel' },
+  { format:'carrossel', funnel:'educacao',     label:'Carrossel' },
+  { format:'stories',   funnel:'engajamento',  label:'Stories' },
+  { format:'reels',     funnel:'alcance',      label:'Reel' },
+  { format:'carrossel', funnel:'vendas',       label:'Carrossel' },
+  { format:'feed',      funnel:'autoridade',   label:'Feed' },
+  null  // Sunday - rest
+];
+
+// Topics per niche (25 each, cycling)
+const nicheTopics = {
+  fitness:[
+    'Treino em casa sem equipamento','Proteína: o que você precisa saber','Cardio vs musculação: qual escolher',
+    'Como acelerar o metabolismo','Erro mais comum na academia','Alimentação pré-treino ideal',
+    'Rotina matinal para resultados','Perda de gordura: a verdade','Hipertrofia para iniciantes',
+    'Sono e recuperação muscular','Hidratação no treino','A verdade sobre suplementos',
+    'Treino feminino sem mitos','Funcional que realmente funciona','Overtraining: os sinais de alerta',
+    'Meta realista em 30 dias','Antes e depois: o método','Treino em 30 minutos','Postura e dor nas costas',
+    'Calistenia para iniciantes','Dieta vs reeducação alimentar','Como não desistir nos primeiros meses',
+    'Periodização simples','Flexibilidade e mobilidade','O treino que mais funciona para você'
+  ],
+  beauty:[
+    'Rotina de skincare do zero','Hidratação da pele: erros comuns','Como tratar a acne de vez',
+    'Tipos de pele: qual é o seu?','Protetor solar: por que todo dia','Vitamina C na skincare',
+    'Ácidos: guia completo para iniciantes','Contorno facial natural','Sobrancelha perfeita sem sair de casa',
+    'Limpeza de pele passo a passo','Maquiagem natural para o dia','Pele no inverno: cuidados essenciais',
+    'Manchas: tratamento real','Poros dilatados: o que funciona','Olheiras: causas e soluções',
+    'Skin barrier: o que é e como proteger','Dermocosméticos que valem a pena','Antes e depois real de 30 dias',
+    'Erro que destrói a pele','Alimentação que melhora a pele','A ordem certa dos produtos',
+    'Serum: como usar corretamente','Dupla limpeza: pra quem serve','Rotina noturna completa','Pele radiante em 7 passos'
+  ],
+  coach:[
+    'Mindset que muda tudo','Produtividade sem burnout','Como definir metas reais',
+    'Hábito que transforma em 21 dias','Vencendo a procrastinação','Encontrando seu propósito',
+    'Autoconhecimento na prática','Comunicação que conecta','Liderança sem cargo',
+    'Gestão de tempo para ocupados','Foco em mundo cheio de distrações','Disciplina vs motivação',
+    'Networking que realmente funciona','Mentalidade de crescimento','Equilíbrio vida e trabalho',
+    'Sinais de burnout que ignoramos','Autoestima: reconstrução real','Clareza mental em 5 minutos',
+    'Tomada de decisão sem travar','Resiliência: o músculo do sucesso','Criatividade como hábito',
+    'Aprendizado contínuo na prática','Presença plena no trabalho','Seus valores como bússola','Planejar sem ansiedade'
+  ],
+  business:[
+    'Como captar clientes todos os dias','Precificação: cobrar o que vale','Vendas pelo WhatsApp que convertem',
+    'Funil de vendas simplificado','Copy que faz a pessoa agir','Instagram para negócios locais',
+    'Fidelização de clientes na prática','Atendimento que faz diferença','Proposta de valor irresistível',
+    'Nicho de mercado: como definir','Escalar sem perder qualidade','Automação para pequenos negócios',
+    'Parcerias estratégicas','Financeiro do negócio simples','Gestão de tempo do empreendedor',
+    'Branding para pequenos negócios','Conteúdo que vende naturalmente','Depoimentos que convencem',
+    'Garantia que gera confiança','Objeções: como responder','Follow up que não incomoda',
+    'Upsell sem forçar','Produto digital como renda extra','Lançamento em 7 dias','Preço vs valor: a diferença'
+  ],
+  food:[
+    'Receita rápida em 20 minutos','Ingrediente fresco: como escolher','Truque de chef em casa',
+    'Mise en place que facilita tudo','Emplatamento profissional simples','Fotografia de comida com celular',
+    'Temperos que transformam','Dieta com prazer: é possível','Sobremesa sem culpa',
+    'Brunch perfeito em casa','Lanche saudável e gostoso','Comida para o freezer: guia',
+    'Especiarias: como usar','Técnica italiana essencial','Comida brasileira reinventada',
+    'Fermentação para iniciantes','Cardápio semanal organizado','Evitar desperdício na cozinha',
+    'Confeitaria básica sem erro','Técnica de corte profissional','Harmonização sem complicar',
+    'Jantar em 20 minutos','Receita sem glúten que funciona','Prato proteico saboroso','O truque do chef que ninguém conta'
+  ],
+  fashion:[
+    'Styling básico para qualquer um','Combinações que nunca erram','Armário cápsula do zero',
+    'Cores que combinam com você','Tendência ou clássico: quando usar','Casual chic no dia a dia',
+    'A peça coringa do guarda-roupa','Moda sustentável e acessível','Looks por biotipo: o guia',
+    'Moda no orçamento certo','Alfaiataria que emagrece e valoriza','Streetwear com elegância',
+    'Moda plus size sem limites','Acessórios que mudam o look','Calçados versáteis que valem',
+    'Monocromático do jeito certo','Estampas: como não errar','Look de inverno fashion',
+    'Verão com estilo e conforto','Look de trabalho atual','Festa sem gastar muito',
+    'Compra inteligente de roupa','Vintage: onde e como usar','Tecidos: o que saber antes de comprar','Antes e depois do look'
+  ],
+  photo:[
+    'Iluminação natural: o segredo','Retratos que capturam emoção','Edição no Lightroom do zero',
+    'Composição: regra dos terços','Enquadramento criativo','Hora dourada: como aproveitar',
+    'Cores no enquadramento','Estilo editorial simples','Fotografia de produto em casa',
+    'Casamento: os momentos que importam','Ensaio externo: localização ideal','Pós-processamento básico',
+    'Preset: criar ou comprar?','Câmera vs celular: quando usar qual','Bokeh profissional no celular',
+    'Storytelling visual','Portfólio que atrai clientes','Cliente ideal para fotógrafo',
+    'Precificação para fotógrafos','Minimalismo nas imagens','Textura e detalhe que impressionam',
+    'Simetria e equilíbrio visual','Movimento congelado','Perspectiva inusitada','Cores complementares no frame'
+  ],
+  liberal:[
+    'A dúvida que todo cliente tem','Mito que prejudica seus clientes','Caso real: o que aprendi',
+    'Atualização importante de 2026','Prevenção: o melhor remédio','Direito que você não sabia que tinha',
+    'Erro frequente que custa caro','Checklist antes de contratar','Quando procurar um profissional',
+    'Quanto custa e o que inclui','O que esperar na primeira consulta','Atendimento online: como funciona',
+    'Como indicar corretamente','Depoimento real de cliente','Bastidores da rotina profissional',
+    'Minha especialização e por quê','Resultado que me orgulho','Meu diferencial no mercado',
+    'Parceria com outros profissionais','Pergunta mais frequente respondida','Documento que salva situações',
+    'Prazo importante que você ignora','Cuidado preventivo que vale','Bem-estar no trabalho','Novidade da área que importa'
+  ]
+};
+
+// Image idea templates per format
+const imageIdeas = {
+  reels:{
+    alcance:[
+      {icon:'🎬', text:'Vídeo falando direto para câmera, fundo neutro ou em ambiente do nicho. Texto na tela nos primeiros 2 segundos com a promessa principal. Cortes rápidos a cada 5–7 segundos para manter atenção.'},
+      {icon:'📲', text:'POV (ponto de vista) mostrando o antes/depois ou o processo. Câmera na mão dando sensação de proximidade. Texto sobreposto revelando a informação gradualmente.'},
+      {icon:'⚡', text:'Transição rápida com zoom + corte no beat da música. Primeiro frame estático com texto de hook. Segunda cena traz o desenvolvimento em ritmo acelerado.'}
+    ],
+    vendas:[
+      {icon:'🏆', text:'Split-screen: antes vs depois em dois lados da tela. Resultado real com número específico em texto grande. Depoimento rápido de 5 segundos no final.'},
+      {icon:'📊', text:'Vídeo mostrando o processo + o resultado. Números e dados em texto grande no centro. Encerra com CTA visual claro (seta apontando para bio ou DM).'}
+    ]
+  },
+  carrossel:{
+    educacao:[
+      {icon:'🖼️', text:'Slide 1: título impactante em fundo escuro com fonte grande. Slides 2–7: um ponto por slide, ícone ou número no canto, fundo branco ou neutro. Último slide: fundo colorido com CTA de save.'},
+      {icon:'📋', text:'Estilo "lista numerada": cada slide = um número + dica. Paleta de 2 cores apenas para consistência. Fonte bold no ponto principal, corpo menor. Slide final com pergunta nos comentários.'}
+    ],
+    vendas:[
+      {icon:'✅', text:'Slide 1: promessa de transformação. Slides 2–4: antes/durante/depois. Slide 5: prova social com número real. Slide 6: o que inclui. Slide 7: CTA com urgência.'}
+    ]
+  },
+  stories:{
+    engajamento:[
+      {icon:'⭕', text:'3–5 stories em sequência. Primeiro story: pergunta ou afirmação que gera identificação. Segundo: desenvolvimento. Terceiro: sticker de enquete ou caixa de perguntas. Visual simples, cores da sua paleta.'},
+      {icon:'🎯', text:'Story de bastidor: câmera mostrando sua rotina ou processo. Texto curto sobrepostos. Último story com CTA: "Manda DM com a palavra [X]".'}
+    ],
+    relacionamento:[
+      {icon:'💬', text:'Story pessoal e autêntico. Sem edição excessiva. Fale direto para câmera sobre algo real do nicho. Use sticker de localização ou menção para alcance extra.'}
+    ]
+  },
+  feed:{
+    autoridade:[
+      {icon:'📷', text:'Foto profissional ou bem iluminada de você + frase de impacto sobreposta. Fundo desfocado (bokeh) ou cenário do nicho. Paleta de cor consistente com o feed.'},
+      {icon:'📌', text:'Imagem informativa estilo infográfico: fundo sólido, ícones simples, dados em destaque. Deve fazer sentido mesmo sem ler a legenda. Alta probabilidade de save.'}
+    ]
+  }
+};
+
+// Hook templates (10 types like ebook Cap. 3)
+const hookTemplates = [
+  { type:'Revelação',     tmpl:'{tema} — o que ninguém te conta (e que muda tudo)' },
+  { type:'Urgência',      tmpl:'{tema} em 60 segundos: salva antes de fechar' },
+  { type:'Erro comum',    tmpl:'Você está fazendo {tema} errado. O jeito certo é esse:' },
+  { type:'Transformação', tmpl:'Antes e depois: como resolvi {tema} de uma vez por todas' },
+  { type:'Número',        tmpl:'3 coisas que quem domina {tema} faz diferente de todo mundo' },
+  { type:'Confissão',     tmpl:'Cometi esse erro com {tema} por meses. Não cometa o mesmo.' },
+  { type:'Identificação', tmpl:'Se você já travou com {tema}, esse post é pra você 👇' },
+  { type:'Contradição',   tmpl:'A maioria erra em {tema} porque acredita nesse mito:' },
+  { type:'Promessa',      tmpl:'Em 60 segundos você vai entender {tema} melhor do que em 1 ano' },
+  { type:'Provocação',    tmpl:'Hot take: {tema} não funciona do jeito que te ensinaram' }
+];
+
+// Caption frameworks
+const captionFrameworks = {
+  alcance:[
+    { label:'LINHA 1 — Hook textual', text:'Repita a promessa em texto. Aparece antes de "ver mais" — é a linha mais lida.' },
+    { label:'CORPO — 2–3 pontos de valor', text:'Informação específica com números e exemplos reais. "Em 21 dias" supera "rapidamente".' },
+    { label:'SINAL', text:'"Manda pra quem precisa ver isso 👆" ou "Salva pra não perder". Escolha um — nunca os dois.' },
+    { label:'KEYWORDS', text:'2–3 palavras-chave do nicho naturalmente no texto. O Instagram indexa para busca.' }
+  ],
+  engajamento:[
+    { label:'ABERTURA — Identificação', text:'"Sabe quando você..." ou "Se você já passou por..." — retém leitura imediatamente.' },
+    { label:'CORPO — Opinião', text:'Sua perspectiva única. Polarize levemente: opiniões geram mais comentários que informações.' },
+    { label:'PERGUNTA FINAL', text:'UMA pergunta específica e fácil. "Você já tentou isso?" funciona melhor que perguntas complexas.' },
+    { label:'KEYWORDS', text:'2–3 palavras-chave do nicho para ampliar distribuição algorítmica.' }
+  ],
+  educacao:[
+    { label:'LINHA 1 — Promessa', text:'O que a pessoa vai aprender lendo até o fim.' },
+    { label:'CORPO — Pontos do carrossel', text:'Resuma os pontos principais em texto. Quem leu o carrossel revisa; quem não leu, se interessa.' },
+    { label:'SINAL DE SAVE', text:'"Guarda esse carrossel para consultar sempre 📌" — o save é o principal sinal do formato.' },
+    { label:'KEYWORDS', text:'Palavras-chave do nicho para indexação e distribuição pelo Explore.' }
+  ],
+  vendas:[
+    { label:'ABERTURA — Dor/Desejo', text:'Identifique o problema específico. Quanto mais o avatar se reconhece, maior a atenção.' },
+    { label:'PROVA', text:'Número real e específico. "+47% em 3 semanas" supera "resultado incrível".' },
+    { label:'TRANSIÇÃO', text:'"Se você também quer [resultado], posso te ajudar. Aqui está como:"' },
+    { label:'CTA — Uma ação só', text:'"Clica no link da bio" ou "DM com [PALAVRA]". Nunca dois CTAs no mesmo post.' }
+  ],
+  autoridade:[
+    { label:'ABERTURA — Posicionamento', text:'Uma afirmação ou dado forte sobre o nicho. Você como referência do tema.' },
+    { label:'CORPO — Perspectiva única', text:'Sua visão sobre o tema. O que você vê que outros não veem.' },
+    { label:'PROVA DE CREDIBILIDADE', text:'Resultado, experiência ou dado que fundamenta sua autoridade no nicho.' },
+    { label:'ENGAJAMENTO', text:'Convide para conversa: "O que você acha disso?" ou "Me conta nos comentários 👇"' }
+  ],
+  relacionamento:[
+    { label:'ABERTURA — Pessoal', text:'Compartilhe algo real da sua rotina ou processo. Autenticidade > perfeição.' },
+    { label:'CORPO — Bastidor', text:'O que está por trás do conteúdo que você posta. Humanize a conta.' },
+    { label:'CONEXÃO', text:'Peça engajamento simples: "Manda DM com [PALAVRA]" ou enquete nos stories.' },
+    { label:'PRÓXIMOS PASSOS', text:'Indique o que vem por aí. Gera antecipação e mantém o seguidor conectado.' }
+  ]
+};
+
+// Tricks per format
+const tricks = {
+  reels:[
+    'Grave em modo retrato (9:16) e garanta boa iluminação — luz natural de janela é suficiente',
+    'Não use marca d\'água de outros apps: o algoritmo penaliza Reels com logo do TikTok ou CapCut',
+    'Texto na tela deve aparecer nos 2 primeiros segundos — antes disso a maioria já foi embora',
+    'Velocidade de corte: mude de cena a cada 5–8 segundos para manter o watch time alto',
+    'Use Trial Reels para testar o hook com não-seguidores antes de publicar no perfil',
+    'Responda comentários nas primeiras 2 horas: isso mantém o engajamento acelerado e amplia alcance'
+  ],
+  carrossel:[
+    'O slide 1 é o mais importante: aparece no feed e decide se a pessoa arrasta ou não',
+    'Limite de 3 linhas de texto por slide — mais que isso e a pessoa pula sem ler',
+    'Penúltimo slide com cliffhanger: "A dica mais importante vem agora →" aumenta conclusão',
+    'O Instagram re-exibe carrosséis incompletos no feed — segunda chance automática de alcance',
+    'Mantenha consistência visual: mesma fonte, mesma paleta de cores em todos os slides',
+    'Termine com pergunta no último slide para ativar comentários junto com o sinal de save'
+  ],
+  stories:[
+    'Poste entre 5–10 stories por sessão — mais que isso cansa; menos não cria progressão',
+    'Primeiro story deve ser tão impactante quanto o hook de um Reel — sem isso, ninguém continua',
+    'Use sticker de DM com palavra-gatilho para criar funil de vendas sem pressão',
+    'Reposte seus próprios posts nos stories — aumenta o alcance do post original em até 40%',
+    'Faça campanha de Favoritos mensalmente: "Me adiciona nos Favoritos para ver meu conteúdo primeiro"',
+    'Responda todos os DMs recebidos via stories — cada resposta fortalece seu alcance futuro'
+  ],
+  feed:[
+    'Use palavras-chave no nome do perfil: "Maria | Personal Trainer Feminino" aparece na busca do Instagram',
+    'Inclua keywords nos primeiros 125 caracteres da legenda — são indexados com prioridade',
+    'Posts de feed bem indexados continuam gerando alcance por meses — pense em conteúdo evergreen',
+    'Foto deve comunicar em uma frase sem precisar da legenda — força de imagem é fundamental',
+    'Poste no horário que sua audiência está ativa (veja Insights) — primeiras horas são determinantes',
+    'Fotos informativas com dados visuais têm taxa de save muito maior que fotos apenas estéticas'
+  ]
+};
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let state = {
+  niche: null,
+  goal: null,
+  currentMonth: 1,
+  completed: {},
+  unlocked: [1],
+  metrics: {}   // { "1-d5": { alcance, saves, shares, followers, tema, format } }
+};
+
+// ═══════════════════════════════════════════════════
+// GENERATE POST DATA
+// ═══════════════════════════════════════════════════
+function generatePost(niche, dayIndex, month) {
+  const dow = dayIndex % 7; // 0=Mon to 6=Sun
+  const pattern = weekPattern[dow];
+  if (!pattern) return null; // rest day
+
+  const topics = nicheTopics[niche];
+  const topicIdx = dayIndex % topics.length;
+  const tema = topics[topicIdx];
+
+  // Month progression: M1=basic, M2=deeper, M3=sales-focused
+  let funnel = pattern.funnel;
+  if (month === 3 && (dow === 4 || dow === 1)) funnel = 'vendas';
+  if (month === 3 && dow === 5) funnel = 'autoridade';
+
+  // Hook
+  const hookIdx = dayIndex % hookTemplates.length;
+  const hookTmpl = hookTemplates[hookIdx];
+  const hookText = hookTmpl.tmpl.replace('{tema}', tema.toLowerCase());
+
+  // Caption
+  const capKey = funnel in captionFrameworks ? funnel : 'alcance';
+  const caption = captionFrameworks[capKey];
+
+  // Image idea
+  const imgPool = imageIdeas[pattern.format];
+  const imgKey = funnel in imgPool ? funnel : Object.keys(imgPool)[0];
+  const imgArr = imgPool[imgKey];
+  const imgIdea = imgArr[dayIndex % imgArr.length];
+
+  // Tricks
+  const trickPool = tricks[pattern.format];
+  const t1 = trickPool[dayIndex % trickPool.length];
+  const t2 = trickPool[(dayIndex + 2) % trickPool.length];
+  const t3 = trickPool[(dayIndex + 4) % trickPool.length];
+
+  return {
+    format: pattern.format,
+    funnel,
+    tema,
+    hook: { type: hookTmpl.type, text: hookText },
+    caption,
+    imgIdea,
+    tricks: [t1, t2, t3]
+  };
+}
+
+// ═══════════════════════════════════════════════════
+// ONBOARDING
+// ═══════════════════════════════════════════════════
+let selNiche = null, selGoal = null;
+
+function buildOnboarding() {
+  const ng = document.getElementById('niche-grid');
+  niches.forEach(n => {
+    const btn = document.createElement('div');
+    btn.className = 'niche-btn';
+    btn.innerHTML = `<span class="nb-icon">${n.icon}</span><span class="nb-name">${n.name}</span><span class="nb-sub">${n.sub}</span>`;
+    btn.onclick = () => {
+      document.querySelectorAll('.niche-btn').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      selNiche = n.id;
+      checkStartReady();
+    };
+    ng.appendChild(btn);
+  });
+
+  const gg = document.getElementById('goal-grid');
+  goals.forEach(g => {
+    const btn = document.createElement('button');
+    btn.className = 'goal-btn';
+    btn.textContent = g.label;
+    btn.onclick = () => {
+      document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('sel'));
+      btn.classList.add('sel');
+      selGoal = g.id;
+      checkStartReady();
+    };
+    gg.appendChild(btn);
+  });
+}
+
+function checkStartReady() {
+  document.getElementById('btn-start').disabled = !(selNiche && selGoal);
+}
+
+function startApp() {
+  state.niche = selNiche;
+  state.goal = selGoal;
+  saveState();
+  showApp();
+}
+
+// ═══════════════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════════════
+function showApp() {
+  document.getElementById('screen-onboarding').style.display = 'none';
+  document.getElementById('screen-app').style.display = 'block';
+
+  const n = niches.find(x => x.id === state.niche);
+  const g = goals.find(x => x.id === state.goal);
+  document.getElementById('hdr-icon').textContent = n.icon;
+  document.getElementById('hdr-name').textContent = n.name;
+  document.getElementById('hdr-goal').textContent = g.label;
+
+  updateMonthTabs();
+  renderCalendar(state.currentMonth);
+}
+
+function switchMonth(m) {
+  if (!state.unlocked.includes(m)) {
+    showToast('🔒 Conclua 60% do mês anterior para desbloquear');
+    return;
+  }
+  state.currentMonth = m;
+  saveState();
+  updateMonthTabs();
+  renderCalendar(m);
+}
+
+function updateMonthTabs() {
+  const monthLabels = ['','Fundação','Crescimento','Monetização'];
+  document.querySelectorAll('.month-tab').forEach(tab => {
+    const m = parseInt(tab.dataset.m);
+    const unlocked = state.unlocked.includes(m);
+    tab.className = 'month-tab';
+    if (m === state.currentMonth) tab.classList.add('active');
+    if (!unlocked) tab.classList.add('locked');
+    tab.innerHTML = `Mês ${m}<br><span style="font-size:9px;font-weight:400">${unlocked ? monthLabels[m] : '🔒 Bloqueado'}</span>`;
+  });
+}
+
+// Count posts per month
+function monthPostCount(month) {
+  let count = 0;
+  for (let d = 0; d < 30; d++) {
+    const dayIndex = (month - 1) * 30 + d;
+    if (weekPattern[dayIndex % 7] !== null) count++;
+  }
+  return count;
+}
+
+function completedInMonth(month) {
+  let count = 0;
+  for (let d = 0; d < 30; d++) {
+    const key = `${month}-d${d}`;
+    if (state.completed[key]) count++;
+  }
+  return count;
+}
+
+function checkUnlocks() {
+  for (let m = 1; m <= 2; m++) {
+    const total = monthPostCount(m);
+    const done = completedInMonth(m);
+    const pct = total > 0 ? done / total : 0;
+    if (pct >= 0.6 && !state.unlocked.includes(m + 1)) {
+      state.unlocked.push(m + 1);
+      showToast(`🎉 Mês ${m + 1} desbloqueado!`);
+      updateMonthTabs();
+    }
+  }
+}
+
+function renderCalendar(month) {
+  const grid = document.getElementById('cal-grid');
+  grid.innerHTML = '';
+
+  const total = monthPostCount(month);
+  const done = completedInMonth(month);
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('prog-label').textContent = `${done} de ${total} posts concluídos`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-fill').style.width = pct + '%';
+
+  // Unlock banner for locked months
+  const banner = document.getElementById('unlock-banner');
+  if (!state.unlocked.includes(month)) {
+    const prevDone = completedInMonth(month - 1);
+    const prevTotal = monthPostCount(month - 1);
+    const prevPct = prevTotal > 0 ? Math.round((prevDone / prevTotal) * 100) : 0;
+    const needed = Math.ceil(prevTotal * 0.6);
+    banner.style.display = 'block';
+    banner.innerHTML = `
+      <span class="ub-icon">🔒</span>
+      <div class="ub-title">Mês ${month} bloqueado</div>
+      <div class="ub-desc">Conclua 60% dos posts do Mês ${month - 1} para desbloquear este mês.<br>${prevDone} de ${needed} posts necessários.</div>
+      <div class="ub-bar"><div class="ub-bar-fill" style="width:${Math.min(100, Math.round((prevDone/needed)*100))}%"></div></div>
+      <div class="ub-pct">${prevDone}/${needed} posts</div>`;
+  } else {
+    banner.style.display = 'none';
+  }
+
+  const isLocked = !state.unlocked.includes(month);
+
+  for (let d = 0; d < 30; d++) {
+    const dayIndex = (month - 1) * 30 + d;
+    const post = generatePost(state.niche, dayIndex, month);
+    const key = `${month}-d${d}`;
+    const isDone = !!state.completed[key];
+
+    const cell = document.createElement('div');
+
+    if (!post) {
+      cell.className = 'cal-cell rest';
+      cell.innerHTML = `<div class="cell-day">${d + 1}</div><div style="font-size:9px;color:var(--muted);text-align:center;padding-top:4px;">—</div>`;
+    } else {
+      cell.className = `cal-cell${isDone ? ' done' : ''}${isLocked ? ' locked-cell' : ''}`;
+      cell.innerHTML = `
+        <div class="cell-day">${d + 1}</div>
+        <span class="cell-chip chip-${post.format}">${post.format}</span>
+        <div class="cell-tema">${post.tema}</div>`;
+      if (!isLocked) {
+        cell.onclick = () => openModal(month, d, post, key, isDone);
+      }
+    }
+    grid.appendChild(cell);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════════
+let modalKey = null;
+
+function openModal(month, d, post, key, isDone) {
+  modalKey = key;
+  _currentPostMeta = post;
+
+  const funnelLabels = {
+    alcance:'📡 Alcance', engajamento:'💬 Engajamento', vendas:'💰 Vendas',
+    educacao:'📚 Educação', autoridade:'⭐ Autoridade', relacionamento:'❤️ Relacionamento'
+  };
+  const funnelColors = {
+    alcance:'var(--accent)', engajamento:'var(--accent3)', vendas:'var(--accent2)',
+    educacao:'var(--accent3)', autoridade:'var(--accent4)', relacionamento:'#B47FFF'
+  };
+  const formatColors = {
+    reels:'var(--accent2)', carrossel:'var(--accent3)', stories:'var(--accent)',
+    feed:'var(--success)', live:'var(--accent4)'
+  };
+  const formatLabels = { reels:'🎬 Reels', carrossel:'🖼️ Carrossel', stories:'⭕ Stories', feed:'📷 Feed' };
+
+  document.getElementById('m-day').textContent = `Mês ${month} · Dia ${d + 1}`;
+  document.getElementById('m-title').textContent = post.tema;
+
+  const chips = document.getElementById('m-chips');
+  chips.innerHTML = `
+    <span class="modal-chip chip-${post.format}" style="background:${formatColors[post.format]}22;color:${formatColors[post.format]}">${formatLabels[post.format]}</span>
+    <span class="modal-chip" style="background:${funnelColors[post.funnel]}22;color:${funnelColors[post.funnel]}">${funnelLabels[post.funnel]}</span>`;
+
+  // Hook
+  const hookEl = document.getElementById('m-hook');
+  hookEl.innerHTML = `<div class="hook-type">${post.hook.type}</div>${post.hook.text}`;
+  hookEl._text = post.hook.text;
+
+  // Caption
+  const capEl = document.getElementById('m-caption');
+  capEl.innerHTML = post.caption.map(c => `
+    <div class="caption-block">
+      <div class="caption-block-label">${c.label}</div>
+      <p>${c.text}</p>
+    </div>`).join('');
+
+  // Image
+  document.getElementById('m-img-icon').textContent = post.imgIdea.icon;
+  document.getElementById('m-img-text').textContent = post.imgIdea.text;
+
+  // Tricks
+  document.getElementById('m-tricks').innerHTML = post.tricks.map(t =>
+    `<div class="trick-item"><div class="trick-dot"></div><div>${t}</div></div>`).join('');
+
+  // Done button
+  const btn = document.getElementById('btn-done');
+  btn.textContent = isDone ? '↩ Marcar como não feito' : '✓ Marcar como concluído';
+  btn.className = 'btn-done' + (isDone ? ' undone' : '');
+
+  // Metrics form
+  const mf = document.getElementById('metrics-form');
+  if (isDone) {
+    mf.classList.add('show');
+    const m = state.metrics[key] || {};
+    document.getElementById('mi-alcance').value = m.alcance || '';
+    document.getElementById('mi-saves').value = m.saves || '';
+    document.getElementById('mi-shares').value = m.shares || '';
+    document.getElementById('mi-followers').value = m.followers || '';
+  } else {
+    mf.classList.remove('show');
+  }
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.querySelector('.modal').scrollTop = 0;
+}
+
+function copyHook() {
+  const text = document.getElementById('m-hook')._text;
+  if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast('✓ Hook copiado!'));
+  else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('✓ Hook copiado!'); }
+}
+
+function toggleDone() {
+  if (!modalKey) return;
+  state.completed[modalKey] = !state.completed[modalKey];
+  saveState();
+  checkUnlocks();
+
+  const isDone = state.completed[modalKey];
+  const btn = document.getElementById('btn-done');
+  btn.textContent = isDone ? '↩ Marcar como não feito' : '✓ Marcar como concluído';
+  btn.className = 'btn-done' + (isDone ? ' undone' : '');
+
+  // Show metrics form when marking as done
+  const mf = document.getElementById('metrics-form');
+  if (isDone) {
+    mf.classList.add('show');
+    // Pre-fill if already has metrics
+    const m = state.metrics[modalKey] || {};
+    document.getElementById('mi-alcance').value = m.alcance || '';
+    document.getElementById('mi-saves').value = m.saves || '';
+    document.getElementById('mi-shares').value = m.shares || '';
+    document.getElementById('mi-followers').value = m.followers || '';
+  } else {
+    mf.classList.remove('show');
+  }
+
+  showToast(isDone ? '✓ Concluído! Registre os resultados abaixo 👇' : 'Post desmarcado');
+  renderCalendar(state.currentMonth);
+}
+
+function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+function closeModalOutside(e) { if (e.target === document.getElementById('modal-overlay')) closeModal(); }
+
+// ═══════════════════════════════════════════════════
+// PERSISTENCE
+// ═══════════════════════════════════════════════════
+function saveState() { localStorage.setItem('cal26-state', JSON.stringify(state)); }
+function loadState() {
+  const saved = localStorage.getItem('cal26-state');
+  if (saved) { state = { ...state, ...JSON.parse(saved) }; return true; }
+  return false;
+}
+
+function resetApp() {
+  if (!confirm('Tem certeza? Isso vai apagar todo o progresso e trocar o nicho.')) return;
+  localStorage.removeItem('cal26-state');
+  state = { niche: null, goal: null, currentMonth: 1, completed: {}, unlocked: [1] };
+  document.getElementById('screen-app').style.display = 'none';
+  document.getElementById('screen-onboarding').style.display = 'flex';
+  document.querySelectorAll('.niche-btn').forEach(b => b.classList.remove('sel'));
+  document.querySelectorAll('.goal-btn').forEach(b => b.classList.remove('sel'));
+  selNiche = null; selGoal = null;
+  document.getElementById('btn-start').disabled = true;
+}
+
+// ═══════════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2300);
+}
+
+// ═══════════════════════════════════════════════════
+// METRICS
+// ═══════════════════════════════════════════════════
+let _currentPostMeta = null; // {tema, format} for the open modal
+
+function saveMetrics() {
+  if (!modalKey) return;
+  const alcance   = parseInt(document.getElementById('mi-alcance').value) || 0;
+  const saves     = parseInt(document.getElementById('mi-saves').value) || 0;
+  const shares    = parseInt(document.getElementById('mi-shares').value) || 0;
+  const followers = parseInt(document.getElementById('mi-followers').value) || 0;
+  if (!alcance && !saves && !shares && !followers) { showToast('⚠️ Preencha ao menos uma métrica'); return; }
+  state.metrics[modalKey] = {
+    alcance, saves, shares, followers,
+    tema: document.getElementById('m-title').textContent,
+    format: _currentPostMeta?.format || 'reels',
+    date: new Date().toLocaleDateString('pt-BR')
+  };
+  saveState();
+  showToast('📊 Métricas salvas!');
+}
+
+// ═══════════════════════════════════════════════════
+// RESULTS SCREEN
+// ═══════════════════════════════════════════════════
+function openResults() {
+  renderResults();
+  document.getElementById('screen-results').style.display = 'block';
+}
+function closeResults() {
+  document.getElementById('screen-results').style.display = 'none';
+}
+
+function renderResults() {
+  const allMetrics = Object.values(state.metrics);
+  const totalDone = Object.keys(state.completed).filter(k => state.completed[k]).length;
+  const totalAlcance = allMetrics.reduce((s,m) => s + (m.alcance||0), 0);
+  const totalSaves   = allMetrics.reduce((s,m) => s + (m.saves||0), 0);
+  const totalFollowers = allMetrics.reduce((s,m) => s + (m.followers||0), 0);
+
+  // STAT CARDS
+  document.getElementById('res-stats').innerHTML = [
+    { v: totalDone,       l: 'Posts feitos' },
+    { v: allMetrics.length, l: 'Com métricas' },
+    { v: totalAlcance > 999 ? (totalAlcance/1000).toFixed(1)+'k' : totalAlcance, l: 'Alcance total' },
+    { v: totalFollowers,  l: 'Novos seguidores' }
+  ].map(s => `<div class="stat-card"><div class="sv">${s.v}</div><div class="sl">${s.l}</div></div>`).join('');
+
+  // FORMAT PERFORMANCE
+  const formats = ['reels','carrossel','stories','feed'];
+  const fmtNames = { reels:'🎬 Reels', carrossel:'🖼️ Carrossel', stories:'⭕ Stories', feed:'📷 Feed' };
+  const fmtColors = { reels:'var(--accent2)', carrossel:'var(--accent3)', stories:'var(--accent)', feed:'var(--success)' };
+
+  const fmtData = {};
+  formats.forEach(f => { fmtData[f] = { count:0, alcance:0, saves:0 }; });
+  allMetrics.forEach(m => {
+    const f = m.format;
+    if (fmtData[f]) { fmtData[f].count++; fmtData[f].alcance += m.alcance||0; fmtData[f].saves += m.saves||0; }
+  });
+
+  const maxAlcance = Math.max(...formats.map(f => fmtData[f].count > 0 ? fmtData[f].alcance/fmtData[f].count : 0), 1);
+
+  if (allMetrics.length === 0) {
+    document.getElementById('res-formats').innerHTML = `<div class="empty-state"><span class="ei">📊</span>Marque posts como concluídos e registre métricas para ver a performance por formato.</div>`;
+  } else {
+    document.getElementById('res-formats').innerHTML = formats.map(f => {
+      const d = fmtData[f];
+      const avg = d.count > 0 ? Math.round(d.alcance / d.count) : 0;
+      const pct = Math.round((avg / maxAlcance) * 100);
+      return `<div class="format-row">
+        <div class="format-row-icon">${fmtNames[f].split(' ')[0]}</div>
+        <div class="format-row-info">
+          <div class="format-row-name">${fmtNames[f].substring(2)}</div>
+          <div class="format-row-bar"><div class="format-row-bar-fill" style="width:${pct}%;background:${fmtColors[f]}"></div></div>
+          <div class="format-row-stat">${d.count} posts registrados · ${d.saves} saves acumulados</div>
+        </div>
+        <div class="format-row-val" style="color:${fmtColors[f]}">${avg > 999 ? (avg/1000).toFixed(1)+'k' : avg || '—'}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // HISTORY (most recent first)
+  const entries = Object.entries(state.metrics)
+    .filter(([,m]) => m.alcance || m.saves)
+    .reverse().slice(0, 15);
+
+  if (entries.length === 0) {
+    document.getElementById('res-history').innerHTML = `<div class="empty-state"><span class="ei">📝</span>Nenhuma métrica registrada ainda.<br>Marque um post como concluído e registre os resultados.</div>`;
+  } else {
+    document.getElementById('res-history').innerHTML = entries.map(([key, m]) => {
+      const fmtColor = { reels:'var(--accent2)', carrossel:'var(--accent3)', stories:'var(--accent)', feed:'var(--success)' };
+      return `<div class="post-history-item">
+        <div class="phi-top">
+          <span class="phi-chip chip-${m.format}" style="background:${fmtColor[m.format]}22;color:${fmtColor[m.format]}">${m.format}</span>
+          <div class="phi-tema">${m.tema}</div>
+          <span style="font-size:10px;color:var(--muted);flex-shrink:0">${m.date||''}</span>
+        </div>
+        <div class="phi-metrics">
+          <div class="phi-metric"><div class="pmv">${m.alcance>999?(m.alcance/1000).toFixed(1)+'k':m.alcance||'—'}</div><div class="pml">Alcance</div></div>
+          <div class="phi-metric"><div class="pmv">${m.saves||'—'}</div><div class="pml">Saves</div></div>
+          <div class="phi-metric"><div class="pmv">${m.shares||'—'}</div><div class="pml">Comp.</div></div>
+          <div class="phi-metric"><div class="pmv" style="color:var(--success)">+${m.followers||0}</div><div class="pml">Seguids.</div></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// PWA
+// ═══════════════════════════════════════════════════
+let deferredInstallPrompt = null;
+
+function setupPWA() {
+  // Inject manifest as blob
+  const manifest = {
+    name: 'Calendário Inteligente de Conteúdo',
+    short_name: 'Calendário Insta',
+    description: '3 meses de estratégia de conteúdo para Instagram',
+    start_url: './',
+    display: 'standalone',
+    background_color: '#07080F',
+    theme_color: '#07080F',
+    orientation: 'portrait',
+    icons: [
+      { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%2307080F"/><text y="130" x="96" text-anchor="middle" font-size="120">📅</text></svg>', sizes: '192x192', type: 'image/svg+xml' },
+      { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="%2307080F"/><text y="360" x="256" text-anchor="middle" font-size="320">📅</text></svg>', sizes: '512x512', type: 'image/svg+xml' }
+    ]
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  document.getElementById('pwa-manifest').href = URL.createObjectURL(blob);
+
+  // Listen for install prompt
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    const installBtn = document.getElementById('btn-install');
+    if (installBtn) installBtn.classList.add('visible');
+    // Show banner after 30 seconds if not dismissed
+    const dismissed = localStorage.getItem('cal26-pwa-dismissed');
+    if (!dismissed) setTimeout(() => document.getElementById('pwa-banner').classList.add('show'), 30000);
+  });
+
+  window.addEventListener('appinstalled', () => {
+    document.getElementById('pwa-banner').classList.remove('show');
+    document.getElementById('btn-install').classList.remove('visible');
+    showToast('✅ App instalado com sucesso!');
+  });
+
+  // iOS detection
+  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const isStandalone = window.navigator.standalone === true;
+  if (isIOS && !isStandalone) {
+    setTimeout(() => {
+      const banner = document.getElementById('pwa-banner');
+      banner.querySelector('.pwa-banner-sub').textContent = 'No Safari: toque em Compartilhar → "Adicionar à Tela Inicial" para instalar como app.';
+      banner.classList.add('show');
+    }, 20000);
+  }
+}
+
+function installPWA() {
+  document.getElementById('pwa-banner').classList.remove('show');
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.then(r => {
+      if (r.outcome === 'accepted') showToast('✅ Instalando...');
+      deferredInstallPrompt = null;
+    });
+  } else {
+    // iOS fallback
+    showToast('No Safari: Compartilhar → Adicionar à Tela Inicial');
+  }
+}
+
+function dismissInstall() {
+  document.getElementById('pwa-banner').classList.remove('show');
+  localStorage.setItem('cal26-pwa-dismissed', '1');
+}
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+buildOnboarding();
+setupPWA();
+if (loadState() && state.niche && state.goal) {
+  showApp();
+}
+</script>
+</body>
+</html>

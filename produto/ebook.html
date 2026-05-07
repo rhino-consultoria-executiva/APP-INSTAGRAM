@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playbook do Algoritmo 2026 — Ebook</title>
+<meta name="theme-color" content="#07080F">
+<style>
+/* ── HUB NAVIGATION ── */
+.hub-nav{background:#0A0B15;border-bottom:1px solid #1C1D30;padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:9999;font-family:'Inter','Helvetica Neue',Arial,sans-serif}
+.hub-nav-back{display:flex;align-items:center;gap:6px;color:#5A5B72;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:.5px;text-transform:uppercase;transition:color .2s}
+.hub-nav-back:hover{color:#C8FF3C}
+.hub-nav-sep{color:#1C1D30;font-size:14px}
+.hub-nav-current{font-size:11px;color:#5A5B72;font-weight:600}
+.hub-nav-cal{margin-left:auto;background:rgba(61,223,255,.1);border:1px solid rgba(61,223,255,.25);color:#3DDFFF;font-size:10px;font-weight:700;padding:5px 12px;border-radius:6px;text-decoration:none;letter-spacing:.5px;transition:all .2s}
+.hub-nav-cal:hover{background:rgba(61,223,255,.2)}
+/* ── EBOOK WRAPPER ── */
+.ebook-wrapper{max-width:800px;margin:0 auto;padding:32px 16px 80px}
+@media print{.hub-nav{display:none}.ebook-wrapper{max-width:100%;padding:0}}
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+body {
+  font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  background: white;
+  color: #1a1a2e;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* PAGE WRAPPER */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  page-break-after: always;
+  position: relative;
+  overflow: hidden;
+}
+.page:last-child { page-break-after: avoid; }
+
+/* ======= COVER ======= */
+.cover {
+  background: #07070F;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20mm 18mm;
+}
+.cover-badge {
+  background: #E8FF40;
+  color: #000;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 20px;
+  margin-bottom: 14mm;
+  display: inline-block;
+}
+.cover-title {
+  font-family: Georgia, serif;
+  font-size: 36pt;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 6mm;
+  color: #fff;
+}
+.cover-title .accent { color: #E8FF40; }
+.cover-subtitle {
+  font-size: 12pt;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  max-width: 140mm;
+  margin: 0 auto 14mm;
+}
+.cover-rule {
+  width: 40mm;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #E8FF40, transparent);
+  margin: 0 auto 10mm;
+}
+.cover-author {
+  font-size: 10pt;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.cover-footer {
+  position: absolute;
+  bottom: 12mm;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 8pt;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 1px;
+}
+
+/* ======= TOC PAGE ======= */
+.toc-page {
+  background: #07070F;
+  padding: 18mm 18mm;
+  color: white;
+}
+.toc-header {
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #E8FF40;
+  margin-bottom: 10mm;
+}
+.toc-title {
+  font-family: Georgia, serif;
+  font-size: 26pt;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10mm;
+}
+.toc-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 4mm;
+  padding: 4mm 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.toc-num {
+  font-size: 8pt;
+  font-weight: 700;
+  color: #E8FF40;
+  letter-spacing: 1px;
+  min-width: 14mm;
+  padding-top: 1.5mm;
+}
+.toc-text {
+  flex: 1;
+}
+.toc-text strong {
+  font-size: 12pt;
+  color: white;
+  display: block;
+  margin-bottom: 1mm;
+}
+.toc-text span {
+  font-size: 9pt;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ======= CONTENT PAGES ======= */
+.content-page {
+  background: white;
+  padding: 16mm 18mm 14mm;
+}
+
+/* CHAPTER HEADER */
+.chapter-header {
+  margin-bottom: 8mm;
+  padding-bottom: 5mm;
+  border-bottom: 2px solid #E8FF40;
+}
+.chapter-num {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #E8FF40;
+  background: #07070F;
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 3mm;
+}
+.chapter-title {
+  font-family: Georgia, serif;
+  font-size: 22pt;
+  font-weight: 700;
+  color: #07070F;
+  line-height: 1.2;
+}
+.chapter-sub {
+  font-size: 11pt;
+  color: #666;
+  margin-top: 2mm;
+}
+
+/* INTRO PAGE SPECIAL */
+.intro-page {
+  background: #07070F;
+  padding: 16mm 18mm 14mm;
+  color: white;
+}
+.intro-page .chapter-num { background: #E8FF40; color: #000; }
+.intro-page .chapter-title { color: white; }
+.intro-page .chapter-sub { color: rgba(255,255,255,0.55); }
+.intro-page p { color: rgba(255,255,255,0.82); }
+.intro-page h3 { color: white; }
+
+/* TYPOGRAPHY */
+p {
+  font-size: 10.5pt;
+  line-height: 1.75;
+  color: #333;
+  margin-bottom: 4mm;
+}
+h3 {
+  font-family: Georgia, serif;
+  font-size: 14pt;
+  font-weight: 700;
+  color: #07070F;
+  margin: 6mm 0 3mm;
+}
+h4 {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #07070F;
+  margin: 4mm 0 2mm;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+ul { padding-left: 5mm; margin-bottom: 4mm; }
+li {
+  font-size: 10.5pt;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 1.5mm;
+}
+strong { color: #07070F; }
+
+/* CALLOUT BOXES */
+.box {
+  border-radius: 8px;
+  padding: 5mm 6mm;
+  margin: 5mm 0;
+}
+.box-yellow {
+  background: #FFFBE6;
+  border-left: 4px solid #E8FF40;
+}
+.box-dark {
+  background: #07070F;
+  border-left: 4px solid #E8FF40;
+  color: white;
+}
+.box-dark p, .box-dark li { color: rgba(255,255,255,0.85); }
+.box-dark h4, .box-dark strong { color: white; }
+.box-red {
+  background: #FFF0F3;
+  border-left: 4px solid #FF4D6D;
+}
+.box-blue {
+  background: #F0FCFF;
+  border-left: 4px solid #40D9FF;
+}
+.box-green {
+  background: #F0FFF8;
+  border-left: 4px solid #40FFAA;
+}
+.box-label {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 2mm;
+  display: block;
+}
+.box-yellow .box-label { color: #B8A000; }
+.box-dark .box-label { color: #E8FF40; }
+.box-red .box-label { color: #FF4D6D; }
+.box-blue .box-label { color: #0099CC; }
+.box-green .box-label { color: #00AA66; }
+
+/* GRID LAYOUTS */
+.two-col {
+  display: flex;
+  gap: 5mm;
+  margin: 4mm 0;
+}
+.col { flex: 1; }
+.three-col {
+  display: flex;
+  gap: 4mm;
+  margin: 4mm 0;
+}
+.three-col .col { flex: 1; }
+
+/* FORMAT CARDS */
+.format-card {
+  background: #07070F;
+  color: white;
+  border-radius: 10px;
+  padding: 5mm;
+  text-align: center;
+}
+.format-card .icon { font-size: 22pt; display: block; margin-bottom: 2mm; }
+.format-card .name {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #E8FF40;
+  margin-bottom: 1mm;
+}
+.format-card .purpose {
+  font-size: 9pt;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+}
+
+/* SIGNAL ITEMS */
+.signal-row {
+  display: flex;
+  align-items: center;
+  gap: 4mm;
+  padding: 3mm 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.signal-row:last-child { border-bottom: none; }
+.signal-bar-wrap { width: 35mm; }
+.signal-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: #eee;
+  overflow: hidden;
+}
+.signal-bar-fill { height: 100%; border-radius: 3px; }
+.signal-label { font-size: 10pt; font-weight: 600; color: #07070F; flex: 1; }
+.signal-desc { font-size: 9pt; color: #666; flex: 2; }
+.signal-pct { font-size: 9pt; font-weight: 700; color: #07070F; min-width: 10mm; text-align: right; }
+
+/* HOOK TEMPLATES */
+.hook-item {
+  background: #f8f8f8;
+  border-radius: 6px;
+  padding: 3.5mm 4.5mm;
+  margin-bottom: 2.5mm;
+  font-size: 10pt;
+  color: #333;
+  line-height: 1.5;
+  border-left: 3px solid #E8FF40;
+}
+.hook-type {
+  font-size: 8pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
+  margin-bottom: 1mm;
+}
+
+/* CHECKLIST */
+.checklist-item {
+  display: flex;
+  gap: 3mm;
+  align-items: flex-start;
+  padding: 2.5mm 0;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 10.5pt;
+  color: #333;
+}
+.checklist-item:last-child { border-bottom: none; }
+.check-circle {
+  width: 5mm; height: 5mm;
+  border: 1.5px solid #ccc;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 1mm;
+}
+
+/* STEP BLOCKS */
+.step-block {
+  display: flex;
+  gap: 4mm;
+  align-items: flex-start;
+  margin-bottom: 4mm;
+}
+.step-num {
+  background: #E8FF40;
+  color: #000;
+  font-size: 11pt;
+  font-weight: 700;
+  width: 8mm; height: 8mm;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.step-content h4 { margin-top: 0; }
+
+/* WEEK PLAN */
+.week-card {
+  background: #07070F;
+  color: white;
+  border-radius: 10px;
+  padding: 5mm;
+  margin-bottom: 4mm;
+}
+.week-card .week-label {
+  background: #E8FF40;
+  color: #000;
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 2mm;
+}
+.week-card .week-title {
+  font-size: 12pt;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 2mm;
+}
+.week-card ul li {
+  color: rgba(255,255,255,0.8);
+  font-size: 9.5pt;
+}
+
+/* SALES FUNNEL */
+.funnel-stage {
+  text-align: center;
+  padding: 4mm;
+  margin-bottom: 1mm;
+  border-radius: 6px;
+}
+.funnel-stage .stage-num {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 1mm;
+}
+.funnel-stage .stage-name {
+  font-size: 12pt;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 1mm;
+}
+.funnel-stage .stage-desc {
+  font-size: 9pt;
+  line-height: 1.4;
+}
+
+/* APP GUIDE */
+.tab-guide {
+  background: #f5f5f8;
+  border-radius: 8px;
+  padding: 4mm 5mm;
+  margin-bottom: 3mm;
+  border-left: 3px solid #07070F;
+}
+.tab-guide .tab-name {
+  font-size: 10pt;
+  font-weight: 700;
+  color: #07070F;
+  margin-bottom: 1.5mm;
+}
+.tab-guide p { margin-bottom: 0; font-size: 9.5pt; }
+
+/* PAGE NUMBER */
+.page-num {
+  position: absolute;
+  bottom: 8mm;
+  right: 18mm;
+  font-size: 8pt;
+  color: #bbb;
+  letter-spacing: 1px;
+}
+.page-num-left {
+  position: absolute;
+  bottom: 8mm;
+  left: 18mm;
+  font-size: 8pt;
+  color: #bbb;
+  letter-spacing: 1px;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, #E8FF40, transparent);
+  margin: 5mm 0;
+}
+
+/* NICHE EXERCISE */
+.niche-box {
+  background: #f8f8f8;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  padding: 4mm 5mm;
+  margin: 3mm 0;
+}
+.niche-box .niche-label {
+  font-size: 8pt;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 2mm;
+}
+.niche-box .niche-line {
+  height: 6mm;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 2mm;
+}
+
+/* HIGHLIGHT ROW */
+.highlight {
+  background: #E8FF40;
+  color: #000;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-weight: 700;
+}
+
+/* METRIC CHIPS */
+.metric-chip {
+  display: inline-block;
+  background: #07070F;
+  color: #E8FF40;
+  font-size: 9pt;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin: 1mm 1mm 1mm 0;
+}
+
+/* DARK CHAPTER HEADER PAGE */
+.dark-header {
+  background: #07070F;
+  padding: 12mm 18mm 8mm;
+  margin: -16mm -18mm 8mm;
+  border-bottom: 3px solid #E8FF40;
+}
+.dark-header .chapter-num { background: #E8FF40; color: #000; }
+.dark-header .chapter-title { color: white; }
+.dark-header .chapter-sub { color: rgba(255,255,255,0.55); }
+
+/* ICON BOXES (3-col) */
+.icon-box {
+  text-align: center;
+  padding: 5mm;
+  background: #f8f8f8;
+  border-radius: 8px;
+}
+.icon-box .ib-icon { font-size: 24pt; margin-bottom: 2mm; display: block; }
+.icon-box .ib-title { font-size: 10pt; font-weight: 700; color: #07070F; margin-bottom: 1mm; }
+.icon-box p { font-size: 9pt; color: #555; margin: 0; }
+
+/* MIX SYSTEM */
+.mix-item {
+  display: flex;
+  align-items: center;
+  gap: 4mm;
+  padding: 3mm 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.mix-item:last-child { border-bottom: none; }
+.mix-dot { width: 10mm; height: 10mm; border-radius: 50%; flex-shrink: 0; }
+.mix-info { flex: 1; }
+.mix-info strong { font-size: 11pt; color: #07070F; display: block; }
+.mix-info span { font-size: 9.5pt; color: #666; }
+.mix-freq { font-size: 22pt; font-weight: 700; color: #07070F; min-width: 12mm; text-align: right; }
+
+/* PRINT SPECIFICS */
+@media print {
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── HUB NAVIGATION ── -->
+<div class="hub-nav">
+  <a class="hub-nav-back" href="index.html">← Área do Produto</a>
+  <span class="hub-nav-sep">/</span>
+  <span class="hub-nav-current">Playbook do Algoritmo 2026</span>
+  <a class="hub-nav-cal" href="calendario.html">📅 Calendário</a>
+</div>
+
+<div class="ebook-wrapper">
+
+<!-- ===================== COVER ===================== -->
+<div class="page cover">
+  <!-- Background SVG decoration -->
+  <svg style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.04" viewBox="0 0 595 842" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="595" cy="0" r="300" fill="#E8FF40"/>
+    <circle cx="0" cy="842" r="250" fill="#E8FF40"/>
+    <circle cx="300" cy="421" r="180" fill="none" stroke="#E8FF40" stroke-width="1"/>
+    <circle cx="300" cy="421" r="280" fill="none" stroke="#E8FF40" stroke-width="0.5"/>
+    <line x1="0" y1="421" x2="595" y2="421" stroke="#E8FF40" stroke-width="0.3"/>
+    <line x1="298" y1="0" x2="298" y2="842" stroke="#E8FF40" stroke-width="0.3"/>
+  </svg>
+
+  <div style="position:relative;z-index:2;">
+    <div class="cover-badge">✦ Guia Completo 2026</div>
+
+    <svg width="60" height="60" viewBox="0 0 60 60" style="margin:0 auto 8mm;display:block">
+      <circle cx="30" cy="30" r="29" fill="none" stroke="#E8FF40" stroke-width="1.5"/>
+      <path d="M20 30 L30 18 L40 30 L30 42 Z" fill="#E8FF40" opacity="0.9"/>
+      <path d="M30 18 L30 42" stroke="#07070F" stroke-width="1.5"/>
+      <path d="M20 30 L40 30" stroke="#07070F" stroke-width="1.5"/>
+    </svg>
+
+    <div class="cover-title">
+      Playbook do<br><span class="accent">Algoritmo 2026</span>
+    </div>
+
+    <div class="cover-rule"></div>
+
+    <div class="cover-subtitle">
+      O Guia Completo para Crescer no Instagram com Conta Pequena e Vender Todos os Dias — Usando as Novas Regras que o Próprio Instagram Criou para Você
+    </div>
+
+    <div style="margin:10mm auto;display:flex;justify-content:center;gap:8mm;flex-wrap:wrap;">
+      <div style="text-align:center">
+        <div style="font-size:22pt;font-weight:900;color:#E8FF40;font-family:Georgia,serif;">9</div>
+        <div style="font-size:8pt;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Capítulos</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,0.1)"></div>
+      <div style="text-align:center">
+        <div style="font-size:22pt;font-weight:900;color:#E8FF40;font-family:Georgia,serif;">4</div>
+        <div style="font-size:8pt;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Formatos</div>
+      </div>
+      <div style="width:1px;background:rgba(255,255,255,0.1)"></div>
+      <div style="text-align:center">
+        <div style="font-size:22pt;font-weight:900;color:#E8FF40;font-family:Georgia,serif;">30</div>
+        <div style="font-size:8pt;color:rgba(255,255,255,0.5);letter-spacing:1px;text-transform:uppercase;">Dias de Plano</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">PLAYBOOK DO ALGORITMO 2026 · INSTAGRAM CRESCIMENTO ORGÂNICO</div>
+</div>
+
+<!-- ===================== TOC ===================== -->
+<div class="page toc-page">
+  <div class="toc-header">Índice do Conteúdo</div>
+  <div class="toc-title">O que você vai<br>aprender</div>
+
+  <div class="toc-item">
+    <div class="toc-num">INTRO</div>
+    <div class="toc-text">
+      <strong>Por Que 2026 É o Seu Ano no Instagram</strong>
+      <span>A grande mudança que transforma contas pequenas em autoridades</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 01</div>
+    <div class="toc-text">
+      <strong>Descobrindo Seu Nicho Lucrativo</strong>
+      <span>O método dos 3 pilares + exercício prático de posicionamento</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 02</div>
+    <div class="toc-text">
+      <strong>Como o Algoritmo Funciona em 2026</strong>
+      <span>O sistema de audição, a hierarquia de sinais e o que realmente importa</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 03</div>
+    <div class="toc-text">
+      <strong>Reels — O Formato de Maior Alcance</strong>
+      <span>Hook nos 3 segundos, watch time, 10 templates e framework completo</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 04</div>
+    <div class="toc-text">
+      <strong>Carrossel — O Gerador de Seguidores</strong>
+      <span>Estrutura perfeita, tipos que convertem e estratégia de CTA</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 05</div>
+    <div class="toc-text">
+      <strong>Stories — Intimidade e Conversão</strong>
+      <span>A estratégia dos Favoritos, funil de vendas e scripts de DM</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 06</div>
+    <div class="toc-text">
+      <strong>Feed/Foto — SEO e Autoridade</strong>
+      <span>Instagram como mecanismo de busca e conteúdo evergreen</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 07</div>
+    <div class="toc-text">
+      <strong>Como Vender Todos os Dias pelo Instagram</strong>
+      <span>Funil completo: Alcance → Relacionamento → Conversão</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 08</div>
+    <div class="toc-text">
+      <strong>Usando o Planner Estratégico Instagram 2026</strong>
+      <span>Guia passo a passo do app offline que acompanha este guia</span>
+    </div>
+  </div>
+  <div class="toc-item">
+    <div class="toc-num">CAP 09</div>
+    <div class="toc-text">
+      <strong>Plano de Ação: 30 Dias para Resultados Reais</strong>
+      <span>Tarefas semana a semana com metas claras e mensuráveis</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== INTRO ===================== -->
+<div class="page intro-page">
+  <div class="chapter-header">
+    <div class="chapter-num">Introdução</div>
+    <div class="chapter-title">Por Que 2026 É<br>o Seu Ano no Instagram</div>
+    <div class="chapter-sub">A janela de oportunidade que nunca existiu antes — e como aproveitá-la</div>
+  </div>
+
+  <p>Por anos, o Instagram privilegiou quem já tinha uma base grande de seguidores. Curtidas, comentários e os primeiros sinais de engajamento vinham mais fácil para contas estabelecidas, criando um ciclo que sufocava quem estava começando.</p>
+
+  <p><strong style="color:#E8FF40">Em 2026, isso mudou.</strong> O algoritmo passou por uma das transformações mais profundas da sua história, e a mudança beneficia diretamente quem tem conta pequena.</p>
+
+  <div class="box box-dark" style="margin:6mm 0;">
+    <span class="box-label">O que mudou</span>
+    <p>O Instagram agora distribui mais de <strong style="color:#E8FF40">70% do conteúdo</strong> via recomendação algorítmica — não por contas que o usuário segue. Isso significa que seu conteúdo pode chegar a pessoas que nunca ouviram falar de você, independente do tamanho da sua conta.</p>
+  </div>
+
+  <h3 style="color:white">O Sistema de Audição</h3>
+  <p>O Instagram criou o que internamente chama de "sistema de audição": cada post é exibido primeiro a um grupo pequeno de não-seguidores. Se o conteúdo performa bem com esse grupo, o algoritmo avança para grupos maiores, em ondas. Esse processo pode se repetir várias vezes — e é exatamente por isso que <strong style="color:#E8FF40">contas com 500 seguidores estão viralizando em 2026.</strong></p>
+
+  <p>Mas atenção: o algoritmo não distribui qualquer coisa. Ele tem critérios claros, sinais específicos que ele procura em cada post, e formatos que ele prioriza. Quem entende esses critérios cresce. Quem não entende, continua no mesmo lugar.</p>
+
+  <p>Este guia foi construído com base nas atualizações oficiais do Instagram, nas declarações de Adam Mosseri (CEO do Instagram) e nos dados de performance de 2026. Cada capítulo entrega uma peça do sistema completo.</p>
+
+  <div class="box box-yellow">
+    <span class="box-label">Como usar este guia</span>
+    <p>Leia do início ao fim na primeira vez. Depois, use capítulo por capítulo como referência enquanto cria seu conteúdo. <strong>O App Planner Estratégico</strong> (bônus deste produto) foi construído para aplicar tudo isso no dia a dia — você vai entender como usá-lo no Capítulo 8.</p>
+  </div>
+
+  <p>Hora de começar.</p>
+  <div class="page-num">INTRODUÇÃO</div>
+</div>
+
+<!-- ===================== CAP 1: NICHO ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 01</div>
+    <div class="chapter-title">Descobrindo Seu<br>Nicho Lucrativo</div>
+    <div class="chapter-sub">Posicionamento claro = crescimento previsível</div>
+  </div>
+
+  <p>Antes de criar um único post, você precisa responder a pergunta mais importante do Instagram: <strong>para quem você fala?</strong> O algoritmo distribui seu conteúdo com base em padrões de comportamento — e ele só consegue identificar esses padrões quando seu nicho é claro e consistente.</p>
+
+  <h3>O Método dos 3 Pilares</h3>
+  <p>Seu nicho ideal existe na interseção de três elementos:</p>
+
+  <!-- SVG Diagrama Venn -->
+  <svg width="100%" height="110" viewBox="0 0 450 110" xmlns="http://www.w3.org/2000/svg" style="margin:4mm 0;">
+    <circle cx="160" cy="55" r="50" fill="#E8FF40" opacity="0.3" stroke="#E8FF40" stroke-width="1.5"/>
+    <circle cx="230" cy="55" r="50" fill="#40D9FF" opacity="0.2" stroke="#40D9FF" stroke-width="1.5"/>
+    <circle cx="195" cy="30" r="50" fill="#FF4D6D" opacity="0.2" stroke="#FF4D6D" stroke-width="1.5"/>
+    <text x="120" y="80" font-size="9" fill="#333" font-family="Arial" font-weight="700">PAIXÃO</text>
+    <text x="248" y="80" font-size="9" fill="#333" font-family="Arial" font-weight="700">HABILIDADE</text>
+    <text x="170" y="15" font-size="9" fill="#333" font-family="Arial" font-weight="700">MERCADO</text>
+    <text x="177" y="58" font-size="8.5" fill="#07070F" font-family="Arial" font-weight="700" text-anchor="middle">SEU</text>
+    <text x="177" y="68" font-size="8.5" fill="#07070F" font-family="Arial" font-weight="700" text-anchor="middle">NICHO</text>
+  </svg>
+
+  <div class="three-col">
+    <div class="icon-box">
+      <span class="ib-icon">❤️</span>
+      <div class="ib-title">Paixão</div>
+      <p>Sobre o que você pode falar por horas sem cansar? O que você estudaria de graça?</p>
+    </div>
+    <div class="icon-box">
+      <span class="ib-icon">⚡</span>
+      <div class="ib-title">Habilidade</div>
+      <p>Em que você é bom? Qual resultado você já conseguiu para si mesmo ou outros?</p>
+    </div>
+    <div class="icon-box">
+      <span class="ib-icon">💰</span>
+      <div class="ib-title">Mercado</div>
+      <p>Existe audiência pagando por isso? Há concorrentes lucrativos neste tema?</p>
+    </div>
+  </div>
+
+  <h3>Exercício: Defina Seu Nicho</h3>
+  <div class="niche-box">
+    <div class="niche-label">1. Minha paixão / área de interesse principal</div>
+    <div class="niche-line"></div>
+    <div class="niche-label" style="margin-top:2mm">2. Minha habilidade / resultado que já alcancei</div>
+    <div class="niche-line"></div>
+    <div class="niche-label" style="margin-top:2mm">3. O problema específico que resolvo para quem?</div>
+    <div class="niche-line"></div>
+    <div class="niche-label" style="margin-top:2mm">4. Meu nicho em uma frase: "Eu ajudo [QUEM] a [RESULTADO] através de [MÉTODO]"</div>
+    <div class="niche-line"></div>
+    <div class="niche-line"></div>
+  </div>
+
+  <div class="box box-blue">
+    <span class="box-label">Exemplo de posicionamento claro</span>
+    <p>❌ "Falo sobre saúde" — vago, algoritmo não consegue identificar audiência<br>
+    ✅ "Ajudo mulheres acima dos 40 a perderem gordura sem academia" — específico, audiência clara</p>
+  </div>
+
+  <div class="page-num">CAPÍTULO 1</div>
+</div>
+
+<!-- CAP 1 parte 2 -->
+<div class="page content-page">
+  <h3>Nichos em Alta no Instagram em 2026</h3>
+  <p>Estes são os segmentos com crescimento orgânico acelerado em 2026:</p>
+
+  <div class="two-col">
+    <div>
+      <div class="box box-green" style="margin-bottom:3mm">
+        <span class="box-label" style="color:#00AA66">Saúde e Bem-Estar</span>
+        <ul>
+          <li>Emagrecimento funcional</li>
+          <li>Saúde feminina 40+</li>
+          <li>Saúde mental no trabalho</li>
+          <li>Fitoterapia e medicina natural</li>
+        </ul>
+      </div>
+      <div class="box box-blue">
+        <span class="box-label">Finanças Pessoais</span>
+        <ul>
+          <li>Saída das dívidas</li>
+          <li>Investimento para iniciantes</li>
+          <li>Renda extra para MEIs</li>
+          <li>Finanças para casais</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="box box-yellow" style="margin-bottom:3mm">
+        <span class="box-label">Negócios e Marketing</span>
+        <ul>
+          <li>Instagram para negócios locais</li>
+          <li>Freelancer e trabalho remoto</li>
+          <li>Automação e IA para PMEs</li>
+          <li>Marketing para profissionais liberais</li>
+        </ul>
+      </div>
+      <div class="box box-red">
+        <span class="box-label" style="color:#FF4D6D">Beleza e Estética</span>
+        <ul>
+          <li>Skincare acessível</li>
+          <li>Estética clínica</li>
+          <li>Maquiagem para iniciantes</li>
+          <li>Cabelos naturais</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <h3>Como Validar Seu Nicho no Instagram</h3>
+  <div class="step-block">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Pesquise concorrentes</h4>
+      <p>Procure no Instagram 3 contas no seu nicho com 10k–100k seguidores. Se existem e estão crescendo, existe mercado.</p>
+    </div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Analise o Explore</h4>
+      <p>Faça buscas com palavras-chave do seu nicho. Se aparecem posts com alto engajamento, o algoritmo já tem audiência para esse conteúdo.</p>
+    </div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Verifique monetização</h4>
+      <p>Existe produto, curso, serviço ou infoproduto sendo vendido neste nicho? Concorrência lucrativa = mercado validado.</p>
+    </div>
+  </div>
+
+  <div class="box box-dark">
+    <span class="box-label">Regra de ouro do posicionamento</span>
+    <p>O nicho não limita você — ele libera o algoritmo para encontrar as pessoas certas para o seu conteúdo. Quanto mais específico, mais eficiente a distribuição orgânica.</p>
+  </div>
+
+  <div class="page-num">CAPÍTULO 1</div>
+</div>
+
+<!-- ===================== CAP 2: ALGORITMO ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 02</div>
+    <div class="chapter-title">Como o Algoritmo<br>Funciona em 2026</div>
+    <div class="chapter-sub">Entenda o sistema para fazer ele trabalhar por você</div>
+  </div>
+
+  <p>Não existe um único algoritmo no Instagram. Existem <strong>quatro sistemas de IA distintos</strong>, cada um otimizado para uma parte diferente do app. Entender isso muda completamente a forma como você planeja seu conteúdo.</p>
+
+  <div class="three-col" style="margin:5mm 0">
+    <div class="format-card">
+      <span class="icon">🎬</span>
+      <div class="name">Reels</div>
+      <div class="purpose">Descoberta por não-seguidores. Foco em watch time e compartilhamentos</div>
+    </div>
+    <div class="format-card">
+      <span class="icon">🏠</span>
+      <div class="name">Feed</div>
+      <div class="purpose">Mix de contas seguidas + recomendações. Foco em engajamento recente</div>
+    </div>
+    <div class="format-card">
+      <span class="icon">🔍</span>
+      <div class="name">Busca/Explore</div>
+      <div class="purpose">Motor de busca por palavras-chave. Foco em relevância e originalidade</div>
+    </div>
+  </div>
+
+  <h3>A Hierarquia de Sinais em 2026</h3>
+  <p>O algoritmo usa sinais para medir o valor de um post. Estes são os que mais importam, em ordem de peso:</p>
+
+  <div style="margin:4mm 0">
+    <div class="signal-row">
+      <div class="signal-label">Envios por DM</div>
+      <div class="signal-bar-wrap"><div class="signal-bar"><div class="signal-bar-fill" style="width:96%;background:#E8FF40"></div></div></div>
+      <div class="signal-desc">Sinal mais poderoso. Conteúdo enviado entre amigos = alta distribuição</div>
+      <div class="signal-pct" style="color:#B8A000">96%</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-label">Saves</div>
+      <div class="signal-bar-wrap"><div class="signal-bar"><div class="signal-bar-fill" style="width:88%;background:#FF4D6D"></div></div></div>
+      <div class="signal-desc">Indica conteúdo valioso o suficiente para revisitar</div>
+      <div class="signal-pct" style="color:#CC3355">88%</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-label">Watch Time</div>
+      <div class="signal-bar-wrap"><div class="signal-bar"><div class="signal-bar-fill" style="width:82%;background:#40D9FF"></div></div></div>
+      <div class="signal-desc">Para Reels: proporção vista vs. duração total do vídeo</div>
+      <div class="signal-pct" style="color:#0099CC">82%</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-label">Comentários</div>
+      <div class="signal-bar-wrap"><div class="signal-bar"><div class="signal-bar-fill" style="width:55%;background:#40FFAA"></div></div></div>
+      <div class="signal-desc">Peso maior quando são respostas e conversas, não só emojis</div>
+      <div class="signal-pct" style="color:#00AA66">55%</div>
+    </div>
+    <div class="signal-row">
+      <div class="signal-label">Curtidas</div>
+      <div class="signal-bar-wrap"><div class="signal-bar"><div class="signal-bar-fill" style="width:35%;background:#ccc"></div></div></div>
+      <div class="signal-desc">Ainda conta, mas com muito menos peso do que em anos anteriores</div>
+      <div class="signal-pct">35%</div>
+    </div>
+  </div>
+
+  <div class="box box-yellow">
+    <span class="box-label">⚡ Insight de 2026</span>
+    <p>Um Reel que gera <strong>50 saves nos primeiros 30 minutos</strong> supera um que gera 500 saves em 3 dias. A <strong>velocidade do engajamento</strong> é o novo critério de qualidade — ela sinaliza ao algoritmo que o conteúdo é relevante agora, não gradualmente.</p>
+  </div>
+
+  <div class="page-num">CAPÍTULO 2</div>
+</div>
+
+<!-- CAP 2 parte 2 -->
+<div class="page content-page">
+  <h3>O Sistema de Audição: Como Seu Post Realmente Chega a Pessoas Novas</h3>
+
+  <!-- SVG Audition System -->
+  <svg width="100%" height="120" viewBox="0 0 500 120" xmlns="http://www.w3.org/2000/svg" style="margin:3mm 0">
+    <!-- Arrows -->
+    <defs>
+      <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+        <polygon points="0 0, 8 3, 0 6" fill="#E8FF40"/>
+      </marker>
+    </defs>
+    <!-- Boxes -->
+    <rect x="5" y="35" width="90" height="50" rx="8" fill="#07070F"/>
+    <text x="50" y="56" text-anchor="middle" font-size="8" fill="white" font-family="Arial" font-weight="700">SEU POST</text>
+    <text x="50" y="68" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.6)" font-family="Arial">publicado</text>
+    <text x="50" y="79" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.6)" font-family="Arial">agora</text>
+
+    <line x1="96" y1="60" x2="120" y2="60" stroke="#E8FF40" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="122" y="25" width="90" height="70" rx="8" fill="#1a1a35"/>
+    <text x="167" y="52" text-anchor="middle" font-size="8" fill="#E8FF40" font-family="Arial" font-weight="700">AUDIÇÃO 1</text>
+    <text x="167" y="64" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.7)" font-family="Arial">~200</text>
+    <text x="167" y="74" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.7)" font-family="Arial">não-seguidores</text>
+    <text x="167" y="87" text-anchor="middle" font-size="7.5" fill="#40FFAA" font-family="Arial">Alta performance?</text>
+
+    <line x1="213" y1="60" x2="237" y2="60" stroke="#E8FF40" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="239" y="15" width="90" height="90" rx="8" fill="#1a1a35"/>
+    <text x="284" y="45" text-anchor="middle" font-size="8" fill="#E8FF40" font-family="Arial" font-weight="700">AUDIÇÃO 2</text>
+    <text x="284" y="57" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.7)" font-family="Arial">~2.000</text>
+    <text x="284" y="67" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.7)" font-family="Arial">não-seguidores</text>
+    <text x="284" y="82" text-anchor="middle" font-size="7.5" fill="#40FFAA" font-family="Arial">Alta performance?</text>
+    <text x="284" y="96" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.5)" font-family="Arial">→ continua...</text>
+
+    <line x1="330" y1="60" x2="354" y2="60" stroke="#E8FF40" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <rect x="356" y="5" width="90" height="110" rx="8" fill="#E8FF40"/>
+    <text x="401" y="48" text-anchor="middle" font-size="8" fill="#000" font-family="Arial" font-weight="700">VIRAL</text>
+    <text x="401" y="62" text-anchor="middle" font-size="7" fill="#333" font-family="Arial">Distribuição</text>
+    <text x="401" y="72" text-anchor="middle" font-size="7" fill="#333" font-family="Arial">máxima para</text>
+    <text x="401" y="82" text-anchor="middle" font-size="7" fill="#333" font-family="Arial">novos públicos</text>
+    <text x="401" y="96" text-anchor="middle" font-size="8" fill="#000" font-family="Arial" font-weight="700">🚀 Qualquer</text>
+    <text x="401" y="107" text-anchor="middle" font-size="8" fill="#000" font-family="Arial" font-weight="700">conta cresce!</text>
+  </svg>
+
+  <p>Este sistema funciona independente do tamanho da conta. A única variável que importa é a <strong>qualidade do conteúdo medida pelos sinais corretos</strong> — não quantos seguidores você tem.</p>
+
+  <h3>O Que o Algoritmo Penaliza em 2026</h3>
+  <div class="two-col">
+    <div class="box box-red">
+      <span class="box-label" style="color:#FF4D6D">🚫 Penalizado</span>
+      <ul>
+        <li>Repost sem transformação real</li>
+        <li>Vídeos com marca d'água de outros apps</li>
+        <li>Conteúdo genérico sem nicho definido</li>
+        <li>Inconsistência (sumir por semanas)</li>
+        <li>Hashtags irrelevantes ou excessivas</li>
+      </ul>
+    </div>
+    <div class="box box-green">
+      <span class="box-label">✅ Premiado</span>
+      <ul>
+        <li>Conteúdo original e autoral</li>
+        <li>Vídeos sem marca d'água de terceiros</li>
+        <li>Nicho claro e consistente</li>
+        <li>Postagem regular (mínimo 3x/semana)</li>
+        <li>Palavras-chave na legenda</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>O Sistema de Conteúdo 3-2-1</h3>
+  <p>A fórmula semanal para balancear alcance, engajamento e relacionamento:</p>
+  <div style="margin:3mm 0">
+    <div class="mix-item">
+      <div class="mix-dot" style="background:#FF4D6D"></div>
+      <div class="mix-info"><strong>3× Reels</strong><span>Para alcançar pessoas novas — foco em descoberta</span></div>
+      <div class="mix-freq" style="color:#FF4D6D">3×</div>
+    </div>
+    <div class="mix-item">
+      <div class="mix-dot" style="background:#40D9FF"></div>
+      <div class="mix-info"><strong>2× Carrossel</strong><span>Para gerar saves e converter descoberta em seguidores</span></div>
+      <div class="mix-freq" style="color:#40D9FF">2×</div>
+    </div>
+    <div class="mix-item">
+      <div class="mix-dot" style="background:#E8FF40"></div>
+      <div class="mix-info"><strong>Stories diários</strong><span>Para manter relacionamento e engajamento com seguidores</span></div>
+      <div class="mix-freq" style="color:#B8A000">D</div>
+    </div>
+    <div class="mix-item">
+      <div class="mix-dot" style="background:#40FFAA"></div>
+      <div class="mix-info"><strong>1× Feed/Foto</strong><span>Para SEO, autoridade e conteúdo evergreen</span></div>
+      <div class="mix-freq" style="color:#40FFAA">1×</div>
+    </div>
+  </div>
+
+  <div class="page-num">CAPÍTULO 2</div>
+</div>
+
+<!-- ===================== CAP 3: REELS ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 03</div>
+    <div class="chapter-title">Reels — O Formato<br>de Maior Alcance</div>
+    <div class="chapter-sub">O único formato que o algoritmo distribui ativamente para não-seguidores</div>
+  </div>
+
+  <p>Reels são o <strong>principal motor de crescimento orgânico</strong> do Instagram em 2026. A taxa de engajamento de Reels é, em média, 1.23% — contra 0.70% de posts de imagem. Mais importante: é o único formato onde a distribuição para não-seguidores é prioridade do algoritmo.</p>
+
+  <h3>A Anatomia do Hook Perfeito (Primeiros 3 Segundos)</h3>
+  <p>Os primeiros 3 segundos determinam se o algoritmo vai ou não ampliar a distribuição do seu Reel. Um bom hook tem dois elementos:</p>
+
+  <!-- SVG Hook Structure -->
+  <svg width="100%" height="80" viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg" style="margin:3mm 0">
+    <rect x="5" y="5" width="230" height="70" rx="8" fill="#E8FF40"/>
+    <text x="120" y="28" text-anchor="middle" font-size="8" fill="#000" font-family="Arial" font-weight="700" letter-spacing="1">GANCHO VISUAL</text>
+    <text x="120" y="42" text-anchor="middle" font-size="9" fill="#000" font-family="Arial">Thumbnail ou primeiro frame</text>
+    <text x="120" y="56" text-anchor="middle" font-size="8.5" fill="#333" font-family="Arial">impactante que força o scroll a parar</text>
+    <text x="120" y="70" text-anchor="middle" font-size="8" fill="#555" font-family="Arial">→ imagem, texto na tela, expressão facial</text>
+
+    <text x="248" y="44" text-anchor="middle" font-size="14" fill="#07070F" font-family="Arial">+</text>
+
+    <rect x="265" y="5" width="230" height="70" rx="8" fill="#07070F"/>
+    <text x="380" y="28" text-anchor="middle" font-size="8" fill="#E8FF40" font-family="Arial" font-weight="700" letter-spacing="1">GANCHO VERBAL/TEXTUAL</text>
+    <text x="380" y="42" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.85)" font-family="Arial">Primeira frase que cria</text>
+    <text x="380" y="56" text-anchor="middle" font-size="8.5" fill="rgba(255,255,255,0.85)" font-family="Arial">curiosidade ou identificação</text>
+    <text x="380" y="70" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.5)" font-family="Arial">→ promessa, pergunta, revelação</text>
+  </svg>
+
+  <h3>10 Templates de Hook que Funcionam</h3>
+
+  <div class="two-col">
+    <div>
+      <div class="hook-item"><div class="hook-type">Revelação</div>"O que ninguém te conta sobre [tema] — testei por 30 dias"</div>
+      <div class="hook-item"><div class="hook-type">Erro comum</div>"Você está fazendo [tema] errado. Aqui está o certo:"</div>
+      <div class="hook-item"><div class="hook-type">Urgência</div>"[Tema] em [X] segundos — salva antes de sair"</div>
+      <div class="hook-item"><div class="hook-type">Transformação</div>"Antes e depois: como resolvi [problema] de vez"</div>
+      <div class="hook-item"><div class="hook-type">Identificação</div>"POV: você descobre que [situação do avatar]"</div>
+    </div>
+    <div>
+      <div class="hook-item"><div class="hook-type">Contradição</div>"[Crença comum] não funciona. O que funciona é isso:"</div>
+      <div class="hook-item"><div class="hook-type">Número</div>"3 coisas que [nicho] faz diferente de todo mundo"</div>
+      <div class="hook-item"><div class="hook-type">Confissão</div>"Cometi esse erro por 2 anos com [tema]. Não cometa"</div>
+      <div class="hook-item"><div class="hook-type">Provocação</div>"Hot take: [opinião controversa sobre o nicho]"</div>
+      <div class="hook-item"><div class="hook-type">Promessa rápida</div>"Em 60 segundos você vai entender [tema] melhor do que em 1 ano"</div>
+    </div>
+  </div>
+
+  <div class="page-num">CAPÍTULO 3</div>
+</div>
+
+<!-- CAP 3 parte 2 -->
+<div class="page content-page">
+  <h3>Framework Completo do Reel de Alcance</h3>
+  <div class="step-block">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Hook (0–3s) — Para reter a atenção inicial</h4>
+      <p>Use um dos templates da página anterior. O texto na tela deve aparecer nos primeiros 2 segundos. Thumbnail deve ser impactante — é o que aparece no Explore.</p>
+    </div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Desenvolvimento (3–50s) — Para manter o watch time alto</h4>
+      <p>Entregue o valor prometido no hook. Divida em 3 micro-partes. Adicione transições visuais a cada 5–8 segundos. Use texto na tela para reforçar pontos-chave.</p>
+    </div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>CTA (últimos 5s) — Para ativar os sinais certos</h4>
+      <p>Escolha UM sinal para ativar: "Salva isso" (save) ou "Manda pra quem precisa ver" (DM/compartilhamento). Nunca peça curtida — o save e o DM têm 3x mais peso no algoritmo.</p>
+    </div>
+  </div>
+
+  <h3>Framework da Legenda para Reels</h3>
+  <div class="box box-dark">
+    <span class="box-label">Estrutura em 4 partes</span>
+    <p><strong style="color:#E8FF40">LINHA 1 (Hook textual):</strong> Repita a promessa do vídeo em texto — aparece antes de "ver mais"<br>
+    <strong style="color:#E8FF40">CORPO:</strong> 2–3 pontos rápidos com valor real. Use números e exemplos específicos<br>
+    <strong style="color:#E8FF40">SINAL:</strong> "Manda pra quem precisa ver isso 👆" ou "Salva pra não perder"<br>
+    <strong style="color:#E8FF40">KEYWORDS:</strong> 2–3 palavras-chave do nicho inseridas naturalmente no texto</p>
+  </div>
+
+  <h3>Trial Reels: A Ferramenta Oculta de 2026</h3>
+  <p>O Instagram lançou os Trial Reels em 2025: você pode postar um Reel para <strong>não-seguidores apenas</strong>, sem publicar no seu perfil. Se performar bem com audiência fria, aí você publica para todos.</p>
+  <div class="box box-green">
+    <span class="box-label">Como usar</span>
+    <p>Use Trial Reels para testar hooks novos, temas fora do habitual ou formatos diferentes. Se um Trial Reel performar bem — especialmente com muitos saves e shares — é o sinal verde para publicar amplamente. Isso elimina o risco de "queimar" um post ruim para seus seguidores.</p>
+  </div>
+
+  <h3>Checklist do Reel Otimizado</h3>
+  <div class="checklist-item"><div class="check-circle"></div> Hook visual + verbal nos primeiros 3 segundos</div>
+  <div class="checklist-item"><div class="check-circle"></div> Sem marca d'água de TikTok, CapCut ou outros apps</div>
+  <div class="checklist-item"><div class="check-circle"></div> Vídeo em 9:16, mínimo 1080p, áudio claro</div>
+  <div class="checklist-item"><div class="check-circle"></div> Texto na tela legível em celular sem zoom</div>
+  <div class="checklist-item"><div class="check-circle"></div> CTA para save ou DM no final</div>
+  <div class="checklist-item"><div class="check-circle"></div> Legenda com keywords do nicho</div>
+  <div class="checklist-item"><div class="check-circle"></div> 3–5 hashtags específicas (não genéricas)</div>
+
+  <div class="page-num">CAPÍTULO 3</div>
+</div>
+
+<!-- ===================== CAP 4: CARROSSEL ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 04</div>
+    <div class="chapter-title">Carrossel — O Gerador<br>de Seguidores</div>
+    <div class="chapter-sub">O formato que mais converte descoberta em follow e save</div>
+  </div>
+
+  <p>Carrosséis são o formato com <strong>maior taxa de saves</strong> do Instagram. Eles servem para converter quem descobriu você via Reel em seguidor real — e para entregar conteúdo de alto valor que as pessoas guardam como referência.</p>
+
+  <div class="box box-yellow">
+    <span class="box-label">📌 Vantagem única dos carrosséis</span>
+    <p>O Instagram re-exibe carrosséis não completamente visualizados no feed do usuário. Isso significa que um carrossel com primeiro slide forte tem <strong>duas chances de alcançar a mesma pessoa</strong> — o que nenhum outro formato oferece.</p>
+  </div>
+
+  <h3>A Estrutura Perfeita do Carrossel (8–12 slides)</h3>
+
+  <div style="margin:4mm 0">
+    <div class="step-block">
+      <div class="step-num" style="background:#FF4D6D;color:white">1</div>
+      <div class="step-content">
+        <h4>Slide 1 — Cover (O mais importante)</h4>
+        <p>Deve funcionar como thumbnail. Título claro, fonte grande, visual atrativo. Este é o único slide que aparece no feed — ele decide se a pessoa vai arrastar.</p>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-num" style="background:#40D9FF;color:white">2–7</div>
+      <div class="step-content">
+        <h4>Slides de Conteúdo — Um ponto por slide</h4>
+        <p>Cada slide = uma ideia completa. Máximo 3 linhas de texto por slide. Use visual simples + texto. Mantenha consistência visual (fonte, cores, layout).</p>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-num" style="background:#40FFAA;color:#000">8</div>
+      <div class="step-content">
+        <h4>Penúltimo Slide — Cliffhanger</h4>
+        <p>Crie expectativa para o último slide: "A dica mais importante vem agora →" ou "Guarda isso — vai mudar o que você faz →"</p>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-num" style="background:#E8FF40;color:#000">9</div>
+      <div class="step-content">
+        <h4>Último Slide — CTA de Save</h4>
+        <p>"Salva este carrossel para consultar sempre que precisar 📌" + pergunta para comentários. Este slide é o mais importante para ativar o sinal de save.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>5 Tipos de Carrossel que Crescem Contas</h3>
+  <div class="two-col">
+    <div>
+      <div class="box box-blue" style="margin-bottom:3mm">
+        <span class="box-label">Tutorial passo a passo</span>
+        <p>"Como fazer [X] em [N] passos" — alto save, explica processo completo</p>
+      </div>
+      <div class="box box-yellow" style="margin-bottom:3mm">
+        <span class="box-label">Lista de recursos</span>
+        <p>"[N] ferramentas/dicas/estratégias para [resultado]" — alto save, referência futura</p>
+      </div>
+      <div class="box box-green">
+        <span class="box-label">Antes x Depois</span>
+        <p>Mostrar transformação com dados reais — alto compartilhamento e prova social</p>
+      </div>
+    </div>
+    <div>
+      <div class="box box-red" style="margin-bottom:3mm">
+        <span class="box-label" style="color:#FF4D6D">Erros + Correções</span>
+        <p>"[N] erros que [avatar] comete e como corrigir" — alta identificação e save</p>
+      </div>
+      <div class="box box-dark">
+        <span class="box-label">Frameworks e Métodos</span>
+        <p>Apresentar um método proprietário em slides — posiciona como autoridade e gera DMs</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-num">CAPÍTULO 4</div>
+</div>
+
+<!-- ===================== CAP 5: STORIES ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 05</div>
+    <div class="chapter-title">Stories — Intimidade<br>e Conversão</div>
+    <div class="chapter-sub">Onde o relacionamento acontece e a venda é fechada</div>
+  </div>
+
+  <p>Stories não são para crescimento — são para <strong>conversão e relacionamento</strong>. Contas menores de 10k tiveram aumento de 35% no reach de Stories em 2025. O algoritmo usa as interações de Stories para definir o peso do seu conteúdo no feed dos seguidores.</p>
+
+  <h3>A Estratégia dos Favoritos</h3>
+  <p>Quando um seguidor te adiciona aos <strong>Favoritos</strong>, seus posts aparecem no topo do feed sempre que ele abre o app. Um pequeno número de pessoas te tendo como Favorito impacta significativamente seus primeiros sinais de engajamento — que são os que o algoritmo usa para decidir se amplia o alcance.</p>
+
+  <div class="box box-dark">
+    <span class="box-label">Como pedir para ser adicionado aos Favoritos</span>
+    <p>1. Crie um Story explicando o benefício: "Se você quer sempre ver meu conteúdo primeiro, me adiciona nos Favoritos"<br>
+    2. Mostre o passo a passo em tela (pressionar o nome da conta no topo → Adicionar aos Favoritos)<br>
+    3. Repita essa campanha uma vez por mês<br>
+    4. Mesmo 50 pessoas te tendo como Favorito já faz diferença nos primeiros 30 minutos de cada post</p>
+  </div>
+
+  <h3>Os 6 Tipos de Stories que Funcionam</h3>
+  <div class="two-col">
+    <div>
+      <div class="box box-yellow" style="margin-bottom:3mm">
+        <span class="box-label">Bastidores</span>
+        <p>Mostrar o processo, a rotina, a vida real por trás da conta — gera autenticidade e DMs</p>
+      </div>
+      <div class="box box-blue" style="margin-bottom:3mm">
+        <span class="box-label">Perguntas e Caixas</span>
+        <p>Abrir caixa de perguntas sobre o nicho — gera DMs, entende o que a audiência quer</p>
+      </div>
+      <div class="box box-green">
+        <span class="box-label">Enquetes Polarizantes</span>
+        <p>"Você prefere A ou B?" — engajamento fácil, dados sobre a audiência</p>
+      </div>
+    </div>
+    <div>
+      <div class="box box-red" style="margin-bottom:3mm">
+        <span class="box-label" style="color:#FF4D6D">Sequência de Valor</span>
+        <p>7–10 stories contando uma história ou ensinando algo em partes — retém atenção do início ao fim</p>
+      </div>
+      <div class="box box-dark" style="margin-bottom:3mm">
+        <span class="box-label">Palavra de DM</span>
+        <p>"Manda a palavra X aqui ↓" para entregar material gratuito — gera DMs e ativa funil</p>
+      </div>
+      <div style="background:#f8f8f8;border-radius:8px;padding:4mm 5mm;">
+        <span class="box-label" style="color:#999;font-size:8pt;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:2mm;">Repost de Post</span>
+        <p style="font-size:9.5pt;color:#333;margin:0">Repostar seus próprios posts nos Stories aumenta o alcance do post original em até 40%</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Stories para Vendas: A Sequência dos 5 Dias</h3>
+  <div class="two-col" style="gap:3mm">
+    <div>
+      <div class="week-card" style="margin-bottom:2mm">
+        <span class="week-label">Dia 1–2</span>
+        <div class="week-title">Identificação</div>
+        <ul><li>Mostre o problema que seu produto resolve</li><li>Stories de bastidores e dia a dia</li><li>Caixa de perguntas sobre o tema</li></ul>
+      </div>
+      <div class="week-card" style="margin-bottom:2mm">
+        <span class="week-label">Dia 3</span>
+        <div class="week-title">Prova</div>
+        <ul><li>Depoimento de cliente ou resultado próprio</li><li>Número específico e real</li><li>Antes e depois</li></ul>
+      </div>
+    </div>
+    <div>
+      <div class="week-card" style="margin-bottom:2mm">
+        <span class="week-label">Dia 4</span>
+        <div class="week-title">Oferta</div>
+        <ul><li>Apresenta a solução de forma clara</li><li>O que está incluído</li><li>Para quem é</li></ul>
+      </div>
+      <div class="week-card">
+        <span class="week-label">Dia 5</span>
+        <div class="week-title">CTA</div>
+        <ul><li>Link direto ou palavra de DM</li><li>Urgência real (vagas ou prazo)</li><li>Responde objeções ao vivo</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-num">CAPÍTULO 5</div>
+</div>
+
+<!-- ===================== CAP 6: FEED ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 06</div>
+    <div class="chapter-title">Feed/Foto — SEO<br>e Autoridade</div>
+    <div class="chapter-sub">Como o Instagram virou um motor de busca em 2026</div>
+  </div>
+
+  <p>Em 2026, o Instagram funciona cada vez mais como o Google. Pessoas buscam termos como "emagrecimento para mulheres" ou "como sair das dívidas" diretamente na barra de busca — e o algoritmo entrega perfis e posts relevantes com base em palavras-chave.</p>
+
+  <div class="box box-yellow">
+    <span class="box-label">🔍 Instagram como mecanismo de busca</span>
+    <p>O Instagram usa palavras-chave no <strong>nome do perfil, na bio, nas legendas e no texto dentro das imagens</strong> para indexar seu conteúdo. Um perfil bem otimizado com keywords aparece nos resultados de busca — mesmo para pessoas que nunca ouviram falar de você.</p>
+  </div>
+
+  <h3>Otimizando Seu Perfil para SEO</h3>
+  <div class="step-block">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h4>Nome do perfil</h4>
+      <p>Use seu nome + palavra-chave principal do nicho. Ex: "Maria | Personal Trainer Feminino" ou "João | Finanças para MEI"</p>
+    </div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h4>Bio</h4>
+      <p>Inclua 2–3 keywords do nicho naturalmente. Defina quem você ajuda, com qual resultado e qual diferencial.</p>
+    </div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h4>Legendas dos posts</h4>
+      <p>Inclua keywords do nicho nos primeiros 125 caracteres de cada legenda. O algoritmo indexa as primeiras linhas com prioridade.</p>
+    </div>
+  </div>
+
+  <h3>Tipos de Fotos que Funcionam no Feed</h3>
+  <div class="two-col">
+    <div>
+      <div class="box box-blue" style="margin-bottom:3mm">
+        <span class="box-label">Prova Social Visual</span>
+        <p>Fotos de resultados, antes/depois, métricas reais. Alto save e compartilhamento, forte para vendas.</p>
+      </div>
+      <div class="box box-green">
+        <span class="box-label">Citação ou Frase</span>
+        <p>Frase de alto impacto sobre o nicho em layout visual. Muito compartilhada, ativa sinal de DM.</p>
+      </div>
+    </div>
+    <div>
+      <div class="box box-yellow" style="margin-bottom:3mm">
+        <span class="box-label">Post Informativo (Infográfico)</span>
+        <p>Dado ou informação visual sobre o nicho. Alto save — pessoas guardam como referência.</p>
+      </div>
+      <div class="box box-red">
+        <span class="box-label" style="color:#FF4D6D">Humanização</span>
+        <p>Foto sua com legenda pessoal e autêntica. Fortalece conexão com seguidores existentes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-dark" style="margin-top:4mm">
+    <span class="box-label">Conteúdo evergreen no feed</span>
+    <p>Posts de feed bem indexados continuam gerando alcance por meses. Foque em conteúdo atemporal sobre o nicho — não em tendências passageiras. Um bom post informativo pode ser recomendado pelo algoritmo 6 meses depois de publicado.</p>
+  </div>
+
+  <div class="page-num">CAPÍTULO 6</div>
+</div>
+
+<!-- ===================== CAP 7: VENDAS ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 07</div>
+    <div class="chapter-title">Como Vender Todos<br>os Dias pelo Instagram</div>
+    <div class="chapter-sub">O funil completo: Alcance → Relacionamento → Conversão</div>
+  </div>
+
+  <p>Vender pelo Instagram não é sobre gritar promoções no feed. É sobre construir um <strong>sistema em que cada formato tem uma função específica</strong> dentro da jornada de compra do cliente.</p>
+
+  <!-- SVG Funil -->
+  <svg width="100%" height="130" viewBox="0 0 500 130" xmlns="http://www.w3.org/2000/svg" style="margin:4mm 0">
+    <polygon points="50,5 450,5 370,45 130,45" fill="#E8FF40"/>
+    <text x="250" y="30" text-anchor="middle" font-size="9" font-family="Arial" font-weight="700" fill="#000">TOPO — REELS + CARROSSEL (Alcance)</text>
+    <text x="250" y="42" text-anchor="middle" font-size="7.5" font-family="Arial" fill="#333">Descoberta: pessoas que não conhecem você ainda</text>
+
+    <polygon points="130,48 370,48 310,88 190,88" fill="#07070F"/>
+    <text x="250" y="72" text-anchor="middle" font-size="9" font-family="Arial" font-weight="700" fill="white">MEIO — STORIES + FEED (Relacionamento)</text>
+    <text x="250" y="84" text-anchor="middle" font-size="7.5" font-family="Arial" fill="rgba(255,255,255,0.6)">Confiança: quem já te segue e interage</text>
+
+    <polygon points="190,91 310,91 275,125 225,125" fill="#FF4D6D"/>
+    <text x="250" y="110" text-anchor="middle" font-size="8.5" font-family="Arial" font-weight="700" fill="white">FUNDO — DM + LINK</text>
+    <text x="250" y="122" text-anchor="middle" font-size="7" font-family="Arial" fill="rgba(255,255,255,0.8)">(Conversão)</text>
+  </svg>
+
+  <h3>TOPO DO FUNIL — Conteúdo de Alcance</h3>
+  <p>Objetivo: fazer pessoas novas te descobrirem e te seguirem.</p>
+  <p><strong>Formatos:</strong> Reels e Carrosséis educativos ou de entretenimento. <strong>Tom:</strong> sem pitch de vendas — entregue valor puro. <strong>CTA:</strong> pedir save ou compartilhamento, nunca compra direta.</p>
+
+  <h3>MEIO DO FUNIL — Conteúdo de Relacionamento</h3>
+  <p>Objetivo: transformar seguidores em fãs que confiam em você.</p>
+  <p><strong>Formatos:</strong> Stories de bastidores, feed com prova social, carrosséis com método proprietário. <strong>Tom:</strong> pessoal e autêntico. <strong>CTA:</strong> responder comentários, caixas de perguntas, enquetes.</p>
+
+  <h3>FUNDO DO FUNIL — Conversão</h3>
+  <p>Objetivo: transformar fãs em compradores.</p>
+  <p><strong>Formatos:</strong> Stories com oferta, DM ativo, link na bio. <strong>Tom:</strong> direto e com urgência real. <strong>CTA:</strong> "manda DM com [PALAVRA]" ou "clica no link da bio".</p>
+
+  <div class="page-num">CAPÍTULO 7</div>
+</div>
+
+<!-- CAP 7 parte 2 -->
+<div class="page content-page">
+  <h3>Scripts de Venda por DM</h3>
+
+  <div class="box box-dark" style="margin-bottom:4mm">
+    <span class="box-label">Script 1 — Resposta à palavra-gatilho no Stories</span>
+    <p>Quando alguém manda a palavra-gatilho:<br><br>
+    "Oi, [nome]! Boa escolha. [Produto/serviço] é [descrição em 1 linha]. Antes de te mandar o link, me conta uma coisa: qual é o seu maior desafio com [nicho] hoje?"<br><br>
+    <em style="color:rgba(255,255,255,0.5)">→ A pergunta abre conversa e qualifica a pessoa antes de enviar o link</em></p>
+  </div>
+
+  <div class="box box-dark" style="margin-bottom:4mm">
+    <span class="box-label">Script 2 — DM ativo para seguidores engajados</span>
+    <p>Para quem comentou em posts recentes:<br><br>
+    "Oi, [nome]! Vi que você comentou no meu post sobre [tema]. Tenho algo que pode te ajudar muito com isso — [produto/serviço] que [resultado em 1 linha]. Quer saber mais?"<br><br>
+    <em style="color:rgba(255,255,255,0.5)">→ Personalização aumenta muito a taxa de resposta</em></p>
+  </div>
+
+  <h3>A Sequência de Lançamento de 7 Dias</h3>
+  <div class="two-col">
+    <div>
+      <div class="week-card" style="margin-bottom:2mm">
+        <span class="week-label">Dia 1–2</span>
+        <div class="week-title">Aquecimento</div>
+        <ul><li>Conteúdo sobre o problema</li><li>Caixa de perguntas sobre o tema</li></ul>
+      </div>
+      <div class="week-card" style="margin-bottom:2mm">
+        <span class="week-label">Dia 3–4</span>
+        <div class="week-title">Educação</div>
+        <ul><li>Carrossel com método completo</li><li>Stories com bastidores da solução</li></ul>
+      </div>
+    </div>
+    <div>
+      <div class="week-card" style="margin-bottom:2mm">
+        <span class="week-label">Dia 5</span>
+        <div class="week-title">Prova</div>
+        <ul><li>Depoimentos e resultados</li><li>Antes e depois detalhado</li></ul>
+      </div>
+      <div class="week-card">
+        <span class="week-label">Dia 6–7</span>
+        <div class="week-title">Oferta + CTA</div>
+        <ul><li>Apresentação da oferta</li><li>Urgência: prazo ou vagas limitadas</li><li>DM ativo para quem engajou</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="box box-yellow" style="margin-top:4mm">
+    <span class="box-label">⚡ Regra de ouro das vendas no Instagram</span>
+    <p>Para cada 1 post de venda, publique <strong>4 posts de valor puro</strong>. Contas que vendem demais sem entregar valor perdem engajamento e alcance. O algoritmo distribui mais quem engaja a audiência — não quem vende mais.</p>
+  </div>
+
+  <div class="page-num">CAPÍTULO 7</div>
+</div>
+
+<!-- ===================== CAP 8: APP ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 08</div>
+    <div class="chapter-title">Usando o Planner<br>Estratégico 2026</div>
+    <div class="chapter-sub">Guia completo do app offline que acompanha este produto</div>
+  </div>
+
+  <p>O <strong>Planner Estratégico Instagram 2026</strong> é um app offline que você baixou junto com este guia. Ele funciona 100% no navegador, sem internet, sem instalação e sem login. Todos os dados ficam salvos no seu dispositivo.</p>
+
+  <h3>Como Abrir o App</h3>
+  <div class="step-block">
+    <div class="step-num">1</div>
+    <div class="step-content"><p>Localize o arquivo <span style="background:#f0f0f0;padding:1px 6px;border-radius:3px;font-family:monospace;font-size:10pt">planner-instagram-2026.html</span> na pasta do produto</p></div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">2</div>
+    <div class="step-content"><p>Clique duas vezes no arquivo — ele abre automaticamente no navegador</p></div>
+  </div>
+  <div class="step-block">
+    <div class="step-num">3</div>
+    <div class="step-content"><p>Pronto! Não precisa de internet para usar. Seus dados são salvos automaticamente.</p></div>
+  </div>
+
+  <h3>As 4 Abas do App</h3>
+
+  <div class="tab-guide">
+    <div class="tab-name">🎯 Aba 1 — Criar Post</div>
+    <p>Selecione o formato (Reels, Carrossel, Stories ou Feed), o objetivo do post (Alcance, Engajamento ou Vendas), e preencha seu nicho e tema. O app gera automaticamente: 3 hooks prontos para usar, framework completo de legenda, hashtags personalizadas para seu nicho, análise dos sinais do algoritmo que o post deve ativar e uma dica específica do algoritmo 2026 para aquela combinação de formato + objetivo.</p>
+  </div>
+
+  <div class="tab-guide">
+    <div class="tab-name">✅ Aba 2 — Checklist</div>
+    <p>15 itens para validar antes de publicar qualquer post. Cada item tem uma descrição explicando o motivo. O app calcula seu score de 0 a 15 e mostra se o post está pronto para bombar. Use antes de cada publicação — leva menos de 2 minutos.</p>
+  </div>
+
+  <div class="tab-guide">
+    <div class="tab-name">📅 Aba 3 — Calendário Semanal</div>
+    <p>Planeje a semana completa de conteúdo visualmente. Adicione cada post com formato, tema e objetivo. Visualize o mix da semana — se está seguindo o sistema 3-2-1. Ajuda a manter a consistência sem depender de memória.</p>
+  </div>
+
+  <div class="tab-guide">
+    <div class="tab-name">📈 Aba 4 — Progresso</div>
+    <p>Registre suas métricas semanais: seguidores, saves, compartilhamentos e alcance médio. O app gera um gráfico de evolução e uma tabela histórica. Fundamental para identificar quais semanas de conteúdo geraram mais crescimento.</p>
+  </div>
+
+  <h3>Fluxo Diário Recomendado</h3>
+  <p>1. <strong>Criar Post</strong> → gere a estratégia do conteúdo do dia &nbsp;|&nbsp; 2. <strong>Checklist</strong> → valide antes de publicar &nbsp;|&nbsp; 3. <strong>Calendário</strong> → marque o post como planejado &nbsp;|&nbsp; 4. <strong>Progresso</strong> → registre métricas toda semana (segundas-feiras)</p>
+
+  <div class="page-num">CAPÍTULO 8</div>
+</div>
+
+<!-- ===================== CAP 9: PLANO 30 DIAS ===================== -->
+<div class="page content-page">
+  <div class="dark-header">
+    <div class="chapter-num">Capítulo 09</div>
+    <div class="chapter-title">Plano de Ação:<br>30 Dias para Resultados</div>
+    <div class="chapter-sub">Tarefas semana a semana para crescimento real e previsível</div>
+  </div>
+
+  <p>Este plano foi desenhado para quem está começando do zero ou tem menos de 1.000 seguidores. Se você já tem uma base maior, acelere o ritmo. O princípio é o mesmo: consistência nos primeiros 30 dias cria momentum que se multiplica.</p>
+
+  <div class="week-card" style="margin-bottom:4mm">
+    <span class="week-label">Semana 1 — Fundação</span>
+    <div class="week-title">Meta: Base sólida e primeiros posts</div>
+    <ul>
+      <li>Defina seu nicho usando o exercício do Capítulo 1</li>
+      <li>Otimize bio e nome do perfil com keywords</li>
+      <li>Crie 2 Reels usando o framework deste guia + app</li>
+      <li>Crie 1 Carrossel educativo sobre o tema principal do nicho</li>
+      <li>Poste Stories diários (mínimo 5 slides)</li>
+      <li>Registre métricas iniciais no Planner (seguidores atuais)</li>
+    </ul>
+  </div>
+
+  <div class="week-card" style="margin-bottom:4mm">
+    <span class="week-label">Semana 2 — Consistência</span>
+    <div class="week-title">Meta: Sistema 3-2-1 funcionando</div>
+    <ul>
+      <li>3 Reels com hooks diferentes (teste variações)</li>
+      <li>2 Carrosséis (um tutorial, um lista de dicas)</li>
+      <li>Stories diários + 1 caixa de perguntas</li>
+      <li>1 Feed/Foto com conteúdo evergreen</li>
+      <li>Responda todos os comentários nos primeiros 60 minutos</li>
+      <li>Campanha de Favoritos: peça para te adicionarem</li>
+    </ul>
+  </div>
+
+  <div class="week-card" style="margin-bottom:4mm">
+    <span class="week-label">Semana 3 — Otimização</span>
+    <div class="week-title">Meta: Identificar o que funciona e dobrar</div>
+    <ul>
+      <li>Analise Insights: quais posts tiveram mais saves e DMs?</li>
+      <li>Replique o formato/hook que performou melhor</li>
+      <li>Use Trial Reels para testar hooks novos</li>
+      <li>Sequência de Stories de vendas (se tiver produto)</li>
+      <li>Registre métricas no Planner e compare com semana 1</li>
+    </ul>
+  </div>
+
+  <div class="week-card">
+    <span class="week-label">Semana 4 — Escala</span>
+    <div class="week-title">Meta: Crescimento acelerado e primeira venda</div>
+    <ul>
+      <li>Mantenha o ritmo 3-2-1 com mais qualidade nos hooks</li>
+      <li>Colaboração: faça um post collab com outra conta do nicho</li>
+      <li>Sequência de lançamento de 7 dias (Capítulo 7)</li>
+      <li>Analise crescimento total: seguidores, saves, alcance</li>
+      <li>Planeje o mês 2 com base nos dados coletados</li>
+    </ul>
+  </div>
+
+  <div class="page-num">CAPÍTULO 9</div>
+</div>
+
+<!-- ===================== CONCLUSÃO ===================== -->
+<div class="page content-page" style="padding-bottom:20mm">
+  <div class="dark-header">
+    <div class="chapter-num">Conclusão</div>
+    <div class="chapter-title">Sua Janela de<br>Oportunidade</div>
+    <div class="chapter-sub">O que fazer agora — e por que você não pode esperar</div>
+  </div>
+
+  <p>2026 representa uma janela única. O algoritmo está ativamente premiando criadores originais de contas pequenas. Essa configuração não vai durar para sempre — as grandes contas vão se adaptar, mais pessoas vão entender o sistema e o mercado vai ficar mais disputado.</p>
+
+  <p>Quem planta agora colhe os frutos antes que a janela feche.</p>
+
+  <div class="box box-yellow">
+    <span class="box-label">Os 5 princípios do crescimento em 2026</span>
+    <ul>
+      <li><strong>Nicho claro</strong> → o algoritmo consegue distribuir para as pessoas certas</li>
+      <li><strong>Conteúdo original</strong> → premiado, nunca penalizado</li>
+      <li><strong>Hook nos 3 segundos</strong> → o filtro do sistema de audição</li>
+      <li><strong>Ativar saves e DMs</strong> → os sinais mais poderosos de 2026</li>
+      <li><strong>Consistência</strong> → o algoritmo favorece quem posta com regularidade</li>
+    </ul>
+  </div>
+
+  <h3>Seus Próximos Passos Imediatos</h3>
+  <div class="step-block">
+    <div class="step-num" style="background:#E8FF40;color:#000">1</div>
+    <div class="step-content"><p>Abra o arquivo <strong>planner-instagram-2026.html</strong> no navegador agora</p></div>
+  </div>
+  <div class="step-block">
+    <div class="step-num" style="background:#E8FF40;color:#000">2</div>
+    <div class="step-content"><p>Faça o exercício de nicho do Capítulo 1 — preencha as 4 linhas</p></div>
+  </div>
+  <div class="step-block">
+    <div class="step-num" style="background:#E8FF40;color:#000">3</div>
+    <div class="step-content"><p>Use o app para criar seu primeiro post com estratégia definida</p></div>
+  </div>
+  <div class="step-block">
+    <div class="step-num" style="background:#E8FF40;color:#000">4</div>
+    <div class="step-content"><p>Rode o checklist de 15 itens antes de publicar</p></div>
+  </div>
+  <div class="step-block">
+    <div class="step-num" style="background:#E8FF40;color:#000">5</div>
+    <div class="step-content"><p>Registre seus seguidores atuais no Planner — esse é o ponto zero</p></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p style="font-family:Georgia,serif;font-size:13pt;color:#07070F;text-align:center;line-height:1.5">O Instagram de 2026 não é sobre sorte.<br>É sobre sistema. Você agora tem o sistema.</p>
+
+  <div style="text-align:center;margin-top:6mm">
+    <span class="metric-chip">🎯 Nicho definido</span>
+    <span class="metric-chip">📱 App instalado</span>
+    <span class="metric-chip">🚀 Plano de 30 dias</span>
+    <span class="metric-chip">⚡ Algoritmo mapeado</span>
+  </div>
+
+  <!-- Back cover SVG -->
+  <svg width="100%" height="30" viewBox="0 0 500 30" style="margin-top:8mm" xmlns="http://www.w3.org/2000/svg">
+    <line x1="0" y1="15" x2="200" y2="15" stroke="#E8FF40" stroke-width="1"/>
+    <circle cx="250" cy="15" r="6" fill="#E8FF40"/>
+    <line x1="300" y1="15" x2="500" y2="15" stroke="#E8FF40" stroke-width="1"/>
+    <text x="250" y="19" text-anchor="middle" font-size="9" fill="#07070F" font-family="Arial" font-weight="700">✦</text>
+  </svg>
+
+  <p style="text-align:center;font-size:9pt;color:#bbb;margin-top:4mm">Playbook do Algoritmo 2026 · Todos os direitos reservados</p>
+
+  <div class="page-num">FIM</div>
+</div>
+
+</div><!-- end .ebook-wrapper -->
+
+</body>
+</html>
