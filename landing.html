@@ -8,6 +8,17 @@
 <meta name="theme-color" content="#07080F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<!-- TODO: substituir pelo seu Pixel ID real no Meta Events Manager -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'SEU_PIXEL_ID_AQUI');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=SEU_PIXEL_ID_AQUI&ev=PageView&noscript=1"/></noscript>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -147,8 +158,65 @@ nav{background:rgba(7,8,15,.92);backdrop-filter:blur(12px);border-bottom:1px sol
 .guarantee-box{display:inline-flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 24px;margin-top:24px;font-size:13px;color:var(--muted)}
 .guarantee-icon{font-size:22px}
 
+/* ── COUNTDOWN ── */
+.countdown-bar{background:linear-gradient(90deg,rgba(255,77,109,.12),rgba(255,159,60,.08));border:1px solid rgba(255,77,109,.25);border-radius:12px;padding:14px 20px;text-align:center;margin-bottom:32px;max-width:420px;margin-left:auto;margin-right:auto}
+.countdown-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px}
+.countdown-digits{display:flex;justify-content:center;gap:16px}
+.cd-unit{text-align:center}
+.cd-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--text);line-height:1;display:block}
+.cd-label{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.cd-sep{font-size:24px;font-weight:900;color:var(--muted);line-height:1.2;padding-top:4px}
+
+/* ── VSL ── */
+.vsl-block{max-width:640px;margin:0 auto 36px;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--surface);position:relative;aspect-ratio:16/9;cursor:pointer}
+.vsl-thumb{width:100%;height:100%;object-fit:cover;display:block}
+.vsl-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(7,8,15,.7),rgba(14,15,26,.5));gap:12px}
+.vsl-play{width:72px;height:72px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.vsl-play svg{width:28px;height:28px;fill:#000;margin-left:4px}
+.vsl-overlay:hover .vsl-play{transform:scale(1.08);box-shadow:0 0 40px rgba(200,255,60,.5)}
+.vsl-caption{font-size:12px;color:rgba(238,238,248,.7);letter-spacing:.5px}
+
+/* ── ORDER BUMP ── */
+.order-bump{padding:60px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.order-bump-box{max-width:640px;margin:0 auto;background:var(--bg);border:2px dashed rgba(200,255,60,.4);border-radius:20px;padding:32px;position:relative;overflow:hidden}
+.order-bump-box::before{content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;background:radial-gradient(circle,rgba(200,255,60,.08),transparent 70%);pointer-events:none}
+.ob-badge{display:inline-block;background:var(--accent2);color:#fff;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:14px}
+.ob-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;margin-bottom:8px;line-height:1.2}
+.ob-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.65}
+.ob-items{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.ob-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.ob-item::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0}
+.ob-price-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ob-price-old{font-size:12px;color:var(--muted);text-decoration:line-through}
+.ob-price-new{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--accent)}
+.ob-checkbox{display:flex;align-items:center;gap:10px;background:rgba(200,255,60,.06);border:1.5px solid rgba(200,255,60,.3);border-radius:10px;padding:12px 16px;cursor:pointer;user-select:none;margin-top:16px;transition:all .2s}
+.ob-checkbox:hover{background:rgba(200,255,60,.1)}
+.ob-checkbox input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.ob-checkbox-text{font-size:13px;font-weight:600}
+
+/* ── PROOF MOCKUPS ── */
+.proof-mockups{display:flex;justify-content:center;gap:16px;margin-top:40px;flex-wrap:wrap}
+.mockup-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;width:160px;flex-shrink:0}
+.mockup-header{background:var(--surface2);padding:10px 12px;display:flex;align-items:center;gap:6px}
+.mockup-dot{width:6px;height:6px;border-radius:50%}
+.mockup-stat-block{padding:14px 12px;text-align:center}
+.mockup-stat-big{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent);line-height:1}
+.mockup-stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.mockup-bar-row{padding:0 12px 12px}
+.mockup-bar-bg{background:var(--surface2);border-radius:4px;height:6px;margin-bottom:4px;overflow:hidden}
+.mockup-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.mockup-bar-label{font-size:8px;color:var(--muted)}
+
+/* ── FLOATING CTA (mobile) ── */
+.float-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;padding:12px 16px;background:linear-gradient(0deg,var(--bg) 0%,rgba(7,8,15,.96) 100%);border-top:1px solid var(--border);backdrop-filter:blur(8px)}
+.float-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:480px;margin:0 auto}
+.float-cta-price{line-height:1.2}
+.float-cta-price-main{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--accent)}
+.float-cta-price-sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.float-cta-btn{background:var(--accent);color:#000;font-weight:900;font-size:14px;padding:13px 24px;border-radius:12px;text-decoration:none;white-space:nowrap;flex-shrink:0}
+
 /* ── FOOTER ── */
-footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 0;text-align:center}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 0 80px;text-align:center}
 .footer-logo{font-weight:900;font-size:16px;margin-bottom:8px}
 .footer-copy{font-size:11px;color:var(--muted)}
 
@@ -158,6 +226,8 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:32px
   .hero-stats{gap:24px}
   .price-main{font-size:48px}
   nav .nav-cta{display:none}
+  .float-cta{display:block}
+  .mockup-card{width:140px}
 }
 @media(max-width:480px){
   .chapter-item{flex-wrap:wrap;gap:8px}
@@ -184,16 +254,39 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:32px
     <div class="hero-badge">
       <span class="badge">✦ Oferta de Lançamento 2026</span>
     </div>
+
+    <div class="countdown-bar">
+      <div class="countdown-label">Desconto de lançamento expira em</div>
+      <div class="countdown-digits">
+        <div class="cd-unit"><span class="cd-num" id="cd-h">23</span><span class="cd-label">horas</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">59</span><span class="cd-label">min</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">59</span><span class="cd-label">seg</span></div>
+      </div>
+    </div>
+
     <h1 class="hero-title">
-      Cresça no Instagram<br>com o <em>Sistema Completo</em><br>de Conteúdo 2026
+      Você sabe que precisa<br>postar mais, mas <em>trava</em><br>na hora de criar?
     </h1>
     <p class="hero-sub">
-      Ebook + App Calendário Estratégico: tudo que você precisa para sair do 0, crescer organicamente e vender todos os dias — independente do tamanho da sua conta.
+      Em 2026, o Instagram distribui 70% do conteúdo para quem <strong style="color:var(--text)">NÃO</strong> te segue ainda — contas pequenas podem explodir. Mas só as que souberem <em>o que postar e quando.</em>
     </p>
+
+    <!-- VSL placeholder -->
+    <div class="vsl-block" onclick="this.innerHTML='<iframe width=\'100%\' height=\'100%\' src=\'https://www.youtube.com/embed/SEU_VIDEO_ID?autoplay=1\' frameborder=\'0\' allow=\'autoplay;fullscreen\' style=\'position:absolute;inset:0;width:100%;height:100%\'></iframe>';this.style.cursor='default'">
+      <div class="vsl-overlay">
+        <div class="vsl-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <span class="vsl-caption">▶ Assista: como o sistema funciona em 3 minutos</span>
+      </div>
+    </div>
+
     <div class="hero-price-box">
       <div class="price-from">De R$197,00</div>
-      <div class="price-main"><span>R$</span>27</div>
-      <div class="price-desc">Pagamento único · Acesso vitalício</div>
+      <div class="price-main"><span>R$</span>67</div>
+      <div class="price-desc">Pagamento único · Acesso vitalício · Oferta de lançamento</div>
     </div>
     <br>
     <a href="produto/index.html" class="btn-hero">→ QUERO O KIT COMPLETO AGORA</a>
@@ -452,6 +545,55 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:32px
       <div class="section-label">Resultados reais</div>
       <h2 class="section-title">O que dizem quem aplicou<br><em class="accent">o método</em></h2>
     </div>
+    <!-- Mockup result cards -->
+    <div class="proof-mockups">
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#FF4D6D"></div>
+          <div class="mockup-dot" style="background:#FF9F3C"></div>
+          <div class="mockup-dot" style="background:#3DFFAA"></div>
+        </div>
+        <div class="mockup-stat-block">
+          <div class="mockup-stat-big">+325%</div>
+          <div class="mockup-stat-label">Alcance orgânico</div>
+        </div>
+        <div class="mockup-bar-row">
+          <div class="mockup-bar-bg"><div class="mockup-bar-fill" style="width:82%"></div></div>
+          <div class="mockup-bar-label">vs. 30 dias antes</div>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#FF4D6D"></div>
+          <div class="mockup-dot" style="background:#FF9F3C"></div>
+          <div class="mockup-dot" style="background:#3DFFAA"></div>
+        </div>
+        <div class="mockup-stat-block">
+          <div class="mockup-stat-big">+2.6k</div>
+          <div class="mockup-stat-label">Novos seguidores</div>
+        </div>
+        <div class="mockup-bar-row">
+          <div class="mockup-bar-bg"><div class="mockup-bar-fill" style="width:70%"></div></div>
+          <div class="mockup-bar-label">em 30 dias</div>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#FF4D6D"></div>
+          <div class="mockup-dot" style="background:#FF9F3C"></div>
+          <div class="mockup-dot" style="background:#3DFFAA"></div>
+        </div>
+        <div class="mockup-stat-block">
+          <div class="mockup-stat-big">8.4%</div>
+          <div class="mockup-stat-label">Taxa de saves</div>
+        </div>
+        <div class="mockup-bar-row">
+          <div class="mockup-bar-bg"><div class="mockup-bar-fill" style="width:64%"></div></div>
+          <div class="mockup-bar-label">Reel + carrossel</div>
+        </div>
+      </div>
+    </div>
+
     <div class="testimonials">
       <div class="testimonial">
         <div class="t-stars">★★★★★</div>
@@ -526,6 +668,37 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:32px
   </div>
 </section>
 
+<!-- ORDER BUMP -->
+<section class="order-bump">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:28px">
+      <div class="section-label">Turbine sua compra</div>
+      <h2 class="section-title">Adicione antes de fechar<br><em class="accent">por apenas R$27 a mais</em></h2>
+    </div>
+    <div class="order-bump-box">
+      <div class="ob-badge">Oferta Exclusiva</div>
+      <div class="ob-title">Pack de Templates Prontos<br>+ Checklist de Lançamento</div>
+      <div class="ob-desc">Adicione ao seu kit: 30 templates de legenda prontos para copiar e adaptar + checklist de 7 dias para lançar seu perfil do zero com consistência.</div>
+      <div class="ob-items">
+        <div class="ob-item">30 templates de legenda por formato (Reel, Carrossel, Story, Feed)</div>
+        <div class="ob-item">Checklist semana 1 com tarefas diárias detalhadas</div>
+        <div class="ob-item">Guia de hashtags por nicho (8 nichos, 20 hashtags cada)</div>
+        <div class="ob-item">Roteiro de Bio Magnética (3 estruturas prontas)</div>
+      </div>
+      <div class="ob-price-row">
+        <span class="ob-price-old">De R$47,00</span>
+        <span class="ob-price-new">R$ 27</span>
+        <span style="font-size:11px;color:var(--muted)">adicionado ao pedido</span>
+      </div>
+      <label class="ob-checkbox">
+        <input type="checkbox" id="ob-check" onchange="document.getElementById('ob-status').textContent=this.checked?'✓ Pack adicionado ao seu pedido!':''">
+        <span class="ob-checkbox-text">Sim! Quero o Pack de Templates por R$27 a mais</span>
+      </label>
+      <div id="ob-status" style="font-size:12px;color:var(--accent);margin-top:8px;font-weight:700;min-height:18px"></div>
+    </div>
+  </div>
+</section>
+
 <!-- FINAL CTA -->
 <section class="final-cta">
   <div class="container">
@@ -534,7 +707,7 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:32px
     <p class="final-cta-sub">Ebook completo + App Calendário Estratégico por um único pagamento. Acesso imediato e vitalício.</p>
     <div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:4px;text-decoration:line-through">De R$197,00</div>
-      <div style="font-family:'Playfair Display',serif;font-size:clamp(40px,7vw,60px);font-weight:900;color:var(--accent);line-height:1;margin-bottom:24px"><span style="font-size:24px;vertical-align:top;margin-top:8px;display:inline-block">R$</span>27</div>
+      <div style="font-family:'Playfair Display',serif;font-size:clamp(40px,7vw,60px);font-weight:900;color:var(--accent);line-height:1;margin-bottom:24px"><span style="font-size:24px;vertical-align:top;margin-top:8px;display:inline-block">R$</span>67</div>
     </div>
     <a href="produto/index.html" class="btn-hero" style="display:inline-block">→ ACESSAR O KIT AGORA</a>
     <div class="guarantee-box">
@@ -554,12 +727,60 @@ footer{background:var(--surface);border-top:1px solid var(--border);padding:32px
   </div>
 </footer>
 
+<!-- FLOATING MOBILE CTA -->
+<div class="float-cta" id="float-cta">
+  <div class="float-cta-inner">
+    <div class="float-cta-price">
+      <div class="float-cta-price-main">R$67</div>
+      <div class="float-cta-price-sub">Pagamento único</div>
+    </div>
+    <a href="produto/index.html" class="float-cta-btn">GARANTIR AGORA →</a>
+  </div>
+</div>
+
 <script>
 function toggleFaq(el){
   const wasOpen = el.classList.contains('open');
   document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
   if(!wasOpen) el.classList.add('open');
 }
+
+/* Countdown timer — persists via localStorage so it doesn't reset on refresh */
+(function(){
+  var KEY='igkit_deadline';
+  var stored=localStorage.getItem(KEY);
+  var deadline;
+  if(stored){
+    deadline=parseInt(stored,10);
+  } else {
+    deadline=Date.now()+24*60*60*1000;
+    localStorage.setItem(KEY,deadline);
+  }
+  function tick(){
+    var diff=deadline-Date.now();
+    if(diff<=0){diff=0;}
+    var h=Math.floor(diff/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+    if(diff>0) requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+/* Hide float CTA while hero CTA is visible */
+(function(){
+  var heroCta=document.querySelector('.hero .btn-hero');
+  var floatEl=document.getElementById('float-cta');
+  if(!heroCta||!floatEl) return;
+  var obs=new IntersectionObserver(function(e){
+    floatEl.style.opacity=e[0].isIntersecting?'0':'1';
+    floatEl.style.pointerEvents=e[0].isIntersecting?'none':'auto';
+  },{threshold:0.1});
+  obs.observe(heroCta);
+})();
 </script>
 </body>
 </html>
