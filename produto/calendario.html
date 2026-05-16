@@ -232,6 +232,41 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
   .cal-cell{min-height:54px}
 }
 
+/* ── CSV IMPORT ── */
+.csv-divider{width:100%;max-width:400px;display:flex;align-items:center;gap:10px;margin:4px 0 12px;color:var(--muted);font-size:11px}
+.csv-divider::before,.csv-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.btn-csv-import{width:100%;max-width:400px;background:transparent;border:1.5px dashed var(--border);color:var(--muted);font-size:13px;font-weight:600;padding:13px;border-radius:12px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-csv-import:hover{border-color:var(--accent3);color:var(--accent3);background:rgba(61,223,255,.04)}
+.csv-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;padding:16px}
+.csv-modal-bg.open{display:flex}
+.csv-modal{background:var(--surface);border:1px solid var(--border);border-radius:20px;width:100%;max-width:480px;overflow:hidden}
+.csv-modal-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.csv-modal-hdr h3{font-size:16px;font-weight:800}
+.csv-modal-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;line-height:1;padding:0 4px}
+.csv-modal-body{padding:20px 24px}
+.csv-format-hint{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:11.5px;color:var(--muted);line-height:1.8}
+.csv-format-hint code{color:var(--accent3);background:rgba(61,223,255,.08);padding:1px 5px;border-radius:3px;font-family:monospace}
+.csv-tabs{display:flex;gap:4px;margin-bottom:14px}
+.csv-tab{flex:1;padding:8px;font-size:12px;font-weight:700;border:1.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.csv-tab.active{border-color:var(--accent3);color:var(--accent3);background:rgba(61,223,255,.06)}
+.csv-file-zone{border:2px dashed var(--border);border-radius:12px;padding:28px 16px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.csv-file-zone:hover,.csv-file-zone.drag{border-color:var(--accent3);background:rgba(61,223,255,.04)}
+.csv-file-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.csv-file-icon{font-size:28px;margin-bottom:8px}
+.csv-file-text{font-size:13px;color:var(--muted)}
+.csv-file-name{font-size:12px;color:var(--accent3);font-weight:700;margin-top:6px;min-height:18px}
+.csv-textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px;color:var(--text);font-size:12px;font-family:monospace;resize:vertical;min-height:120px;outline:none;transition:border-color .2s;line-height:1.6}
+.csv-textarea:focus{border-color:var(--accent3)}
+.csv-preview{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-top:12px;font-size:11px;color:var(--muted);display:none}
+.csv-preview.show{display:block}
+.csv-preview strong{color:var(--accent);font-size:12px}
+.csv-modal-ftr{padding:14px 24px 20px;display:flex;gap:10px}
+.btn-csv-cancel{flex:1;padding:12px;background:transparent;border:1.5px solid var(--border);color:var(--muted);font-weight:700;font-size:13px;border-radius:10px;cursor:pointer}
+.btn-csv-apply{flex:2;padding:12px;background:var(--accent3);color:#000;font-weight:900;font-size:13px;border-radius:10px;cursor:pointer;border:none}
+.btn-csv-apply:disabled{opacity:.4;cursor:not-allowed}
+.niche-btn.custom-niche{border-color:rgba(61,223,255,.4);background:rgba(61,223,255,.04)}
+.niche-btn.custom-niche .nb-name,.niche-btn.custom-niche.sel .nb-name{color:var(--accent3)}
+
 /* ── INSTALL BUTTON ── */
 .btn-install{
   background:rgba(200,255,60,.1);border:1px solid rgba(200,255,60,.3);
@@ -368,6 +403,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);min-hei
 
   <div class="ob-label" style="width:100%;max-width:400px">Seu Nicho</div>
   <div class="niche-grid" id="niche-grid"></div>
+  <div class="csv-divider">ou use seu próprio conteúdo</div>
+  <button class="btn-csv-import" onclick="openCsvModal()">📥 Importar temas via CSV</button>
 
   <div class="ob-label" style="width:100%;max-width:400px">Seu Objetivo</div>
   <div class="goal-grid" id="goal-grid"></div>
@@ -834,9 +871,14 @@ let selNiche = null, selGoal = null;
 
 function buildOnboarding() {
   const ng = document.getElementById('niche-grid');
-  niches.forEach(n => {
+  const allNiches = [...niches];
+  // Add custom niche card if CSV has been imported
+  if (nicheTopics['custom'] && nicheTopics['custom'].length) {
+    allNiches.push({ id:'custom', icon:'📂', name:'Meu Conteúdo', sub:`${nicheTopics['custom'].length} temas importados via CSV`, _custom:true });
+  }
+  allNiches.forEach(n => {
     const btn = document.createElement('div');
-    btn.className = 'niche-btn';
+    btn.className = 'niche-btn' + (n._custom ? ' custom-niche' : '');
     btn.innerHTML = `<span class="nb-icon">${n.icon}</span><span class="nb-name">${n.name}</span><span class="nb-sub">${n.sub}</span>`;
     btn.onclick = () => {
       document.querySelectorAll('.niche-btn').forEach(b => b.classList.remove('sel'));
@@ -880,11 +922,13 @@ function showApp() {
   document.getElementById('screen-onboarding').style.display = 'none';
   document.getElementById('screen-app').style.display = 'block';
 
-  const n = niches.find(x => x.id === state.niche);
+  const allNichesForDisplay = [...niches];
+  if (nicheTopics['custom']) allNichesForDisplay.push({ id:'custom', icon:'📂', name:'Meu Conteúdo' });
+  const n = allNichesForDisplay.find(x => x.id === state.niche) || { icon:'📂', name:'Personalizado' };
   const g = goals.find(x => x.id === state.goal);
   document.getElementById('hdr-icon').textContent = n.icon;
   document.getElementById('hdr-name').textContent = n.name;
-  document.getElementById('hdr-goal').textContent = g.label;
+  document.getElementById('hdr-goal').textContent = g ? g.label : '';
 
   updateMonthTabs();
   renderCalendar(state.currentMonth);
@@ -1333,6 +1377,162 @@ setupPWA();
 if (loadState() && state.niche && state.goal) {
   showApp();
 }
+
+// ═══════════════════════════════════════════════════
+// CSV IMPORT
+// ═══════════════════════════════════════════════════
+const CSV_KEY = 'igkit_custom_topics';
+let csvTabActive = 'file'; // 'file' | 'paste'
+let csvParsedTopics = [];
+let csvFileContent = '';
+
+function openCsvModal() {
+  // Reload any previously saved custom topics into the preview
+  const saved = localStorage.getItem(CSV_KEY);
+  if (saved) {
+    try {
+      const topics = JSON.parse(saved);
+      csvParsedTopics = topics;
+      showCsvPreview(topics);
+    } catch(_){}
+  }
+  document.getElementById('csv-modal-bg').classList.add('open');
+}
+
+function closeCsvModal() {
+  document.getElementById('csv-modal-bg').classList.remove('open');
+}
+
+function switchCsvTab(tab) {
+  csvTabActive = tab;
+  document.getElementById('csv-tab-file').classList.toggle('active', tab === 'file');
+  document.getElementById('csv-tab-paste').classList.toggle('active', tab === 'paste');
+  document.getElementById('csv-zone-file').style.display = tab === 'file' ? 'block' : 'none';
+  document.getElementById('csv-zone-paste').style.display = tab === 'paste' ? 'block' : 'none';
+}
+
+function parseCsvText(text) {
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  if (!lines.length) return [];
+  // Detect if first line is a header row (contains 'tema' case-insensitive)
+  const firstCells = lines[0].split(',').map(c => c.replace(/^["']|["']$/g,'').trim().toLowerCase());
+  const temaIdx = firstCells.indexOf('tema');
+  const hasHeader = temaIdx !== -1 || firstCells.some(c => ['titulo','title','topic','assunto'].includes(c));
+  const colIdx = hasHeader ? Math.max(temaIdx, 0) : 0;
+  const dataLines = hasHeader ? lines.slice(1) : lines;
+
+  return dataLines.map(line => {
+    // Handle quoted CSV fields
+    const cells = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"' || ch === "'") { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { cells.push(cur.trim()); cur = ''; }
+      else { cur += ch; }
+    }
+    cells.push(cur.trim());
+    return cells[colIdx] ? cells[colIdx].replace(/^["']|["']$/g,'').trim() : '';
+  }).filter(t => t.length > 0);
+}
+
+function showCsvPreview(topics) {
+  const el = document.getElementById('csv-preview');
+  if (!topics.length) { el.classList.remove('show'); return; }
+  const sample = topics.slice(0,3).map(t => `• ${t}`).join('<br>');
+  el.innerHTML = `<strong>${topics.length} temas encontrados</strong><br>${sample}${topics.length > 3 ? `<br><span style="color:var(--muted)">...e mais ${topics.length-3}</span>` : ''}`;
+  el.classList.add('show');
+  document.getElementById('btn-csv-apply').disabled = false;
+}
+
+function onCsvFileChange(input) {
+  const file = input.files[0];
+  if (!file) return;
+  document.getElementById('csv-file-name').textContent = file.name;
+  const reader = new FileReader();
+  reader.onload = e => {
+    csvFileContent = e.target.result;
+    csvParsedTopics = parseCsvText(csvFileContent);
+    showCsvPreview(csvParsedTopics);
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
+function onCsvPasteInput() {
+  const text = document.getElementById('csv-textarea').value;
+  csvParsedTopics = parseCsvText(text);
+  showCsvPreview(csvParsedTopics);
+}
+
+function applyCsvImport() {
+  if (!csvParsedTopics.length) return;
+  // Save to localStorage
+  localStorage.setItem(CSV_KEY, JSON.stringify(csvParsedTopics));
+  // Add/update custom niche in nicheTopics
+  nicheTopics['custom'] = csvParsedTopics;
+  // Rebuild onboarding to show custom niche card
+  document.getElementById('niche-grid').innerHTML = '';
+  buildOnboarding();
+  // Auto-select custom niche
+  const customBtn = document.querySelector('.niche-btn.custom-niche');
+  if (customBtn) { customBtn.click(); }
+  closeCsvModal();
+  showToast('✓ ' + csvParsedTopics.length + ' temas importados!');
+}
+
+// Restore custom topics on page load
+(function restoreCustomTopics() {
+  const saved = localStorage.getItem(CSV_KEY);
+  if (!saved) return;
+  try {
+    const topics = JSON.parse(saved);
+    if (topics.length) {
+      nicheTopics['custom'] = topics;
+      // Rebuild so the custom niche card appears
+      document.getElementById('niche-grid').innerHTML = '';
+      buildOnboarding();
+    }
+  } catch(_) {}
+})();
 </script>
+
+<!-- CSV IMPORT MODAL -->
+<div class="csv-modal-bg" id="csv-modal-bg" onclick="if(event.target===this)closeCsvModal()">
+  <div class="csv-modal">
+    <div class="csv-modal-hdr">
+      <h3>📥 Importar Temas via CSV</h3>
+      <button class="csv-modal-close" onclick="closeCsvModal()">×</button>
+    </div>
+    <div class="csv-modal-body">
+      <div class="csv-format-hint">
+        <strong style="color:var(--text);display:block;margin-bottom:4px">Formato aceito:</strong>
+        Uma coluna chamada <code>tema</code> (com cabeçalho) — ou simplesmente <strong>uma linha por tema</strong>, sem cabeçalho.<br>
+        Exemplo: <code>tema</code> / <code>Treino em casa</code> / <code>Receita fit</code><br>
+        Separador: vírgula. Mínimo 7 temas recomendado.
+      </div>
+      <div class="csv-tabs">
+        <button class="csv-tab active" id="csv-tab-file" onclick="switchCsvTab('file')">📂 Arquivo .csv</button>
+        <button class="csv-tab" id="csv-tab-paste" onclick="switchCsvTab('paste')">📋 Colar texto</button>
+      </div>
+      <div id="csv-zone-file">
+        <label class="csv-file-zone">
+          <input type="file" accept=".csv,.txt" onchange="onCsvFileChange(this)">
+          <div class="csv-file-icon">📄</div>
+          <div class="csv-file-text">Clique ou arraste o arquivo .csv aqui</div>
+          <div class="csv-file-name" id="csv-file-name"></div>
+        </label>
+      </div>
+      <div id="csv-zone-paste" style="display:none">
+        <textarea class="csv-textarea" id="csv-textarea" placeholder="tema&#10;Treino em casa sem equipamento&#10;Proteína: o que você precisa saber&#10;..." oninput="onCsvPasteInput()"></textarea>
+      </div>
+      <div class="csv-preview" id="csv-preview"></div>
+    </div>
+    <div class="csv-modal-ftr">
+      <button class="btn-csv-cancel" onclick="closeCsvModal()">Cancelar</button>
+      <button class="btn-csv-apply" id="btn-csv-apply" disabled onclick="applyCsvImport()">→ Usar estes temas</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
