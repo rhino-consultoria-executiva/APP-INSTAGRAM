@@ -1,78 +1,85 @@
-# 🗓️ Agenda Inteligente (Telegram → Google Calendar + Alarme Sonoro)
+# 🗓️ Agenda Inteligente (Chat Web por voz → Google Calendar + Alarme)
 
-Sistema de agenda por **voz**: você manda um áudio no Telegram, a IA transcreve e
-interpreta, cria o evento no seu **Google Calendar** (`icm.melo.fm@gmail.com`) e
-dispara um **alarme sonoro** no celular na hora marcada — com o nome do compromisso.
+Sistema de agenda por **voz**: você abre um chat web, manda um áudio, a IA transcreve
+e interpreta, cria o evento no seu **Google Calendar** (`icm.melo.fm@gmail.com`) e
+dispara um **alarme por e-mail + popup do Google Agenda** na hora marcada — com o nome
+do compromisso.
 
 Construído no **n8n** (`https://rhino-n8n.b4rgts.easypanel.host`), projeto pessoal
-`FELIPE DE MELO <icm.melo.fm@gmail.com>`.
+`FELIPE DE MELO <icm.melo.fm@gmail.com>`. **Ambos os workflows estão ATIVOS.**
+
+> Histórico: a primeira versão usava um bot do Telegram, mas o token do bot existente
+> era inválido (o Telegram retornava 404 ao registrar o webhook). Trocamos o canal de
+> entrada para o **chat web hospedado pelo n8n**, que não exige token externo.
+
+## 🔗 Link para usar (abra no celular ou PC)
+
+```
+https://rhino-n8n.b4rgts.easypanel.host/webhook/e2a75f10-0b2c-452e-ab3d-20f11e74bb60/chat
+```
+
+No chat, toque no clipe 📎, grave/anexe um áudio (ex.: *"marcar reunião com o cliente
+amanhã às 14 horas"*) e envie. O bot responde confirmando o agendamento.
 
 ## Fluxo
 
 ```
-🎙️ Áudio no Telegram
+🎙️ Áudio no Chat Web
       │
       ▼
-[Workflow A] Voz → Google Calendar
-  1. Telegram Trigger (recebe a mensagem de voz)
-  2. Baixa o arquivo de áudio
-  3. Transcreve com OpenAI Whisper (pt-BR)
-  4. IA (GPT) interpreta → { título, início, fim, descrição }  (fuso America/Sao_Paulo)
-  5. Normaliza datas (Code)
-  6. Cria evento no Google Calendar (lembretes popup + e-mail)
-  7. Registra o alarme na Data Table `agenda_alarmes`
-  8. Confirma no Telegram ✅
+[Workflow A] Chat Web → Google Calendar   (ATIVO)
+  1. Chat Trigger (upload de áudio)
+  2. Transcreve com OpenAI Whisper (pt-BR)
+  3. IA (GPT) interpreta → { título, início, fim, descrição }  (fuso America/Sao_Paulo)
+  4. Normaliza datas (Code)
+  5. Cria evento no Google Calendar (popup 0/10 min + e-mail 0/30 min)
+  6. Registra o alarme na Data Table `agenda_alarmes`
+  7. Responde no chat ✅
       │
       ▼
-[Workflow B] Alarme Sonoro  (roda a cada 1 minuto)
+[Workflow B] Alarme Sonoro  (ATIVO, roda a cada 1 minuto)
   1. Schedule Trigger (cada minuto)
   2. Busca alarmes pendentes (alarmeEnviado = false)
   3. Filtra os que já chegaram na hora (início <= agora)
-  4. Dispara mensagem de ALARME no Telegram (com som / notificação)
+  4. Envia e-mail de ALARME (Gmail) com o nome do compromisso
   5. Marca como enviado (não repete)
 ```
 
 ## Componentes no n8n
 
-| Item | Nome | ID |
-|------|------|----|
-| Workflow A | Agenda Inteligente: Voz → Google Calendar | `YF1gPgZNtoyjRVFT` |
-| Workflow B | Agenda Inteligente: Alarme Sonoro | `tlehHIPLXlNzHsxv` |
-| Data Table | `agenda_alarmes` | `v6LsFBV6EjBkGwFN` |
+| Item | Nome | ID | Estado |
+|------|------|----|--------|
+| Workflow A | Agenda Inteligente: Chat Web → Google Calendar | `AisGpf3dg4NPrbpQ` | ✅ Ativo |
+| Workflow B | Agenda Inteligente: Alarme Sonoro | `tlehHIPLXlNzHsxv` | ✅ Ativo |
+| Data Table | `agenda_alarmes` | `v6LsFBV6EjBkGwFN` | — |
+| Workflow A (Telegram, antigo) | Agenda Inteligente: Voz → Google Calendar | `YF1gPgZNtoyjRVFT` | 🗄️ Arquivado |
 
-**Colunas da Data Table `agenda_alarmes`:** `chatId` (string), `titulo` (string),
-`inicio` (date), `eventId` (string), `alarmeEnviado` (boolean).
+**Colunas da Data Table `agenda_alarmes`:** `chatId` (string — guarda o e-mail de destino
+do alarme), `titulo` (string), `inicio` (date), `eventId` (string), `alarmeEnviado` (boolean).
 
-**Credenciais usadas (já existentes na conta):** Telegram account, Google Calendar
-account, OpenAi account 5.
+**Credenciais usadas:** OpenAi account 3 (Whisper + GPT), Google Calendar account, Gmail account.
 
 ## Código-fonte (n8n Workflow SDK)
 
-- `workflow-a-voz-para-calendar.ts`
-- `workflow-b-alarme-sonoro.ts`
+- `workflow-a-chat-web-para-calendar.ts` — Workflow A (ATIVO)
+- `workflow-b-alarme-sonoro.ts` — Workflow B (envio por e-mail aplicado via update; o arquivo
+  reflete a versão Telegram original — a fonte da verdade do passo de envio é o n8n)
+- `workflow-a-voz-para-calendar.ts` — versão Telegram original (arquivada, só referência)
 
-São a fonte da verdade. Para recriar/atualizar, use o MCP do n8n
-(`validate_workflow` → `create_workflow_from_code` / `update_workflow`).
+## 🔔 Garantir que o alarme não passe despercebido
 
-## ⚙️ Passos finais para ativar (você precisa fazer)
+Como não usamos mais o Telegram, o alarme chega por **dois caminhos**:
+1. **Popup do Google Agenda** no celular (app Google Agenda → Configurações → Notificações:
+   ative som/alarme). É o que mais se aproxima de "despertar com som".
+2. **E-mail** no exato horário (Workflow B) + lembrete por e-mail do próprio evento.
 
-1. **Confirme o bot do Telegram.** O Workflow A usa a credencial *"Telegram account"*.
-   - ⚠️ Um bot do Telegram só pode ter **um** webhook ativo por vez. Se essa mesma
-     credencial já é usada por outro workflow ativo (ex.: *"ATENDENTE PRINCIPAL - (RHINO)"*),
-     **crie um bot novo** com o [@BotFather](https://t.me/BotFather) só para a agenda e
-     cadastre a credencial nele. Caso contrário haverá conflito.
-2. **Inicie uma conversa com o bot** (envie qualquer mensagem) para que ele consiga te responder.
-3. **Ative o Workflow A** e o **Workflow B** (toggle "Active" em cada um).
-4. **Teste:** mande um áudio do tipo *"marcar reunião com o cliente amanhã às 14 horas"*.
-   - O bot deve responder confirmando, o evento aparece no Google Calendar e, na hora,
-     chega o alarme.
-5. **Som garantido no celular:**
-   - No app **Google Agenda** → Configurações → Notificações: ative som/alarme.
-   - No **Telegram**: deixe as notificações do bot com som alto e sem silenciar a conversa.
-     O alarme do Workflow B usa notificação sonora (não silenciosa).
+> Para um som forte estilo despertador, deixe o app **Google Agenda** com notificação
+> sonora alta e a conta `icm.melo.fm@gmail.com` logada no celular.
 
 ## Observações
 
 - Fuso fixo em `America/Sao_Paulo` (-03:00). A IA calcula "amanhã", "sexta", "daqui a 2h" etc.
 - O alarme dispara em até ~1 min da hora marcada (granularidade do schedule).
 - Idempotência: cada alarme é enviado **uma única vez** (campo `alarmeEnviado`).
+- Se a transcrição falhar, o ajuste mais provável é o nome da propriedade binária do
+  áudio no nó *Transcrever Áudio (Whisper)* (`binaryPropertyName`, hoje `data`).
