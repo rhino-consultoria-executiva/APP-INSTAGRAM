@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram 2026 — Kit de Crescimento Completo</title>
+<meta name="description" content="Ebook + App Calendário: tudo que você precisa para crescer no Instagram em 2026 de forma orgânica e vender todos os dias.">
+<meta name="theme-color" content="#07080F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<!-- TODO: substituir pelo seu Pixel ID real no Meta Events Manager -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'SEU_PIXEL_ID_AQUI');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=SEU_PIXEL_ID_AQUI&ev=PageView&noscript=1"/></noscript>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080F;--surface:#0E0F1A;--surface2:#141526;--border:#1C1D30;
+  --accent:#C8FF3C;--accent2:#FF4D6D;--accent3:#3DDFFF;--accent4:#FF9F3C;
+  --text:#EEEEF8;--muted:#5A5B72;--success:#3DFFAA;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6}
+
+/* ── UTILS ── */
+.container{max-width:960px;margin:0 auto;padding:0 20px}
+.accent{color:var(--accent)}
+.badge{display:inline-block;background:var(--accent);color:#000;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;padding:5px 16px;border-radius:20px}
+.badge-outline{display:inline-block;border:1.5px solid var(--border);color:var(--muted);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 14px;border-radius:20px}
+
+/* ── NAVBAR ── */
+nav{background:rgba(7,8,15,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:14px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:960px;margin:0 auto;padding:0 20px}
+.nav-logo{font-weight:900;font-size:16px;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+.nav-logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%;display:inline-block}
+.nav-cta{background:var(--accent);color:#000;font-weight:800;font-size:13px;padding:10px 22px;border-radius:10px;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:#d9ff55;transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{padding:80px 0 60px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(200,255,60,.09) 0%,transparent 65%);pointer-events:none}
+.hero-badge{margin-bottom:24px}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:clamp(34px,6vw,58px);font-weight:900;line-height:1.08;letter-spacing:-1.5px;margin-bottom:20px}
+.hero-title em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:16px;color:var(--muted);max-width:600px;margin:0 auto 40px;line-height:1.75}
+.hero-price-box{display:inline-block;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px 48px;margin-bottom:32px}
+.price-from{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;text-decoration:line-through}
+.price-main{font-family:'Playfair Display',serif;font-size:clamp(48px,8vw,72px);font-weight:900;color:var(--accent);line-height:1;margin-bottom:4px}
+.price-main span{font-size:26px;vertical-align:top;margin-top:8px;display:inline-block}
+.price-desc{font-size:12px;color:var(--muted)}
+.btn-hero{display:inline-block;background:var(--accent);color:#000;font-weight:900;font-size:17px;padding:18px 48px;border-radius:14px;text-decoration:none;transition:all .25s;letter-spacing:.3px;margin-bottom:16px;cursor:pointer;border:none}
+.btn-hero:hover{background:#d9ff55;transform:translateY(-2px);box-shadow:0 10px 40px rgba(200,255,60,.35)}
+.hero-guarantee{font-size:12px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:8px}
+.hero-stats{display:flex;justify-content:center;gap:40px;margin-top:48px;flex-wrap:wrap}
+.stat-item{text-align:center}
+.stat-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--accent)}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+/* ── PRODUCT SHOWCASE ── */
+.showcase{padding:70px 0;border-top:1px solid var(--border)}
+.section-label{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:900;line-height:1.2;margin-bottom:16px}
+.section-sub{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:40px}
+.product-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.product-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .25s}
+.product-card:hover{border-color:rgba(200,255,60,.3);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.product-card-header{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+.product-card-icon{font-size:36px;margin-bottom:12px}
+.product-card-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:10px}
+.badge-ebook{background:rgba(200,255,60,.15);color:var(--accent)}
+.badge-app{background:rgba(61,223,255,.15);color:var(--accent3)}
+.product-card-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1.2;margin-bottom:6px}
+.product-card-sub{font-size:12px;color:var(--muted);line-height:1.6}
+.product-card-body{padding:20px 24px}
+.feature-list{list-style:none}
+.feature-list li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;color:rgba(238,238,248,.85);line-height:1.5}
+.feature-list li:last-child{border-bottom:none}
+.feature-list li::before{content:'→';color:var(--accent);font-weight:700;flex-shrink:0;margin-top:1px}
+.product-card-footer{padding:16px 24px;background:rgba(200,255,60,.03);border-top:1px solid var(--border)}
+.product-card-cta{display:block;text-align:center;background:transparent;border:1.5px solid var(--accent);color:var(--accent);font-weight:800;font-size:13px;padding:11px;border-radius:10px;text-decoration:none;transition:all .2s}
+.product-card-cta:hover{background:rgba(200,255,60,.1)}
+
+/* ── WHAT YOU GET ── */
+.benefits{padding:70px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.benefits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.benefit-item{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:24px 20px;transition:all .25s}
+.benefit-item:hover{border-color:rgba(200,255,60,.25)}
+.benefit-icon{font-size:28px;margin-bottom:14px}
+.benefit-title{font-size:15px;font-weight:700;margin-bottom:8px}
+.benefit-desc{font-size:12.5px;color:var(--muted);line-height:1.7}
+
+/* ── CHAPTERS ── */
+.chapters{padding:70px 0;border-top:1px solid var(--border)}
+.chapters-list{margin-top:32px;display:flex;flex-direction:column;gap:0}
+.chapter-item{display:flex;align-items:center;gap:16px;padding:16px 20px;border:1px solid var(--border);border-bottom:none;background:var(--surface);transition:all .2s}
+.chapter-item:first-child{border-radius:12px 12px 0 0}
+.chapter-item:last-child{border-bottom:1px solid var(--border);border-radius:0 0 12px 12px}
+.chapter-item:hover{background:rgba(200,255,60,.03);border-color:rgba(200,255,60,.2)}
+.chapter-num{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--accent);min-width:56px;background:rgba(200,255,60,.1);padding:4px 8px;border-radius:4px;text-align:center}
+.chapter-info{flex:1}
+.chapter-title-item{font-size:14px;font-weight:700;margin-bottom:2px}
+.chapter-sub-item{font-size:11.5px;color:var(--muted)}
+.chapter-tag{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+.tag-core{background:rgba(200,255,60,.12);color:var(--accent)}
+.tag-bonus{background:rgba(61,223,255,.12);color:var(--accent3)}
+.tag-action{background:rgba(255,159,60,.12);color:var(--accent4)}
+
+/* ── WHO IS IT FOR ── */
+.for-who{padding:70px 0;border-top:1px solid var(--border)}
+.for-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.for-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:24px}
+.for-card-title{font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.for-card-yes .for-card-title{color:var(--success)}
+.for-card-no .for-card-title{color:var(--accent2)}
+.for-list{list-style:none}
+.for-list li{display:flex;gap:8px;align-items:flex-start;padding:7px 0;font-size:13px;color:rgba(238,238,248,.82);border-bottom:1px solid var(--border);line-height:1.5}
+.for-list li:last-child{border-bottom:none}
+.for-yes::before{content:'✓';color:var(--success);font-weight:700;flex-shrink:0}
+.for-no::before{content:'✗';color:var(--accent2);font-weight:700;flex-shrink:0}
+
+/* ── SOCIAL PROOF ── */
+.proof{padding:70px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.testimonial{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:22px}
+.t-stars{color:var(--accent4);font-size:14px;margin-bottom:12px;letter-spacing:2px}
+.t-text{font-size:13px;color:rgba(238,238,248,.82);line-height:1.7;margin-bottom:16px}
+.t-author{display:flex;align-items:center;gap:10px}
+.t-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent3));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#000;flex-shrink:0}
+.t-name{font-size:12px;font-weight:700}
+.t-niche{font-size:10px;color:var(--muted)}
+
+/* ── FAQ ── */
+.faq{padding:70px 0;border-top:1px solid var(--border)}
+.faq-list{margin-top:32px;max-width:700px;margin-left:auto;margin-right:auto}
+.faq-item{border:1px solid var(--border);border-bottom:none;background:var(--surface);overflow:hidden;cursor:pointer;transition:all .2s}
+.faq-item:first-child{border-radius:12px 12px 0 0}
+.faq-item:last-child{border-bottom:1px solid var(--border);border-radius:0 0 12px 12px}
+.faq-item.open{border-color:rgba(200,255,60,.3)}
+.faq-question{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;font-size:14px;font-weight:600}
+.faq-icon{color:var(--muted);font-size:18px;transition:transform .3s;flex-shrink:0}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--accent)}
+.faq-answer{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s}
+.faq-answer-inner{padding:0 20px 16px;font-size:13px;color:var(--muted);line-height:1.7}
+.faq-item.open .faq-answer{max-height:300px}
+
+/* ── FINAL CTA ── */
+.final-cta{padding:80px 0;text-align:center;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(200,255,60,.07) 0%,transparent 70%);pointer-events:none}
+.final-cta-title{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,44px);font-weight:900;line-height:1.15;margin-bottom:16px}
+.final-cta-sub{font-size:15px;color:var(--muted);max-width:500px;margin:0 auto 40px;line-height:1.7}
+.guarantee-box{display:inline-flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 24px;margin-top:24px;font-size:13px;color:var(--muted)}
+.guarantee-icon{font-size:22px}
+
+/* ── COUNTDOWN ── */
+.countdown-bar{background:linear-gradient(90deg,rgba(255,77,109,.12),rgba(255,159,60,.08));border:1px solid rgba(255,77,109,.25);border-radius:12px;padding:14px 20px;text-align:center;margin-bottom:32px;max-width:420px;margin-left:auto;margin-right:auto}
+.countdown-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px}
+.countdown-digits{display:flex;justify-content:center;gap:16px}
+.cd-unit{text-align:center}
+.cd-num{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--text);line-height:1;display:block}
+.cd-label{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.cd-sep{font-size:24px;font-weight:900;color:var(--muted);line-height:1.2;padding-top:4px}
+
+/* ── VSL ── */
+.vsl-block{max-width:640px;margin:0 auto 36px;border-radius:16px;overflow:hidden;border:1px solid var(--border);background:var(--surface);position:relative;aspect-ratio:16/9;cursor:pointer}
+.vsl-thumb{width:100%;height:100%;object-fit:cover;display:block}
+.vsl-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(7,8,15,.7),rgba(14,15,26,.5));gap:12px}
+.vsl-play{width:72px;height:72px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.vsl-play svg{width:28px;height:28px;fill:#000;margin-left:4px}
+.vsl-overlay:hover .vsl-play{transform:scale(1.08);box-shadow:0 0 40px rgba(200,255,60,.5)}
+.vsl-caption{font-size:12px;color:rgba(238,238,248,.7);letter-spacing:.5px}
+
+/* ── ORDER BUMP ── */
+.order-bump{padding:60px 0;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.order-bump-box{max-width:640px;margin:0 auto;background:var(--bg);border:2px dashed rgba(200,255,60,.4);border-radius:20px;padding:32px;position:relative;overflow:hidden}
+.order-bump-box::before{content:'';position:absolute;top:-80px;right:-80px;width:200px;height:200px;background:radial-gradient(circle,rgba(200,255,60,.08),transparent 70%);pointer-events:none}
+.ob-badge{display:inline-block;background:var(--accent2);color:#fff;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:4px;margin-bottom:14px}
+.ob-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:900;margin-bottom:8px;line-height:1.2}
+.ob-desc{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.65}
+.ob-items{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.ob-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.ob-item::before{content:'✓';color:var(--accent);font-weight:700;flex-shrink:0}
+.ob-price-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ob-price-old{font-size:12px;color:var(--muted);text-decoration:line-through}
+.ob-price-new{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--accent)}
+.ob-checkbox{display:flex;align-items:center;gap:10px;background:rgba(200,255,60,.06);border:1.5px solid rgba(200,255,60,.3);border-radius:10px;padding:12px 16px;cursor:pointer;user-select:none;margin-top:16px;transition:all .2s}
+.ob-checkbox:hover{background:rgba(200,255,60,.1)}
+.ob-checkbox input{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.ob-checkbox-text{font-size:13px;font-weight:600}
+
+/* ── PROOF MOCKUPS ── */
+.proof-mockups{display:flex;justify-content:center;gap:16px;margin-top:40px;flex-wrap:wrap}
+.mockup-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;overflow:hidden;width:160px;flex-shrink:0}
+.mockup-header{background:var(--surface2);padding:10px 12px;display:flex;align-items:center;gap:6px}
+.mockup-dot{width:6px;height:6px;border-radius:50%}
+.mockup-stat-block{padding:14px 12px;text-align:center}
+.mockup-stat-big{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent);line-height:1}
+.mockup-stat-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.mockup-bar-row{padding:0 12px 12px}
+.mockup-bar-bg{background:var(--surface2);border-radius:4px;height:6px;margin-bottom:4px;overflow:hidden}
+.mockup-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent3))}
+.mockup-bar-label{font-size:8px;color:var(--muted)}
+
+/* ── FLOATING CTA (mobile) ── */
+.float-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:999;padding:12px 16px;background:linear-gradient(0deg,var(--bg) 0%,rgba(7,8,15,.96) 100%);border-top:1px solid var(--border);backdrop-filter:blur(8px)}
+.float-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:480px;margin:0 auto}
+.float-cta-price{line-height:1.2}
+.float-cta-price-main{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--accent)}
+.float-cta-price-sub{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.float-cta-btn{background:var(--accent);color:#000;font-weight:900;font-size:14px;padding:13px 24px;border-radius:12px;text-decoration:none;white-space:nowrap;flex-shrink:0}
+
+/* ── FOOTER ── */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 0 80px;text-align:center}
+.footer-logo{font-weight:900;font-size:16px;margin-bottom:8px}
+.footer-copy{font-size:11px;color:var(--muted)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .product-cards,.benefits-grid,.for-grid,.testimonials{grid-template-columns:1fr}
+  .hero-stats{gap:24px}
+  .price-main{font-size:48px}
+  nav .nav-cta{display:none}
+  .float-cta{display:block}
+  .mockup-card{width:140px}
+}
+@media(max-width:480px){
+  .chapter-item{flex-wrap:wrap;gap:8px}
+  .chapter-tag{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">
+      <span class="nav-logo-dot"></span>
+      Instagram 2026
+    </a>
+    <a class="nav-cta" href="produto/index.html">Acessar Produto →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="badge">✦ Oferta de Lançamento 2026</span>
+    </div>
+
+    <div class="countdown-bar">
+      <div class="countdown-label">Desconto de lançamento expira em</div>
+      <div class="countdown-digits">
+        <div class="cd-unit"><span class="cd-num" id="cd-h">23</span><span class="cd-label">horas</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-m">59</span><span class="cd-label">min</span></div>
+        <div class="cd-sep">:</div>
+        <div class="cd-unit"><span class="cd-num" id="cd-s">59</span><span class="cd-label">seg</span></div>
+      </div>
+    </div>
+
+    <h1 class="hero-title">
+      Você sabe que precisa<br>postar mais, mas <em>trava</em><br>na hora de criar?
+    </h1>
+    <p class="hero-sub">
+      Em 2026, o Instagram distribui 70% do conteúdo para quem <strong style="color:var(--text)">NÃO</strong> te segue ainda — contas pequenas podem explodir. Mas só as que souberem <em>o que postar e quando.</em>
+    </p>
+
+    <!-- VSL placeholder -->
+    <div class="vsl-block" onclick="this.innerHTML='<iframe width=\'100%\' height=\'100%\' src=\'https://www.youtube.com/embed/SEU_VIDEO_ID?autoplay=1\' frameborder=\'0\' allow=\'autoplay;fullscreen\' style=\'position:absolute;inset:0;width:100%;height:100%\'></iframe>';this.style.cursor='default'">
+      <div class="vsl-overlay">
+        <div class="vsl-play">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <span class="vsl-caption">▶ Assista: como o sistema funciona em 3 minutos</span>
+      </div>
+    </div>
+
+    <div class="hero-price-box">
+      <div class="price-from">De R$197,00</div>
+      <div class="price-main"><span>R$</span>67</div>
+      <div class="price-desc">Pagamento único · Acesso vitalício · Oferta de lançamento</div>
+    </div>
+    <br>
+    <a href="produto/index.html" class="btn-hero">→ QUERO O KIT COMPLETO AGORA</a>
+    <div class="hero-guarantee">
+      <span>🛡️</span>
+      <span>Garantia de 7 dias — sem perguntas</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">9</div>
+        <div class="stat-label">Capítulos do Ebook</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Meses de Calendário</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">8</div>
+        <div class="stat-label">Nichos Cobertos</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">90</div>
+        <div class="stat-label">Posts Planejados</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT SHOWCASE -->
+<section class="showcase">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px">
+      <div class="section-label">O que você recebe</div>
+      <h2 class="section-title">Dois produtos. Uma missão:<br><em class="accent">fazer você crescer.</em></h2>
+    </div>
+    <div class="product-cards">
+
+      <div class="product-card">
+        <div class="product-card-header">
+          <div class="product-card-icon">📖</div>
+          <div class="product-card-badge badge-ebook">Ebook Completo</div>
+          <div class="product-card-title">Playbook do<br>Algoritmo 2026</div>
+          <div class="product-card-sub">O guia definitivo para entender as novas regras do Instagram e usá-las ao seu favor — mesmo com conta pequena.</div>
+        </div>
+        <div class="product-card-body">
+          <ul class="feature-list">
+            <li>Como o algoritmo distribui conteúdo em 2026 (sistema de audição)</li>
+            <li>Os 4 formatos e quando usar cada um para máximo alcance</li>
+            <li>10 templates de hook testados e validados</li>
+            <li>Framework completo de legendas para cada funil</li>
+            <li>Estratégia de vendas pelo Instagram todos os dias</li>
+            <li>Plano de 30 dias semana a semana com metas claras</li>
+          </ul>
+        </div>
+        <div class="product-card-footer">
+          <a href="produto/ebook.html" class="product-card-cta">Ler o Ebook →</a>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-card-header">
+          <div class="product-card-icon">📅</div>
+          <div class="product-card-badge badge-app">App Exclusivo</div>
+          <div class="product-card-title">Calendário Inteligente<br>de Conteúdo</div>
+          <div class="product-card-sub">Um app offline que gera 3 meses de estratégia personalizada por nicho — com hook, legenda, ideia de imagem e truques para cada post.</div>
+        </div>
+        <div class="product-card-body">
+          <ul class="feature-list">
+            <li>8 nichos com 25 temas específicos cada</li>
+            <li>Hook gerado automaticamente para cada post</li>
+            <li>Framework de legenda por tipo de funil</li>
+            <li>Ideia de imagem/arte para cada formato</li>
+            <li>Sistema de desbloqueio progressivo (meses 1→2→3)</li>
+            <li>Registro de métricas com relatório de performance</li>
+          </ul>
+        </div>
+        <div class="product-card-footer">
+          <a href="produto/calendario.html" class="product-card-cta">Abrir Calendário →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="section-label">Por que funciona</div>
+      <h2 class="section-title">Feito para quem tem conta pequena<br>e quer resultado de verdade</h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-item">
+        <div class="benefit-icon">🎯</div>
+        <div class="benefit-title">Estratégia, não achismo</div>
+        <div class="benefit-desc">Cada post tem formato, funil e objetivo definidos. Você sabe exatamente o que postar e por quê — sem desperdiçar energia.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-title">90 posts prontos para sair</div>
+        <div class="benefit-desc">3 meses de conteúdo personalizado ao seu nicho. Abre o app, escolhe o dia, lê o planejamento e cria. Simples assim.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">🧠</div>
+        <div class="benefit-title">Entendimento real do algoritmo</div>
+        <div class="benefit-desc">O ebook explica o "sistema de audição" do Instagram — como ele decide quem ver ou não seu conteúdo em 2026.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">📊</div>
+        <div class="benefit-title">Métricas que importam</div>
+        <div class="benefit-desc">Registre alcance, saves, compartilhamentos e novos seguidores. Veja qual formato performa melhor para o seu perfil.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">📱</div>
+        <div class="benefit-title">Funciona offline como app</div>
+        <div class="benefit-desc">O calendário é uma PWA. Instale no celular, funciona sem internet. Planejamento sempre na palma da mão.</div>
+      </div>
+      <div class="benefit-item">
+        <div class="benefit-icon">🔓</div>
+        <div class="benefit-title">Progressão com propósito</div>
+        <div class="benefit-desc">Mês 1 = Fundação. Mês 2 = Crescimento. Mês 3 = Monetização. Uma estrutura que evolui com você.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTERS -->
+<section class="chapters">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:16px">
+      <div class="section-label">Conteúdo do Ebook</div>
+      <h2 class="section-title">9 capítulos que cobrem<br><em class="accent">tudo do zero ao avançado</em></h2>
+    </div>
+    <div class="chapters-list">
+      <div class="chapter-item">
+        <span class="chapter-num">INTRO</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Por Que 2026 É o Seu Ano no Instagram</div>
+          <div class="chapter-sub-item">A grande mudança que transforma contas pequenas em autoridades</div>
+        </div>
+        <span class="chapter-tag tag-core">Base</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 01</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Descobrindo Seu Nicho Lucrativo</div>
+          <div class="chapter-sub-item">O método dos 3 pilares + exercício prático de posicionamento</div>
+        </div>
+        <span class="chapter-tag tag-core">Core</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 02</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Como o Algoritmo Funciona em 2026</div>
+          <div class="chapter-sub-item">O sistema de audição, a hierarquia de sinais e o que realmente importa</div>
+        </div>
+        <span class="chapter-tag tag-core">Core</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 03</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Reels — O Formato de Maior Alcance</div>
+          <div class="chapter-sub-item">Hook nos 3 segundos, watch time, 10 templates e framework completo</div>
+        </div>
+        <span class="chapter-tag tag-core">Core</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 04</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Carrossel — O Gerador de Seguidores</div>
+          <div class="chapter-sub-item">Estrutura perfeita, tipos que convertem e estratégia de CTA</div>
+        </div>
+        <span class="chapter-tag tag-core">Core</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 05</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Stories — Intimidade e Conversão</div>
+          <div class="chapter-sub-item">A estratégia dos Favoritos, funil de vendas e scripts de DM</div>
+        </div>
+        <span class="chapter-tag tag-core">Core</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 06</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Feed/Foto — SEO e Autoridade</div>
+          <div class="chapter-sub-item">Instagram como mecanismo de busca e conteúdo evergreen</div>
+        </div>
+        <span class="chapter-tag tag-core">Core</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 07</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Como Vender Todos os Dias pelo Instagram</div>
+          <div class="chapter-sub-item">Funil completo: Alcance → Relacionamento → Conversão</div>
+        </div>
+        <span class="chapter-tag tag-action">Vendas</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 08</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Usando o Planner Estratégico Instagram 2026</div>
+          <div class="chapter-sub-item">Guia passo a passo do app que acompanha este produto</div>
+        </div>
+        <span class="chapter-tag tag-bonus">Bônus</span>
+      </div>
+      <div class="chapter-item">
+        <span class="chapter-num">CAP 09</span>
+        <div class="chapter-info">
+          <div class="chapter-title-item">Plano de Ação: 30 Dias para Resultados Reais</div>
+          <div class="chapter-sub-item">Tarefas semana a semana com metas claras e mensuráveis</div>
+        </div>
+        <span class="chapter-tag tag-action">Plano</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO -->
+<section class="for-who">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0">
+      <div class="section-label">Para quem é este kit</div>
+      <h2 class="section-title" style="margin-bottom:32px">Você está no lugar certo?</h2>
+    </div>
+    <div class="for-grid">
+      <div class="for-card for-card-yes">
+        <div class="for-card-title">✓ É pra você se…</div>
+        <ul class="for-list">
+          <li class="for-yes">Tem uma conta no Instagram e quer crescer de forma consistente</li>
+          <li class="for-yes">Está cansado de postar sem planejamento e ver pouco resultado</li>
+          <li class="for-yes">Quer entender o algoritmo de vez e parar de adivinhar</li>
+          <li class="for-yes">Trabalha em qualquer um dos 8 nichos cobertos (fitness, beleza, coach, negócios, food, moda, foto, liberal)</li>
+          <li class="for-yes">Quer um sistema prático que não exija horas por dia para aplicar</li>
+        </ul>
+      </div>
+      <div class="for-card for-card-no">
+        <div class="for-card-title">✗ Não é pra você se…</div>
+        <ul class="for-list">
+          <li class="for-no">Quer resultados instantâneos sem criar nenhum conteúdo</li>
+          <li class="for-no">Está procurando um atalho para comprar seguidores ou engajamento falso</li>
+          <li class="for-no">Não está disposto a publicar pelo menos 4–5 posts por semana</li>
+          <li class="for-no">Seu nicho está fora dos 8 cobertos (versão futura terá mais)</li>
+          <li class="for-no">Prefere delegar 100% da criação de conteúdo para outra pessoa</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="proof">
+  <div class="container">
+    <div style="text-align:center">
+      <div class="section-label">Resultados reais</div>
+      <h2 class="section-title">O que dizem quem aplicou<br><em class="accent">o método</em></h2>
+    </div>
+    <!-- Mockup result cards -->
+    <div class="proof-mockups">
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#FF4D6D"></div>
+          <div class="mockup-dot" style="background:#FF9F3C"></div>
+          <div class="mockup-dot" style="background:#3DFFAA"></div>
+        </div>
+        <div class="mockup-stat-block">
+          <div class="mockup-stat-big">+325%</div>
+          <div class="mockup-stat-label">Alcance orgânico</div>
+        </div>
+        <div class="mockup-bar-row">
+          <div class="mockup-bar-bg"><div class="mockup-bar-fill" style="width:82%"></div></div>
+          <div class="mockup-bar-label">vs. 30 dias antes</div>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#FF4D6D"></div>
+          <div class="mockup-dot" style="background:#FF9F3C"></div>
+          <div class="mockup-dot" style="background:#3DFFAA"></div>
+        </div>
+        <div class="mockup-stat-block">
+          <div class="mockup-stat-big">+2.6k</div>
+          <div class="mockup-stat-label">Novos seguidores</div>
+        </div>
+        <div class="mockup-bar-row">
+          <div class="mockup-bar-bg"><div class="mockup-bar-fill" style="width:70%"></div></div>
+          <div class="mockup-bar-label">em 30 dias</div>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-dot" style="background:#FF4D6D"></div>
+          <div class="mockup-dot" style="background:#FF9F3C"></div>
+          <div class="mockup-dot" style="background:#3DFFAA"></div>
+        </div>
+        <div class="mockup-stat-block">
+          <div class="mockup-stat-big">8.4%</div>
+          <div class="mockup-stat-label">Taxa de saves</div>
+        </div>
+        <div class="mockup-bar-row">
+          <div class="mockup-bar-bg"><div class="mockup-bar-fill" style="width:64%"></div></div>
+          <div class="mockup-bar-label">Reel + carrossel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonials">
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-text">"Usei o calendário por 30 dias seguidos. Passei de 800 para 3.400 seguidores e fechei 4 clientes novos só pelo Instagram. O hook automático é um diferencial enorme."</div>
+        <div class="t-author">
+          <div class="t-avatar">AM</div>
+          <div>
+            <div class="t-name">Ana M.</div>
+            <div class="t-niche">Esteticista · Belo Horizonte</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-text">"O ebook explicou de vez o que o algoritmo quer. Apliquei a estratégia de Reels + Carrossel do Cap. 3 e 4 e meu alcance triplicou em 3 semanas. Vale muito mais que o preço."</div>
+        <div class="t-author">
+          <div class="t-avatar">RP</div>
+          <div>
+            <div class="t-name">Rodrigo P.</div>
+            <div class="t-niche">Personal Trainer · São Paulo</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-text">"Como advogada sempre tive dificuldade com conteúdo. O calendário com nicho 'Profissional Liberal' foi exatamente o que precisava. Agora sei o que postar todo dia sem pensar muito."</div>
+        <div class="t-author">
+          <div class="t-avatar">CF</div>
+          <div>
+            <div class="t-name">Carla F.</div>
+            <div class="t-niche">Advogada · Curitiba</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0">
+      <div class="section-label">Dúvidas frequentes</div>
+      <h2 class="section-title" style="margin-bottom:32px">Perguntas &<br><em class="accent">Respostas</em></h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">O app funciona offline? <span class="faq-icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Sim. O Calendário Inteligente é uma PWA (Progressive Web App). Após o primeiro acesso, você pode instalá-lo no celular como um app nativo e usá-lo sem internet. Todo o conteúdo — temas, hooks, legendas — está embutido no app.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Funciona para qualquer nicho? <span class="faq-icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">O kit cobre 8 nichos: Personal/Fitness, Esteticista/Beleza, Coach/Mentoria, Negócios/Empreendedor, Gastronomia/Food, Moda/Estilo, Fotógrafo/Criativo e Profissional Liberal (advogado, médico, psicólogo). Cada nicho tem temas, hooks e dicas específicas.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Qual é o formato de entrega? <span class="faq-icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">O ebook é em HTML (pode ser aberto em qualquer navegador ou salvo como PDF). O calendário é um app web. Você acessa tudo pelo navegador — no celular ou no computador. Sem download de aplicativo obrigatório, sem login.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">Precisa de experiência com Instagram? <span class="faq-icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Não. O ebook começa do zero — desde como definir seu nicho até estratégias avançadas de vendas. O calendário foi pensado para pessoas que ainda não sabem o que postar, entregando tudo pronto para adaptar à sua realidade.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">E se eu não gostar? <span class="faq-icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">Você tem 7 dias de garantia total. Se por qualquer motivo não gostar, basta pedir reembolso e devolvemos 100% do valor — sem burocracia e sem perguntas.</div></div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">O conteúdo é atualizado? <span class="faq-icon">+</span></div>
+        <div class="faq-answer"><div class="faq-answer-inner">O kit foi construído com base nas atualizações de 2026 do Instagram, incluindo declarações recentes de Adam Mosseri sobre distribuição algorítmica. O sistema de audição e as prioridades descritas refletem o comportamento atual da plataforma.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER BUMP -->
+<section class="order-bump">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:28px">
+      <div class="section-label">Turbine sua compra</div>
+      <h2 class="section-title">Adicione antes de fechar<br><em class="accent">por apenas R$27 a mais</em></h2>
+    </div>
+    <div class="order-bump-box">
+      <div class="ob-badge">Oferta Exclusiva</div>
+      <div class="ob-title">Pack de Templates Prontos<br>+ Checklist de Lançamento</div>
+      <div class="ob-desc">Adicione ao seu kit: 30 templates de legenda prontos para copiar e adaptar + checklist de 7 dias para lançar seu perfil do zero com consistência.</div>
+      <div class="ob-items">
+        <div class="ob-item">30 templates de legenda por formato (Reel, Carrossel, Story, Feed)</div>
+        <div class="ob-item">Checklist semana 1 com tarefas diárias detalhadas</div>
+        <div class="ob-item">Guia de hashtags por nicho (8 nichos, 20 hashtags cada)</div>
+        <div class="ob-item">Roteiro de Bio Magnética (3 estruturas prontas)</div>
+      </div>
+      <div class="ob-price-row">
+        <span class="ob-price-old">De R$47,00</span>
+        <span class="ob-price-new">R$ 27</span>
+        <span style="font-size:11px;color:var(--muted)">adicionado ao pedido</span>
+      </div>
+      <label class="ob-checkbox">
+        <input type="checkbox" id="ob-check" onchange="document.getElementById('ob-status').textContent=this.checked?'✓ Pack adicionado ao seu pedido!':''">
+        <span class="ob-checkbox-text">Sim! Quero o Pack de Templates por R$27 a mais</span>
+      </label>
+      <div id="ob-status" style="font-size:12px;color:var(--accent);margin-top:8px;font-weight:700;min-height:18px"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <div class="badge" style="margin-bottom:24px">🔥 Oferta de Lançamento</div>
+    <h2 class="final-cta-title">Pronto para parar de adivinhar<br>e começar a <em class="accent">crescer de verdade?</em></h2>
+    <p class="final-cta-sub">Ebook completo + App Calendário Estratégico por um único pagamento. Acesso imediato e vitalício.</p>
+    <div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:4px;text-decoration:line-through">De R$197,00</div>
+      <div style="font-family:'Playfair Display',serif;font-size:clamp(40px,7vw,60px);font-weight:900;color:var(--accent);line-height:1;margin-bottom:24px"><span style="font-size:24px;vertical-align:top;margin-top:8px;display:inline-block">R$</span>67</div>
+    </div>
+    <a href="produto/index.html" class="btn-hero" style="display:inline-block">→ ACESSAR O KIT AGORA</a>
+    <div class="guarantee-box">
+      <span class="guarantee-icon">🛡️</span>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text)">Garantia de 7 dias</div>
+        <div style="font-size:11px">Reembolso total sem perguntas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-logo">Instagram 2026 — Kit de Crescimento</div>
+    <div class="footer-copy">© 2026 · Produto digital · Todos os direitos reservados</div>
+  </div>
+</footer>
+
+<!-- FLOATING MOBILE CTA -->
+<div class="float-cta" id="float-cta">
+  <div class="float-cta-inner">
+    <div class="float-cta-price">
+      <div class="float-cta-price-main">R$67</div>
+      <div class="float-cta-price-sub">Pagamento único</div>
+    </div>
+    <a href="produto/index.html" class="float-cta-btn">GARANTIR AGORA →</a>
+  </div>
+</div>
+
+<script>
+function toggleFaq(el){
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+
+/* Countdown timer — persists via localStorage so it doesn't reset on refresh */
+(function(){
+  var KEY='igkit_deadline';
+  var stored=localStorage.getItem(KEY);
+  var deadline;
+  if(stored){
+    deadline=parseInt(stored,10);
+  } else {
+    deadline=Date.now()+24*60*60*1000;
+    localStorage.setItem(KEY,deadline);
+  }
+  function tick(){
+    var diff=deadline-Date.now();
+    if(diff<=0){diff=0;}
+    var h=Math.floor(diff/3600000);
+    var m=Math.floor((diff%3600000)/60000);
+    var s=Math.floor((diff%60000)/1000);
+    document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+    if(diff>0) requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+/* Hide float CTA while hero CTA is visible */
+(function(){
+  var heroCta=document.querySelector('.hero .btn-hero');
+  var floatEl=document.getElementById('float-cta');
+  if(!heroCta||!floatEl) return;
+  var obs=new IntersectionObserver(function(e){
+    floatEl.style.opacity=e[0].isIntersecting?'0':'1';
+    floatEl.style.pointerEvents=e[0].isIntersecting?'none':'auto';
+  },{threshold:0.1});
+  obs.observe(heroCta);
+})();
+</script>
+</body>
+</html>

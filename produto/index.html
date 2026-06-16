@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram 2026 — Área do Produto</title>
+<meta name="theme-color" content="#07080F">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#07080F;--surface:#0E0F1A;--surface2:#141526;--border:#1C1D30;
+  --accent:#C8FF3C;--accent2:#FF4D6D;--accent3:#3DDFFF;--accent4:#FF9F3C;
+  --text:#EEEEF8;--muted:#5A5B72;--success:#3DFFAA;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+.hub-header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 20px;position:sticky;top:0;z-index:50}
+.hub-header-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.hub-logo{font-weight:900;font-size:15px;display:flex;align-items:center;gap:8px}
+.hub-logo-dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+.hub-badge{background:rgba(200,255,60,.12);color:var(--accent);font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:4px}
+
+/* ── WELCOME BAND ── */
+.welcome-band{background:linear-gradient(135deg,rgba(200,255,60,.08) 0%,rgba(61,223,255,.05) 100%);border-bottom:1px solid rgba(200,255,60,.15);padding:32px 20px;text-align:center}
+.welcome-band h1{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,32px);font-weight:900;margin-bottom:8px}
+.welcome-band h1 em{color:var(--accent);font-style:normal}
+.welcome-band p{font-size:13px;color:var(--muted);max-width:480px;margin:0 auto;line-height:1.7}
+.progress-summary{display:flex;justify-content:center;gap:32px;margin-top:24px;flex-wrap:wrap}
+.ps-item{text-align:center}
+.ps-num{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--accent)}
+.ps-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+/* ── MAIN LAYOUT ── */
+.hub-body{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+.section-label{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;margin-bottom:20px}
+
+/* ── PRODUCT MODULES ── */
+.modules-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+.module-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;overflow:hidden;transition:all .25s;text-decoration:none;color:inherit;display:block}
+.module-card:hover{border-color:rgba(200,255,60,.4);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.module-card-top{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+.module-icon{font-size:40px;margin-bottom:14px}
+.module-type{display:inline-block;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:10px}
+.type-ebook{background:rgba(200,255,60,.15);color:var(--accent)}
+.type-app{background:rgba(61,223,255,.15);color:var(--accent3)}
+.module-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px;line-height:1.25}
+.module-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.module-card-bottom{padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.module-info{font-size:11px;color:var(--muted)}
+.module-btn{background:var(--accent);color:#000;font-weight:800;font-size:12px;padding:9px 20px;border-radius:8px;white-space:nowrap;transition:all .2s}
+.module-card:hover .module-btn{background:#d9ff55}
+
+/* ── QUICK ACCESS ── */
+.quick-access{margin-bottom:40px}
+.qa-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.qa-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;text-decoration:none;color:inherit;transition:all .2s;cursor:pointer}
+.qa-item:hover{border-color:rgba(200,255,60,.3);background:rgba(200,255,60,.04)}
+.qa-icon{font-size:22px;margin-bottom:8px}
+.qa-label{font-size:11px;font-weight:600;color:var(--text);margin-bottom:2px}
+.qa-sub{font-size:10px;color:var(--muted)}
+
+/* ── ROADMAP ── */
+.roadmap{margin-bottom:40px}
+.roadmap-list{display:flex;flex-direction:column;gap:0}
+.roadmap-item{display:flex;align-items:flex-start;gap:16px;padding:16px 18px;background:var(--surface);border:1px solid var(--border);border-bottom:none;transition:all .2s;cursor:pointer}
+.roadmap-item:first-child{border-radius:12px 12px 0 0}
+.roadmap-item:last-child{border-bottom:1px solid var(--border);border-radius:0 0 12px 12px}
+.roadmap-item:hover{background:rgba(200,255,60,.03);border-color:rgba(200,255,60,.2)}
+.roadmap-step{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.step-done{background:var(--success);color:#000}
+.step-active{background:var(--accent);color:#000}
+.step-locked{background:var(--border);color:var(--muted)}
+.roadmap-content{flex:1}
+.roadmap-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.roadmap-desc{font-size:11.5px;color:var(--muted)}
+.roadmap-tag{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;flex-shrink:0}
+.tag-semana1{background:rgba(200,255,60,.12);color:var(--accent)}
+.tag-semana2{background:rgba(61,223,255,.12);color:var(--accent3)}
+.tag-semana3{background:rgba(255,159,60,.12);color:var(--accent4)}
+.tag-semana4{background:rgba(255,77,109,.12);color:var(--accent2)}
+
+/* ── TIPS HIGHLIGHT ── */
+.tips-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:40px}
+.tip-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px 16px}
+.tip-card-num{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:6px}
+.tip-card-title{font-size:13px;font-weight:700;margin-bottom:6px}
+.tip-card-text{font-size:11.5px;color:var(--muted);line-height:1.6}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  .modules-grid{grid-template-columns:1fr}
+  .qa-grid{grid-template-columns:repeat(2,1fr)}
+  .tips-row{grid-template-columns:1fr}
+  .progress-summary{gap:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="hub-header">
+  <div class="hub-header-inner">
+    <div class="hub-logo">
+      <span class="hub-logo-dot"></span>
+      Instagram 2026
+    </div>
+    <span class="hub-badge">✦ Área do Produto</span>
+  </div>
+</div>
+
+<div class="welcome-band">
+  <h1>Bem-vindo ao <em>Kit de Crescimento</em> 2026</h1>
+  <p>Você tem acesso completo ao ebook e ao app calendário. Siga o roteiro abaixo para extrair o máximo do produto.</p>
+  <div class="progress-summary">
+    <div class="ps-item">
+      <div class="ps-num">2</div>
+      <div class="ps-label">Módulos</div>
+    </div>
+    <div class="ps-item">
+      <div class="ps-num">9</div>
+      <div class="ps-label">Capítulos</div>
+    </div>
+    <div class="ps-item">
+      <div class="ps-num">90</div>
+      <div class="ps-label">Posts planejados</div>
+    </div>
+    <div class="ps-item">
+      <div class="ps-num">8</div>
+      <div class="ps-label">Nichos</div>
+    </div>
+  </div>
+</div>
+
+<div class="hub-body">
+
+  <!-- MODULES -->
+  <div class="section-label">Seus Módulos</div>
+  <div class="modules-grid">
+
+    <a href="ebook.html" class="module-card">
+      <div class="module-card-top">
+        <div class="module-icon">📖</div>
+        <div class="module-type type-ebook">Ebook</div>
+        <div class="module-title">Playbook do Algoritmo 2026</div>
+        <div class="module-desc">9 capítulos com o sistema completo para crescer no Instagram com conta pequena e vender todos os dias.</div>
+      </div>
+      <div class="module-card-bottom">
+        <div class="module-info">📄 9 capítulos · ~45 min de leitura</div>
+        <div class="module-btn">Ler Agora →</div>
+      </div>
+    </a>
+
+    <a href="calendario.html" class="module-card">
+      <div class="module-card-top">
+        <div class="module-icon">📅</div>
+        <div class="module-type type-app">App Exclusivo</div>
+        <div class="module-title">Calendário Inteligente de Conteúdo</div>
+        <div class="module-desc">3 meses de posts planejados para o seu nicho: hook, legenda, ideia de imagem e dicas estratégicas para cada dia.</div>
+      </div>
+      <div class="module-card-bottom">
+        <div class="module-info">📱 PWA · Funciona offline</div>
+        <div class="module-btn">Abrir App →</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- QUICK ACCESS -->
+  <div class="section-label">Acesso Rápido</div>
+  <div class="quick-access">
+    <div class="qa-grid">
+      <a href="ebook.html#cap01" class="qa-item">
+        <div class="qa-icon">🎯</div>
+        <div class="qa-label">Seu Nicho</div>
+        <div class="qa-sub">Cap. 01 do Ebook</div>
+      </a>
+      <a href="ebook.html#cap02" class="qa-item">
+        <div class="qa-icon">⚙️</div>
+        <div class="qa-label">Algoritmo</div>
+        <div class="qa-sub">Cap. 02 do Ebook</div>
+      </a>
+      <a href="ebook.html#cap03" class="qa-item">
+        <div class="qa-icon">🎬</div>
+        <div class="qa-label">Reels</div>
+        <div class="qa-sub">Cap. 03 do Ebook</div>
+      </a>
+      <a href="ebook.html#cap07" class="qa-item">
+        <div class="qa-icon">💰</div>
+        <div class="qa-label">Vendas</div>
+        <div class="qa-sub">Cap. 07 do Ebook</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="section-label">Roteiro Recomendado</div>
+  <div class="roadmap">
+    <div class="roadmap-list">
+      <div class="roadmap-item" onclick="window.location='ebook.html'">
+        <div class="roadmap-step step-active">1</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">Leia a Introdução e os Caps. 1 e 2</div>
+          <div class="roadmap-desc">Entenda o sistema de audição e defina seu nicho com o método dos 3 pilares</div>
+        </div>
+        <span class="roadmap-tag tag-semana1">Semana 1</span>
+      </div>
+      <div class="roadmap-item" onclick="window.location='calendario.html'">
+        <div class="roadmap-step step-locked">2</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">Configure o Calendário com seu nicho</div>
+          <div class="roadmap-desc">Escolha seu nicho e objetivo no app — o Mês 1 já estará pronto para executar</div>
+        </div>
+        <span class="roadmap-tag tag-semana1">Semana 1</span>
+      </div>
+      <div class="roadmap-item" onclick="window.location='ebook.html#cap03'">
+        <div class="roadmap-step step-locked">3</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">Leia Caps. 3, 4, 5 e 6 (formatos)</div>
+          <div class="roadmap-desc">Domine Reels, Carrossel, Stories e Feed antes de criar seu primeiro conteúdo</div>
+        </div>
+        <span class="roadmap-tag tag-semana2">Semana 2</span>
+      </div>
+      <div class="roadmap-item" onclick="window.location='calendario.html'">
+        <div class="roadmap-step step-locked">4</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">Execute os posts do Mês 1 (30 dias)</div>
+          <div class="roadmap-desc">Use o calendário diariamente — marque como concluído e registre suas métricas</div>
+        </div>
+        <span class="roadmap-tag tag-semana2">Semanas 2–5</span>
+      </div>
+      <div class="roadmap-item" onclick="window.location='ebook.html#cap07'">
+        <div class="roadmap-step step-locked">5</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">Leia Caps. 7, 8 e 9 (vendas + plano)</div>
+          <div class="roadmap-desc">Com a base construída, ative o funil de vendas e o plano de ação de 30 dias</div>
+        </div>
+        <span class="roadmap-tag tag-semana3">Semana 5</span>
+      </div>
+      <div class="roadmap-item" onclick="window.location='calendario.html'">
+        <div class="roadmap-step step-locked">6</div>
+        <div class="roadmap-content">
+          <div class="roadmap-title">Desbloqueie e execute Meses 2 e 3</div>
+          <div class="roadmap-desc">Com 60% do Mês 1 concluído, o Mês 2 (Crescimento) e Mês 3 (Monetização) se desbloqueiam</div>
+        </div>
+        <span class="roadmap-tag tag-semana4">Meses 2–3</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPS -->
+  <div class="section-label">3 Princípios para Executar Bem</div>
+  <div class="tips-row">
+    <div class="tip-card">
+      <div class="tip-card-num">Princípio 01</div>
+      <div class="tip-card-title">Consistência > Perfeição</div>
+      <div class="tip-card-text">O algoritmo prioriza quem publica regularmente. Um post "bom o suficiente" publicado vale mais que um "perfeito" que fica na gaveta.</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-card-num">Princípio 02</div>
+      <div class="tip-card-title">Adapte, não copie</div>
+      <div class="tip-card-text">Use os temas e hooks do calendário como ponto de partida. Adicione sua voz, sua história e sua perspectiva única — isso é o que o algoritmo chama de "autenticidade".</div>
+    </div>
+    <div class="tip-card">
+      <div class="tip-card-num">Princípio 03</div>
+      <div class="tip-card-title">Meça o que importa</div>
+      <div class="tip-card-text">Salves e compartilhamentos pesam mais que curtidas. Registre suas métricas no calendário e descubra qual formato funciona melhor para o seu nicho.</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
