@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Plano Rhino 30 Dias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: mesma família visual do Radar — painel de progresso no topo, grade dos 30 dias, depois o dia aberto com tarefas, números e biblioteca */
+:root {
+  --bg: #f3f5f4; --surface: #ffffff; --line: #dde3e0; --fg: #15201c; --muted: #5d6b66;
+  --accent: #0d6b57; --accent-soft: #dcefe9;
+  --up: #1f8a4c; --up-soft: #e0f2e7; --down: #c2412d; --down-soft: #fbe4df; --warn: #a86b00; --warn-soft: #fbefd5;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1513; --surface: #17201d; --line: #29352f; --fg: #e6eeea; --muted: #94a59e;
+  --accent: #4fc4a5; --accent-soft: #173b32;
+  --up: #5bcf8b; --up-soft: #173827; --down: #f07a66; --down-soft: #41201a; --warn: #e8b04a; --warn-soft: #3b2e12;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f1513; --surface: #17201d; --line: #29352f; --fg: #e6eeea; --muted: #94a59e;
+  --accent: #4fc4a5; --accent-soft: #173b32;
+  --up: #5bcf8b; --up-soft: #173827; --down: #f07a66; --down-soft: #41201a; --warn: #e8b04a; --warn-soft: #3b2e12;
+  color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body); }
+.wrap { max-width: 1100px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+h1 { font-size: 1.7rem; letter-spacing: -0.01em; }
+h2 { font-size: 1.15rem; }
+h3 { font-size: 1rem; }
+.eyebrow { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+.legend { font-size: .85rem; color: var(--muted); }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; justify-content: space-between; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, input, textarea { font: inherit; color: inherit; }
+.btn { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: .9rem; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+input[type=date], input[type=number], textarea { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 7px 10px; }
+.status { font-size: .82rem; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.status.local { background: var(--warn-soft); color: var(--warn); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.tile { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; }
+.tile .v { font-family: var(--f-display); font-size: 1.8rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile.acc { border-color: var(--accent); } .tile.up { border-color: var(--up); } .tile.up .v { color: var(--up); }
+.tile.down { border-color: var(--down); } .tile.down .v { color: var(--down); }
+.meter { height: 8px; border-radius: 4px; background: var(--bg); border: 1px solid var(--line); overflow: hidden; }
+.meter > i { display: block; height: 100%; background: var(--accent); }
+.grid30 { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 560px) { .grid30 { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.dcell { all: unset; box-sizing: border-box; cursor: pointer; border-radius: 8px; border: 1px solid var(--line); padding: 6px 4px; display: grid; justify-items: center; gap: 2px; background: var(--surface); min-width: 0; }
+.dcell .n { font-family: var(--f-display); font-weight: 700; font-size: 1rem; }
+.dcell .d { font-size: .68rem; color: var(--muted); }
+.dcell .p { width: 100%; height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.dcell .p i { display: block; height: 100%; background: var(--up); }
+.dcell.full { background: var(--up-soft); border-color: var(--up); }
+.dcell.missed { background: var(--down-soft); border-color: var(--down); }
+.dcell.missed .p i { background: var(--down); }
+.dcell.today { outline: 2px solid var(--accent); outline-offset: 1px; }
+.dcell.sel { box-shadow: inset 0 0 0 2px var(--fg); }
+.dcell:focus-visible { outline: 2px solid var(--accent); }
+.two { display: grid; grid-template-columns: 1.6fr 1fr; gap: 20px; }
+@media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+.dayhead { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: .74rem; font-weight: 600; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.chip.vendas { background: var(--up-soft); color: var(--up); }
+.chip.ads { background: var(--warn-soft); color: var(--warn); }
+.chip.revisao { background: var(--down-soft); color: var(--down); }
+.chip.ghost { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.tasks { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.task { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+.task.done { opacity: .62; }
+.task.done .tt { text-decoration: line-through; }
+.trow { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start; padding: 10px 12px; }
+.trow input[type=checkbox] { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--up); cursor: pointer; }
+.tt { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.tmeta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; align-items: center; }
+.howbtn { all: unset; cursor: pointer; font-size: .8rem; color: var(--accent); font-weight: 600; white-space: nowrap; }
+.how { margin: 0; padding: 0 14px 12px 44px; font-size: .9rem; display: grid; gap: 4px; }
+.how li { padding-left: 2px; }
+.late { border-color: var(--down); }
+.metrics { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metrics label { display: grid; gap: 2px; font-size: .8rem; font-weight: 600; color: var(--muted); }
+.metrics input { width: 100%; }
+textarea { width: 100%; min-height: 70px; resize: vertical; }
+.frow { display: grid; grid-template-columns: minmax(120px, 1fr) 2fr auto; gap: 10px; align-items: center; font-size: .9rem; }
+.ck { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: center; font-size: .9rem; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.ck:last-child { border-bottom: 0; }
+.dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+.dot.ok { background: var(--up); } .dot.bad { background: var(--down); }
+details.lib summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+.script { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; font-size: .9rem; display: grid; gap: 6px; margin-bottom: 10px; }
+.script ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+.copy { justify-self: start; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: .9rem; z-index: 5; }
+@media (prefers-reduced-motion: no-preference) { .meter > i, .dcell .p i { transition: width .3s ease; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="eyebrow">Rhino Consultoria · meta R$10.000 em 10 dias + 30 dias de vídeos</div>
+      <h1>Plano Rhino 30 Dias</h1>
+    </div>
+    <div class="controls">
+      <label class="eyebrow" for="start">Dia 1 do plano</label>
+      <input type="date" id="start">
+      <span class="status local" id="save-status">Carregando…</span>
+    </div>
+  </header>
+
+  <section class="panel" aria-labelledby="prog-h">
+    <h2 id="prog-h">Progresso</h2>
+    <div class="tiles" id="tiles"></div>
+    <div>
+      <div class="dayhead"><span class="legend">Tarefas concluídas no plano inteiro</span><span class="num legend" id="overall-txt"></span></div>
+      <div class="meter"><i id="overall-bar" style="width:0"></i></div>
+    </div>
+    <div class="grid30" id="grid"></div>
+    <div class="legend">Verde = dia completo · vermelho = dia que passou com tarefa pendente · contorno = hoje. Clique num dia para abrir.</div>
+  </section>
+
+  <section class="panel late" id="late-panel" hidden aria-labelledby="late-h">
+    <h2 id="late-h">Atrasadas (não deixe nenhum dia para trás)</h2>
+    <ul class="tasks" id="late"></ul>
+  </section>
+
+  <div class="two">
+    <section class="panel" aria-labelledby="day-h">
+      <div class="dayhead">
+        <div>
+          <div class="eyebrow" id="day-phase"></div>
+          <h2 id="day-h"></h2>
+        </div>
+        <div class="controls">
+          <button class="btn" id="prev" aria-label="Dia anterior">←</button>
+          <button class="btn" id="go-today">Hoje</button>
+          <button class="btn" id="next" aria-label="Próximo dia">→</button>
+        </div>
+      </div>
+      <p class="legend" id="day-focus" style="margin:0"></p>
+      <ul class="tasks" id="tasks"></ul>
+    </section>
+
+    <div style="display:grid;gap:20px;align-content:start;min-width:0">
+      <section class="panel" aria-labelledby="num-h">
+        <h2 id="num-h">Números do dia</h2>
+        <div class="metrics" id="metrics"></div>
+        <label class="legend" for="note">Anotação do dia (o que funcionou, o que travou)</label>
+        <textarea id="note"></textarea>
+      </section>
+      <section class="panel" aria-labelledby="ck-h">
+        <h2 id="ck-h">Checkpoints</h2>
+        <div id="checkpoints"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="panel" aria-labelledby="fun-h">
+    <h2 id="fun-h">Funil da sprint de 10 dias</h2>
+    <div id="funnel" style="display:grid;gap:10px"></div>
+    <div class="legend">Soma dos números que você registra em cada dia (dias 1 a 10), contra o que é preciso para fechar R$10.000 com as taxas do seu documento de conversão.</div>
+  </section>
+
+  <section class="panel" aria-labelledby="lib-h">
+    <h2 id="lib-h">Biblioteca: roteiros e mensagens</h2>
+    <div id="library"></div>
+  </section>
+</div>
+
+<script>
+(() => {
+"use strict";
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+const addDays = (s, n) => { const d = new Date(s + "T12:00:00"); d.setDate(d.getDate() + n); return iso(d); };
+const between = (a, b) => Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 864e5);
+const brl = (n) => (Number(n) || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const pad = (n) => String(n).padStart(2, "0");
+
+// ================= O PLANO =================
+const POSTS = {
+  2: "Roteiro A: Teste do cliente oculto", 3: "Roteiro B: Demonstração ao vivo", 4: "Roteiro C: Conta na tela",
+  5: "Roteiro D: Resposta à objeção", 6: "3 erros que fazem seu WhatsApp não vender",
+  8: "Gancho novo do vídeo vencedor nº 1", 9: "Gancho novo do vídeo vencedor nº 2", 10: "Antes e depois da mensagem",
+  11: "Diário da Rhino: semana 1 (números reais do Radar)", 12: "Resposta a uma objeção que você ouviu",
+  15: "Gancho novo nº 3", 16: "Gancho novo nº 4", 17: "Cliente oculto no 2º nicho (imobiliárias)",
+  18: "Diário da Rhino: semana 2", 19: "Objeção real da semana",
+  22: "Gancho novo nº 5", 23: "Gancho novo nº 6", 24: "Diário da Rhino: números do mês",
+  25: "Resposta a dúvida de comentário nº 1", 26: "Resposta a dúvida de comentário nº 2",
+  29: "Repostar o vídeo campeão do mês (novo gancho de 3 s)", 30: "Diário da Rhino: resultado dos 30 dias",
+};
+const LOTES = {
+  1: ["Lote da semana 1 (90 min)", "Roteiros A, B, C, D e o vídeo \"3 erros\" (5 vídeos)."],
+  7: ["Lote da semana 2 (90 min)", "2 ganchos novos dos 2 vídeos que mais seguraram atenção + 1 antes/depois + 1 diário + 1 objeção."],
+  14: ["Lote da semana 3 (90 min)", "2 ganchos novos + 1 cliente oculto no 2º nicho + 1 diário + 1 objeção real."],
+  21: ["Lote da semana 4 (90 min)", "2 ganchos novos + 1 diário com os números do mês + 2 respostas a dúvidas de comentários."],
+  28: ["Lote do mês 2 (90 min)", "Os 5 melhores formatos do mês, com ganchos novos. Use os números do Radar como prova."],
+};
+const STORIES = { 1: "Stories: anunciar a série (\"vou mostrar por 30 dias como empresas perdem clientes no WhatsApp\")", 7: "Stories: bastidor da gravação + caixinha de perguntas", 13: "Stories: caixinha \"qual sua maior dúvida sobre WhatsApp?\"", 14: "Stories: bastidor + enquete sobre o próximo vídeo", 20: "Stories: caixinha de perguntas", 21: "Stories: bastidor da gravação", 27: "Stories: caixinha de perguntas", 28: "Stories: resumo da semana com números do Radar" };
+
+const HOW = {
+  radar: ["Future Flow → Contatos → Exportar.", "Abra o Radar Future Flow → Importar CSV do dia → Salvar dia.", "Leia o resumo: quem avançou, quem regrediu.", "Anote os 3 primeiros da \"Prioridade de hoje\"."],
+  prio: ["Comece pelo 1º da fila e faça a \"Próxima ação\" que o Radar escreveu.", "Proposta parada há 3+ dias: mande mensagem cobrando retorno.", "Reunião agendada: confirme com link (Mensagem 3 da biblioteca).", "Atualize a tag no CRM assim que terminar cada um."],
+  prosp: ["Monte a lista (LinkedIn, Extrair CNAE em Contatos, indicação). Empresas de 11 a 50 pessoas do nicho principal.", "LinkedIn: envie a Mensagem 1 (abertura) da biblioteca, personalizada com nome e empresa.", "WhatsApp: só para quem autorizou ou já te conhece. Entre 8h e 20h.", "Coloque a tag Abordado em cada um na Future Flow.", "Máximo de 3 contatos por pessoa antes da pausa de 30 dias."],
+  post: ["Poste no horário em que seu público mais está online (Instagram → Insights → Público).", "Legenda curta terminando com: \"Manda DIAGNÓSTICO no WhatsApp\".", "Responda todos os comentários na primeira hora.", "Compartilhe nos Stories com uma enquete."],
+  fecha: ["Faça os acompanhamentos marcados no Radar (\"Follow-up vence hoje\").", "Atualize as tags de todo mundo que você falou hoje.", "Confira os anúncios: gasto do dia e conversas recebidas (5 min).", "Preencha os \"Números do dia\" ao lado. Nada é enviado depois das 20h."],
+  lote: ["Separe 90 min com o celular no tripé e luz de frente (janela).", "Grave cada roteiro 2 vezes. Gancho falado E escrito na tela no 1º segundo.", "Grave as telas (Future Flow, WhatsApp) no computador para os cortes.", "Edite com legenda automática. Sem introdução (\"oi, eu sou...\")."],
+};
+
+function buildPlan() {
+  const days = [];
+  for (let n = 1; n <= 30; n++) {
+    const t = [];
+    const add = (id, title, cat, time, how) => t.push({ id: `d${pad(n)}-${id}`, title, cat, time, how });
+    const sprint = n <= 10;
+    add("radar", "Radar das 8h: exportar contatos e ler a fila de prioridade", "rotina", "8h00 · 15 min", HOW.radar);
+    add("prio", "Atacar os 3 primeiros da fila de prioridade", "vendas", "8h15 · 45 min", HOW.prio);
+
+    // ---- específicas do dia ----
+    if (n === 1) {
+      add("tags", "Criar as tags do funil no CRM da Future Flow", "setup", "30 min", ["Contatos → criar tags: Novo lead, Abordado, Respondeu, Reunião agendada, Reunião realizada, Proposta enviada, Piloto, Retainer.", "Crie também: Quente, Morno, Frio, Opt-out, Perdido, Pausa, Origem: Anúncio, Origem: Orgânico.", "Clique no \"+\" para criar cada tag (não aperte Enter).", "Confira no CRM: cada tag vira uma coluna."]);
+      add("quente", "Lista quente: 40 contatos que já te conhecem + mensagem", "vendas", "60 min", ["Liste 40 pessoas: ex-clientes, indicações, rede, OdontoCompany, Regata.", "Importe em Contatos com a tag Novo lead + Quente.", "Envie a Mensagem 1 personalizada pelo chip QR, devagar (intervalo de 2 s ou mais).", "Troque a tag para Abordado."]);
+    }
+    if (n === 2) {
+      add("bot", "Criar o chatbot DIAGNÓSTICO na Future Flow", "setup", "40 min", ["Chatbots → Novo fluxo. Gatilho: \"contém\" diagnóstico.", "Mensagem de boas-vindas + as 3 perguntas de qualificação (biblioteca, Mensagem 2).", "Nó Definir Tag: Respondeu + Quente + Origem.", "Termine com o nó Atendimento. Teste de outro celular antes de salvar."]);
+      add("api", "Conectar o número da API oficial (para anúncios e contatos frios)", "setup", "30 min", ["Conexões → Adicionar → Conexão automática.", "Escolha a BM e crie a conta com um chip sem WhatsApp instalado.", "Categoria Educação. Teste mandando \"olá\" de outro celular.", "O chip QR fica só para a lista quente."]);
+      add("proposta", "Montar a proposta de 1 página do Piloto 30 dias", "setup", "40 min", ["Problema do cliente (o que ele falou na reunião).", "O que você entrega em 30 dias: chatbot, agente IA, tags, relatório semanal.", "Preço do piloto (R$2.000 a R$3.000) e a próxima etapa (retainer R$3.000/mês).", "Sem promessa de resultado: \"vamos medir juntos\"."]);
+      add("adsA", "Subir a campanha A (teste de gancho) com R$20/dia", "ads", "30 min", ["Gerenciador de Anúncios → Engajamento → otimizar para ThruPlay.", "Público: sua cidade + 40 km, 28 a 55 anos, sem interesses.", "Criativos: roteiros A, B, C e D.", "Desligue os aprimoramentos automáticos. Não mexa por 72 horas."]);
+    }
+    if (n === 4) add("fu1", "Follow-up do dia 3 para quem foi abordado no dia 1", "vendas", "20 min", ["No Radar, filtre quem está em Abordado há 3 dias.", "Mande 1 mensagem curta de acompanhamento.", "Quem não responder entra na pausa de 14 dias (o Radar avisa)."]);
+    if (n === 5) {
+      add("fu2", "Follow-up do dia 3 para quem foi abordado no dia 2", "vendas", "20 min", HOW.fecha.slice(0, 2));
+      add("ads72", "Primeira leitura dos anúncios (já passaram 72h)", "ads", "15 min", ["Veja quantas pessoas passaram dos 3 segundos em cada vídeo.", "Anote os 2 melhores. Não pause nada ainda."]);
+    }
+    if (n >= 6 && n <= 7) add("prop24", "Mandar propostas em até 24h para quem fez reunião", "vendas", "30 min", ["Use a proposta de 1 página.", "Mande em PDF pelo WhatsApp + resumo de 3 linhas na mensagem.", "Tag Proposta enviada."]);
+    if (n >= 8 && n <= 10) add("fechar", "Fechamento: cobrar propostas, mandar contrato e Pix", "vendas", "60 min", ["Radar → propostas paradas há 3+ dias: mensagem de retorno.", "Quem disse sim: contrato simples + Pix ou link de pagamento.", "Tag Piloto e marque a data de início.", "Registre o valor em \"Receita fechada\" nos números do dia."]);
+    if (n === 8) {
+      add("adsB", "Escolher os 2 vídeos vencedores e subir a campanha B (conversas)", "ads", "40 min", ["Vencedores = os que mais seguraram nos 3 primeiros segundos.", "Campanha B: Engajamento → local da conversão WhatsApp, R$14/dia.", "Mensagem pré-preenchida: \"Quero o diagnóstico\". Público: quem assistiu 50%.", "Reduza a campanha A para R$6/dia com ganchos novos."]);
+    }
+    if ([8, 15, 22, 29].includes(n)) add("review", "Revisão semanal dos 5 números (20 min)", "revisao", "20 min", ["Pessoas que passam dos 3 s (meta ~25%).", "Custo por conversa (calcule e compare com a semana anterior).", "Conversa → reunião (meta 40%) e comparecimento (meta 80%).", "Proposta → piloto (meta 30%). Decida 1 mudança para a semana."]);
+    if (n === 11) add("kick", "Kickoff dos pilotos fechados", "vendas", "60 min", ["Reunião de 30 min com cada cliente: objetivo, número, horários, preços.", "Peça acesso à BM e ao número do cliente.", "Combine o relatório semanal (toda sexta)."]);
+    if (n === 12 || n === 13) add("impl", "Implementar os pilotos (Future Flow do cliente)", "vendas", "2h", ["Conexão do número + webhook + token permanente.", "Chatbot de boas-vindas + agente IA com o modelo do nicho.", "Tags do funil do cliente + lembretes da Agenda, se for clínica.", "Teste completo de outro celular antes de ativar."]);
+    if (n === 11) add("corte", "Regra de corte dos anúncios", "ads", "10 min", ["Criativo da campanha B que gastou R$30 sem conversa: pause.", "Troque por um gancho novo do lote da semana."]);
+    if (n === 14) add("cpc", "Calcular o custo por conversa", "ads", "15 min", ["Gasto da campanha B ÷ conversas recebidas.", "Conversas no mês ≈ R$600 ÷ custo por conversa.", "Anote nos números do dia."]);
+    if (n === 15) add("troca", "Trocar o pior criativo da campanha B", "ads", "15 min", ["Pause o vídeo com mais gasto por conversa.", "Suba um gancho novo do lote da semana 3."]);
+    if (n === 19 || n === 26) add("rel", "Relatório semanal para os clientes do piloto", "vendas", "30 min", ["Conversas recebidas, respondidas, agendamentos (dados reais da Future Flow do cliente).", "1 ajuste feito na semana e 1 próximo passo.", "Mande na sexta, sempre no mesmo horário."]);
+    if (n === 21) add("re21a", "Reabordar com novo ângulo quem foi abordado no dia 1 (regra do dia 21)", "vendas", "30 min", ["Radar: quem está em Abordado sem resposta desde o dia 1.", "Mensagem com ângulo novo (ex.: o vídeo da semana que tem a ver com o nicho dele).", "Se for o 3º contato sem resposta, depois disso entra em pausa de 30 dias."]);
+    if (n === 22) add("re21b", "Reabordar com novo ângulo quem foi abordado no dia 2", "vendas", "30 min", ["Mesmo processo do dia 21, para a lista do dia 2."]);
+    if (n === 24) add("nicho", "Decidir o nicho do mês 2", "revisao", "20 min", ["Compare conversas por real investido: nicho principal x secundário.", "Fique com o que trouxe mais reuniões, não mais visualizações."]);
+    if (n === 28) add("retainer", "Propor o retainer mensal aos clientes do piloto", "vendas", "45 min", ["Mostre os números reais do piloto.", "Proposta: gestão mensal R$3.000/mês (monitoramento, otimização, relatório semanal).", "Peça um depoimento curto em vídeo para o case."]);
+    if (n === 30) add("case", "Documentar o primeiro case real", "revisao", "45 min", ["Antes x depois com números reais (com autorização do cliente).", "Use também os números da própria Rhino (case zero).", "Esse case entra nos vídeos e propostas do mês 2."]);
+
+    // ---- vídeo do dia ----
+    if (LOTES[n]) add("lote", `Gravar: ${LOTES[n][0]}`, "video", "90 min", [LOTES[n][1], ...HOW.lote]);
+    if (POSTS[n]) add("post", `Postar: ${POSTS[n]}`, "video", "15 min", HOW.post);
+    if (STORIES[n]) add("stories", STORIES[n], "video", "10 min", ["3 a 5 Stories, câmera na mão, sem edição.", "Termine com a caixinha ou enquete para gerar ideias de vídeos de objeção."]);
+
+    add("prosp", `Prospecção: ${sprint ? 35 : 25} novas abordagens`, "vendas", sprint ? "9h00 · 2h" : "9h00 · 1h30", HOW.prosp);
+    add("fecha", "Fechamento das 17h: follow-ups, tags e números do dia", "rotina", "17h00 · 30 min", HOW.fecha);
+
+    const phase = n <= 10 ? `Sprint de vendas · dia ${n} de 10` : n <= 13 ? "Entrega dos pilotos" : "Cruzeiro: vídeos + prospecção + pilotos";
+    const FOCUS = {
+      1: "Montar a base: tags, lista quente e o primeiro lote de vídeos.", 2: "Deixar a máquina pronta: chatbot, número oficial, proposta e anúncio no ar.",
+      3: "Volume de abordagens. Checkpoint: 14 respostas acumuladas.", 4: "Reuniões e o primeiro follow-up do dia 3.",
+      5: "Checkpoint: 10 reuniões agendadas acumuladas.", 6: "Reuniões e propostas em até 24h.", 7: "Checkpoint: 6 propostas enviadas. Gravar o lote 2.",
+      8: "Fechamento + campanha B no ar.", 9: "Fechamento: cobrar propostas paradas.", 10: "Checkpoint final da sprint: R$10.000 fechados.",
+    };
+    days.push({ n, phase, focus: FOCUS[n] || (LOTES[n] ? "Dia de gravação: o lote de hoje alimenta a semana inteira." : "Manter o ritmo: Radar, prioridade, prospecção, vídeo e fechamento das 17h."), tasks: t });
+  }
+  return days;
+}
+const PLAN = buildPlan();
+const ALL = PLAN.flatMap((d) => d.tasks.map((t) => ({ ...t, day: d.n })));
+
+const METRICS = [
+  ["abordados", "Abordados"], ["respostas", "Respostas"], ["agendadas", "Reuniões agendadas"], ["realizadas", "Reuniões realizadas"],
+  ["propostas", "Propostas enviadas"], ["fechamentos", "Fechamentos"], ["receita", "Receita fechada (R$)"], ["conversas", "Conversas dos anúncios"], ["gasto", "Gasto em anúncios (R$)"],
+];
+const SPRINT = [["abordados", 350], ["respostas", 70], ["agendadas", 28], ["realizadas", 22], ["propostas", 13], ["fechamentos", 4], ["receita", 10000]];
+const CHECKS = [
+  { day: 3, label: "14 respostas", key: "respostas", min: 14 }, { day: 5, label: "10 reuniões agendadas", key: "agendadas", min: 10 },
+  { day: 7, label: "6 propostas enviadas", key: "propostas", min: 6 }, { day: 10, label: "R$10.000 fechados", key: "receita", min: 10000 },
+  { day: 14, label: "Custo por conversa calculado", task: "d14-cpc" }, { day: 30, label: "Primeiro case real documentado", task: "d30-case" },
+];
+
+// ================= ESTADO / MEMÓRIA =================
+// config/plan = { start }; days/dNN = { done: {taskId: ISO}, m: {metric: n}, note }
+const LS = "planoRhino30.v1";
+let state = { start: iso(new Date()), days: {} };
+try { const s = JSON.parse(localStorage.getItem(LS)); if (s && s.start) state = s; } catch (e) {}
+let db = null, selected = null;
+const pending = new Map();
+const setStatus = (txt, local) => { const el = $("save-status"); el.textContent = txt; el.classList.toggle("local", !!local); };
+const cacheLocal = () => { try { localStorage.setItem(LS, JSON.stringify(state)); } catch (e) {} };
+const dayDoc = (n) => state.days[n] || (state.days[n] = { done: {}, m: {}, note: "" });
+
+function saveDay(n) {
+  cacheLocal();
+  if (!db) return;
+  clearTimeout(pending.get(n));
+  setStatus("Salvando…");
+  pending.set(n, setTimeout(async () => {
+    try { const d = dayDoc(n); await db.doc(`days/d${pad(n)}`).set({ n, done: d.done, m: d.m, note: d.note, updatedAt: new Date().toISOString() }); pending.delete(n); setStatus("Salvo na nuvem"); }
+    catch (e) { pending.delete(n); setStatus("Não salvou na nuvem: " + (e?.code || "erro") + ". Ficou neste navegador.", true); }
+  }, 600));
+}
+async function saveStart() {
+  cacheLocal();
+  if (!db) return;
+  try { await db.doc("config/plan").set({ start: state.start }); setStatus("Salvo na nuvem"); } catch (e) { setStatus("Data salva só neste navegador.", true); }
+}
+
+// ================= CÁLCULOS =================
+const today = () => iso(new Date());
+const todayN = () => between(state.start, today()) + 1;
+const dateOf = (n) => addDays(state.start, n - 1);
+const isDone = (t) => !!state.days[t.day]?.done?.[t.id];
+const dayStats = (d) => { const done = d.tasks.filter((t) => isDone({ ...t, day: d.n })).length; return { done, total: d.tasks.length }; };
+const sumM = (key, upto = 30, from = 1) => { let s = 0; for (let n = from; n <= upto; n++) s += Number(state.days[n]?.m?.[key]) || 0; return s; };
+function streak() {
+  let s = 0; const tn = Math.min(todayN(), 30);
+  for (let n = tn; n >= 1; n--) { const st = dayStats(PLAN[n - 1]); if (st.done === st.total) s++; else if (n === tn) continue; else break; }
+  return s;
+}
+
+// ================= RENDER =================
+const CAT = { rotina: ["Rotina", ""], vendas: ["Vendas", "vendas"], video: ["Vídeo", ""], ads: ["Anúncios", "ads"], setup: ["Configuração", "ghost"], revisao: ["Revisão", "revisao"] };
+const fmtDate = (s, opt) => new Date(s + "T12:00:00").toLocaleDateString("pt-BR", opt);
+
+function taskItem(t, showDay) {
+  const done = isDone(t);
+  return `<li class="task ${done ? "done" : ""}"><div class="trow">
+    <input type="checkbox" id="cb-${t.id}" data-id="${t.id}" data-day="${t.day}" ${done ? "checked" : ""} aria-label="Concluir: ${esc(t.title)}">
+    <div><label for="cb-${t.id}" class="tt">${esc(t.title)}</label>
+      <div class="tmeta">${showDay ? `<span class="chip revisao">Dia ${t.day}</span>` : ""}<span class="chip ${CAT[t.cat][1]}">${CAT[t.cat][0]}</span><span class="legend num">${esc(t.time)}</span></div></div>
+    <button class="howbtn" data-how="${t.id}" aria-expanded="false">Como fazer</button></div>
+    <ol class="how" id="how-${t.id}" hidden>${t.how.map((h) => `<li>${esc(h)}</li>`).join("")}</ol></li>`;
+}
+
+function render() {
+  $("start").value = state.start;
+  const tn = todayN();
+  if (selected == null) selected = Math.min(Math.max(tn, 1), 30);
+
+  // progresso
+  const doneAll = ALL.filter(isDone).length;
+  const pct = Math.round((doneAll / ALL.length) * 100);
+  $("overall-bar").style.width = pct + "%";
+  $("overall-txt").textContent = `${doneAll} de ${ALL.length} (${pct}%)`;
+  const fullDays = PLAN.filter((d) => { const s = dayStats(d); return s.done === s.total; }).length;
+  const late = ALL.filter((t) => t.day < tn && !isDone(t));
+  const receita = sumM("receita");
+  $("tiles").innerHTML = [
+    ["Dia do plano", tn < 1 ? `começa em ${1 - tn}d` : tn > 30 ? "concluído" : `${tn} de 30`, "acc"],
+    ["Dias completos", fullDays, "up"], ["Sequência atual", `${streak()} dia${streak() === 1 ? "" : "s"}`, "up"],
+    ["Tarefas atrasadas", late.length, late.length ? "down" : "up"], ["Receita fechada", brl(receita), receita >= 10000 ? "up" : "acc"],
+  ].map(([k, v, c]) => `<div class="tile ${c}"><div class="eyebrow">${k}</div><div class="v">${v}</div></div>`).join("");
+
+  $("grid").innerHTML = PLAN.map((d) => {
+    const s = dayStats(d); const p = Math.round((s.done / s.total) * 100);
+    const cls = [s.done === s.total ? "full" : d.n < tn ? "missed" : "", d.n === tn ? "today" : "", d.n === selected ? "sel" : ""].join(" ");
+    return `<button class="dcell ${cls}" data-day="${d.n}" aria-label="Dia ${d.n}, ${s.done} de ${s.total} tarefas"><span class="n">${d.n}</span><span class="d">${fmtDate(dateOf(d.n), { day: "2-digit", month: "2-digit" })}</span><span class="p"><i style="width:${p}%"></i></span></button>`;
+  }).join("");
+
+  // atrasadas
+  $("late-panel").hidden = !late.length;
+  $("late").innerHTML = late.slice(0, 40).map((t) => taskItem(t, true)).join("");
+
+  // dia
+  const d = PLAN[selected - 1]; const s = dayStats(d);
+  $("day-phase").textContent = d.phase;
+  $("day-h").textContent = `Dia ${d.n} · ${fmtDate(dateOf(d.n), { weekday: "long", day: "2-digit", month: "long" })}${d.n === tn ? " (hoje)" : ""}`;
+  $("day-focus").innerHTML = `<strong>Foco:</strong> ${esc(d.focus)} <span class="num">· ${s.done}/${s.total} feitas</span>`;
+  $("tasks").innerHTML = d.tasks.map((t) => taskItem({ ...t, day: d.n })).join("");
+  $("prev").disabled = d.n === 1; $("next").disabled = d.n === 30;
+
+  const dd = state.days[d.n] || { m: {}, note: "" };
+  $("metrics").innerHTML = METRICS.map(([k, label]) => `<label for="m-${k}">${label}<input type="number" min="0" inputmode="numeric" id="m-${k}" data-m="${k}" value="${dd.m?.[k] ?? ""}"></label>`).join("");
+  if (document.activeElement !== $("note")) $("note").value = dd.note || "";
+
+  // checkpoints
+  $("checkpoints").innerHTML = CHECKS.map((c) => {
+    const val = c.key ? sumM(c.key, c.day) : null;
+    const ok = c.key ? val >= c.min : isDone({ id: c.task, day: c.day });
+    const due = tn >= c.day;
+    const txt = c.key ? (c.key === "receita" ? brl(val) : `${val}/${c.min}`) : ok ? "feito" : "pendente";
+    return `<div class="ck"><span class="dot ${ok ? "ok" : due ? "bad" : ""}"></span><span>Dia ${c.day}: ${esc(c.label)}</span><span class="num legend">${txt}</span></div>`;
+  }).join("");
+
+  // funil
+  $("funnel").innerHTML = SPRINT.map(([k, goal]) => {
+    const v = sumM(k, 10); const p = Math.min(100, (v / goal) * 100); const label = METRICS.find((m) => m[0] === k)[1];
+    return `<div class="frow"><span>${label}</span><div class="meter"><i style="width:${p}%;background:var(${v >= goal ? "--up" : "--accent"})"></i></div><span class="num">${k === "receita" ? brl(v) : v} / ${k === "receita" ? brl(goal) : goal}</span></div>`;
+  }).join("");
+}
+
+// ================= BIBLIOTECA =================
+const LIB = [
+  ["Roteiro A: Teste do cliente oculto (~40 s)", ["0–3 s: \"Mandei mensagem para 5 [clínicas] às 20h perguntando preço. Olha quantas responderam.\"", "3–15 s: tela com as 5 conversas (nomes borrados) e o cronômetro. \"Uma respondeu no dia seguinte. As outras, até agora nada.\"", "15–30 s: \"Esse cliente não esperou. Ele foi para quem respondeu primeiro. E isso acontece toda noite, todo fim de semana.\"", "30–40 s: \"Dá para responder em segundos, 24 horas, sem contratar ninguém. Manda DIAGNÓSTICO no WhatsApp que eu mostro como ficaria na sua [clínica].\""]],
+  ["Roteiro B: Demonstração ao vivo (~35 s)", ["0–3 s: \"Olha o que acontece quando um [paciente] manda mensagem às 23h.\"", "3–20 s: gravação de tela, o agente responde, pergunta e oferece horário. Na tela: \"simulação com clínica fictícia\".", "20–28 s: CRM com a tag Quente. \"Sua recepcionista chega de manhã e o horário já está marcado.\"", "28–35 s: \"Quer ver isso com as perguntas que os seus [pacientes] fazem? Manda DIAGNÓSTICO.\""]],
+  ["Roteiro C: Conta na tela (~40 s)", ["0–3 s: \"Faz essa conta comigo e descobre quanto seu WhatsApp perde por mês.\"", "3–25 s: \"Quantas mensagens novas por mês? Digamos 100. Quantas ficam sem resposta rápida? Digamos 20. Quanto vale um cliente? Digamos R$500. 20 × R$500 = R$10.000 na mesa.\"", "25–33 s: \"Mesmo que só 1 em cada 4 virasse cliente, são R$2.500 por mês.\"", "33–40 s: \"Manda DIAGNÓSTICO que eu faço essa conta com os números reais da sua empresa.\""]],
+  ["Roteiro D: Resposta à objeção (~30 s)", ["0–3 s: \"'Automatizar WhatsApp dá bloqueio?' Depende de 3 coisas.\"", "3–22 s: \"Primeiro: só manda para quem pediu. Segundo: no máximo 1 ou 2 mensagens por semana, entre 8h e 20h. Terceiro: quem diz PARAR sai da lista na hora.\"", "22–30 s: \"Quer saber se o seu jeito de usar o WhatsApp está seguro? Manda DIAGNÓSTICO.\""]],
+  ["Mensagem 1: abertura (prospecção)", ["Olá, [Nome]. Aqui é [Seu Nome] da Rhino. Vi que você trabalha com [setor] na [Empresa].", "Faz sentido conversar sobre como aumentar conversão via WhatsApp?", "Tenho 20 minutos livres [dia/hora]. Posso agendar?"]],
+  ["Mensagem 2: qualificação", ["Ótimo! Antes de agendar, deixa eu entender melhor:", "1. Qual é seu maior desafio em conversão agora?", "2. Qual é seu orçamento mensal em marketing?", "3. Qual é o melhor horário para você?"]],
+  ["Mensagem 3: confirmação da reunião", ["Perfeito! Sua reunião está marcada para [data] às [hora].", "Link: [meet]", "Precisa remarcar? Responda aqui."]],
+  ["Respostas a objeções comuns", ["\"Não tenho orçamento\": Entendo. Quando você tiver orçamento, posso ajudar. Deixo meu contato aqui.", "\"Já tenho agência\": Ótimo! Posso mostrar como otimizar o que vocês já fazem. Vale uma conversa rápida?", "\"Não tenho interesse\": Sem problema! Se mudar de ideia, é só chamar. Boa sorte!", "\"SAIR\" ou \"PARAR\": Entendido. Removendo você da lista. (Pare na hora, tag Opt-out.)"]],
+];
+$("library").innerHTML = LIB.map(([title, lines], i) => `<details class="lib"><summary>${esc(title)}</summary><div class="script"><ol>${lines.map((l) => `<li>${esc(l)}</li>`).join("")}</ol><button class="btn copy" data-copy="${i}">Copiar texto</button></div></details>`).join("");
+
+// ================= EVENTOS =================
+function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2400); }
+document.addEventListener("change", (e) => {
+  const cb = e.target.closest("input[type=checkbox][data-id]");
+  if (cb) {
+    const n = Number(cb.dataset.day); const d = dayDoc(n);
+    if (cb.checked) d.done[cb.dataset.id] = new Date().toISOString(); else delete d.done[cb.dataset.id];
+    saveDay(n); render();
+    const s = dayStats(PLAN[n - 1]); if (cb.checked && s.done === s.total) toast(`Dia ${n} completo!`);
+    return;
+  }
+  const mi = e.target.closest("input[data-m]");
+  if (mi) { const d = dayDoc(selected); if (mi.value === "") delete d.m[mi.dataset.m]; else d.m[mi.dataset.m] = Math.max(0, Number(mi.value)); saveDay(selected); render(); }
+});
+$("note").addEventListener("input", (e) => { dayDoc(selected).note = e.target.value; saveDay(selected); });
+document.addEventListener("click", async (e) => {
+  const cell = e.target.closest(".dcell"); if (cell) { selected = Number(cell.dataset.day); render(); return; }
+  const hb = e.target.closest("[data-how]");
+  if (hb) { const box = document.getElementById("how-" + hb.dataset.how); const open = box.hidden; document.querySelectorAll(`[id="how-${hb.dataset.how}"]`).forEach((b) => (b.hidden = !open)); hb.setAttribute("aria-expanded", String(open)); hb.textContent = open ? "Fechar" : "Como fazer"; return; }
+  const cp = e.target.closest("[data-copy]");
+  if (cp) { const txt = LIB[Number(cp.dataset.copy)][1].join("\n"); try { await navigator.clipboard.writeText(txt); toast("Copiado"); } catch (err) { toast("Selecione o texto e copie manualmente"); } }
+});
+$("prev").addEventListener("click", () => { selected = Math.max(1, selected - 1); render(); });
+$("next").addEventListener("click", () => { selected = Math.min(30, selected + 1); render(); });
+$("go-today").addEventListener("click", () => { selected = Math.min(Math.max(todayN(), 1), 30); render(); });
+$("start").addEventListener("change", (e) => { if (!e.target.value) return; state.start = e.target.value; selected = null; saveStart(); render(); });
+
+render();
+setStatus("Salvo só neste navegador", true);
+
+// ================= MEMÓRIA NA NUVEM (db do artifact) =================
+(async () => {
+  if (!window.claude?.use) return;
+  const d = await window.claude.use("db").catch(() => null);
+  if (!d) return;
+  db = d;
+  setStatus("Conectando…");
+  try {
+    const cfg = await db.doc("config/plan").get();
+    if (cfg.exists && cfg.data()?.start) state.start = cfg.data().start; else await db.doc("config/plan").set({ start: state.start });
+  } catch (e) { setStatus("Sem acesso à nuvem: progresso fica neste navegador.", true); db = null; return; }
+  db.collection("days").onSnapshot((snap) => {
+    let localNewer = false;
+    snap.docs.forEach((doc) => {
+      const v = doc.data(); if (!v || !v.n) return;
+      if (pending.has(v.n)) { localNewer = true; return; }
+      state.days[v.n] = { done: v.done || {}, m: v.m || {}, note: v.note || "" };
+    });
+    cacheLocal(); if (!localNewer) setStatus("Salvo na nuvem"); render();
+  }, () => setStatus("Conexão com a nuvem caiu: salvando neste navegador.", true));
+  db.doc("config/plan").onSnapshot((s) => { const v = s.data(); if (v?.start && v.start !== state.start) { state.start = v.start; selected = null; cacheLocal(); render(); } });
+})();
+})();
+</script>
+</body>
+</html>

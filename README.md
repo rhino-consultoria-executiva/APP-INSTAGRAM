@@ -186,3 +186,7 @@ Como usar:
 3. A partir do 2º dia o painel compara com o anterior.
 
 As etapas do funil são lidas das **tags do CRM** e podem ser ajustadas em "Configurar etapas". Os dados ficam no navegador (use "Copiar backup" para guardar).
+
+## Plano Rhino 30 Dias (`painel-futureflow/plano-30-dias.html`)
+
+Checklist diário dos 30 dias: sprint de vendas de 10 dias (meta R$10.000), calendário de vídeos, plano de tráfego de R$20/dia e rotina fixa (Radar 8h, prospecção, fechamento 17h). Cada tarefa tem "Como fazer", há campos para os números do dia, checkpoints, funil da sprint e uma lista de tarefas atrasadas. Aberto como arquivo local, o progresso fica no navegador; na versão publicada como artifact, fica salvo na nuvem.
