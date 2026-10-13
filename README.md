@@ -173,3 +173,16 @@ Acesse `http://localhost:8080`.
 ---
 
 Feito com ❤️ para criadores de conteúdo brasileiros.
+
+---
+
+## Radar Future Flow (`painel-futureflow/`)
+
+Painel diário das campanhas da Future Flow: quem **progrediu**, quem **regrediu**, **fila de prioridade** do dia, funil vs metas e lista de **não contatar** (opt-out, pausas da cadência).
+
+Como usar:
+1. Na Future Flow: **Contatos → Exportar** (1 vez por dia).
+2. Abra `painel-futureflow/index.html` → **Importar CSV do dia** → confira as colunas (Telefone e Tags são obrigatórias) → **Salvar dia**.
+3. A partir do 2º dia o painel compara com o anterior.
+
+As etapas do funil são lidas das **tags do CRM** e podem ser ajustadas em "Configurar etapas". Os dados ficam no navegador (use "Copiar backup" para guardar).

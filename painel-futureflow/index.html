@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Radar Future Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: painel operacional — resumo do dia no topo, movimentos lado a lado, fila de prioridade, funil vs metas, lista de não contatar */
+:root {
+  --bg: #f3f5f4; --surface: #ffffff; --line: #dde3e0; --fg: #15201c; --muted: #5d6b66;
+  --accent: #0d6b57; --accent-soft: #dcefe9;
+  --up: #1f8a4c; --up-soft: #e0f2e7; --down: #c2412d; --down-soft: #fbe4df; --warn: #a86b00; --warn-soft: #fbefd5;
+  --f-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --f-data: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1513; --surface: #17201d; --line: #29352f; --fg: #e6eeea; --muted: #94a59e;
+  --accent: #4fc4a5; --accent-soft: #173b32;
+  --up: #5bcf8b; --up-soft: #173827; --down: #f07a66; --down-soft: #41201a; --warn: #e8b04a; --warn-soft: #3b2e12;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f1513; --surface: #17201d; --line: #29352f; --fg: #e6eeea; --muted: #94a59e;
+  --accent: #4fc4a5; --accent-soft: #173b32;
+  --up: #5bcf8b; --up-soft: #173827; --down: #f07a66; --down-soft: #41201a; --warn: #e8b04a; --warn-soft: #3b2e12;
+  color-scheme: dark; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 var(--f-body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 48px; display: grid; gap: 20px; }
+h1, h2 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+h1 { font-size: 1.7rem; letter-spacing: -0.01em; }
+h2 { font-size: 1.1rem; }
+.eyebrow { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; justify-content: space-between; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, select, input, textarea { font: inherit; color: inherit; }
+.btn { border: 1px solid var(--line); background: var(--surface); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: .9rem; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.btn:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+select, input[type=date], input[type=text], textarea { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 7px 10px; }
+.banner { background: var(--warn-soft); color: var(--fg); border: 1px solid var(--warn); border-radius: 10px; padding: 10px 14px; font-size: .9rem; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.summary { font-size: 1.05rem; max-width: 75ch; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.tile { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; }
+.tile .v { font-family: var(--f-display); font-size: 1.9rem; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.tile.up { border-color: var(--up); } .tile.up .v { color: var(--up); }
+.tile.down { border-color: var(--down); } .tile.down .v { color: var(--down); }
+.tile.acc { border-color: var(--accent); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 760px) { .two { grid-template-columns: 1fr; } }
+.moves { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.moves li { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 10px 12px; border-radius: 8px; background: var(--bg); }
+.moves .who { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
+.moves .co { color: var(--muted); font-size: .85rem; }
+.moves .path { grid-column: 1 / -1; font-size: .85rem; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chip { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: .78rem; font-weight: 600; background: var(--accent-soft); color: var(--accent); white-space: nowrap; }
+.chip.up { background: var(--up-soft); color: var(--up); }
+.chip.down { background: var(--down-soft); color: var(--down); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.ghost { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.empty { color: var(--muted); font-size: .9rem; padding: 8px 0; }
+.tbl-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { text-align: left; font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+.score { display: flex; align-items: center; gap: 8px; min-width: 110px; }
+.bar { flex: 1; height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--accent); }
+.bar.hot > i { background: var(--down); }
+.reasons { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.action { font-weight: 600; }
+.funnel { display: grid; gap: 12px; }
+.frow { display: grid; grid-template-columns: minmax(150px, 1.2fr) 3fr auto; gap: 12px; align-items: center; }
+@media (max-width: 560px) { .frow { grid-template-columns: 1fr auto; } .frow .track { grid-column: 1 / -1; grid-row: 2; } }
+.track { position: relative; height: 12px; background: var(--bg); border-radius: 6px; border: 1px solid var(--line); }
+.track > i { position: absolute; inset: 0 auto 0 0; border-radius: 6px; }
+.track > b { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--fg); }
+.legend { font-size: .82rem; color: var(--muted); }
+.hist { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(44px, 1fr); gap: 6px; align-items: end; overflow-x: auto; padding-bottom: 4px; }
+.hcol { display: grid; gap: 4px; justify-items: center; font-size: .72rem; color: var(--muted); }
+.hbars { display: flex; gap: 3px; align-items: end; height: 70px; }
+.hbars i { width: 10px; border-radius: 2px 2px 0 0; display: block; min-height: 2px; }
+.hcol.sel { color: var(--fg); font-weight: 700; }
+.hcol button { all: unset; cursor: pointer; display: grid; gap: 4px; justify-items: center; }
+.hcol button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+details.cfg summary { cursor: pointer; font-weight: 600; }
+.cfg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin-top: 12px; }
+.cfg-grid label { display: grid; gap: 4px; font-size: .85rem; font-weight: 600; }
+.cfg-grid textarea { min-height: 54px; resize: vertical; font-weight: 400; font-size: .85rem; }
+.import { display: grid; gap: 10px; }
+.import .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.mapping { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; font-size: .85rem; }
+.mapping label { display: grid; gap: 2px; }
+code, .mono { font-family: var(--f-data); font-size: .82rem; }
+.copybox { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px; overflow-x: auto; white-space: pre; font-family: var(--f-data); font-size: .8rem; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--fg); color: var(--bg); padding: 10px 16px; border-radius: 8px; font-weight: 600; font-size: .9rem; }
+@media (prefers-reduced-motion: no-preference) { .bar > i, .track > i { transition: width .4s ease; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div>
+      <div class="eyebrow">Rhino Consultoria · Future Flow</div>
+      <h1>Radar Future Flow</h1>
+    </div>
+    <div class="controls">
+      <label class="eyebrow" for="day">Dia</label>
+      <select id="day"></select>
+      <button class="btn primary" id="btn-import">Importar CSV do dia</button>
+      <button class="btn" id="btn-backup">Copiar backup</button>
+    </div>
+  </header>
+
+  <div class="banner" id="demo-banner" hidden>
+    Você está vendo <strong>dados de exemplo</strong> (leads fictícios). Importe o CSV exportado da Future Flow para ver os seus.
+    <button class="btn" id="btn-clear-demo" style="margin-left:8px">Apagar exemplos</button>
+  </div>
+
+  <section class="panel import" id="import-panel" hidden>
+    <h2>Importar exportação de Contatos</h2>
+    <p class="legend" style="margin:0">Na Future Flow: <strong>Contatos → Exportar</strong>. Faça isso 1 vez por dia (de preferência no mesmo horário) e suba o arquivo aqui. O painel compara com o dia anterior.</p>
+    <div class="row">
+      <input type="file" id="file" accept=".csv,text/csv,.txt">
+      <label>Data deste arquivo <input type="date" id="import-date"></label>
+    </div>
+    <div id="mapping-box" hidden>
+      <p class="legend" style="margin:0 0 6px">Confira quais colunas o painel encontrou. Só <strong>Telefone</strong> e <strong>Tags</strong> são obrigatórias.</p>
+      <div class="mapping" id="mapping"></div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn primary" id="btn-save-import">Salvar dia</button>
+        <span class="legend" id="import-info"></span>
+      </div>
+    </div>
+    <details>
+      <summary class="legend">Formato aceito (se for montar a planilha à mão)</summary>
+      <div class="copybox">telefone;nome;empresa;tags;ultimo_contato;mensagens_enviadas;valor
+5532999990000;Ana Souza;Clínica Sorriso LTDA;Reunião agendada, Quente;12/10/2026;2;7000</div>
+    </details>
+  </section>
+
+  <section class="panel">
+    <div class="eyebrow" id="sum-date"></div>
+    <p class="summary" id="summary"></p>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <div class="two">
+    <section class="panel">
+      <h2>Progrediram</h2>
+      <ul class="moves" id="list-up"></ul>
+    </section>
+    <section class="panel">
+      <h2>Regrediram</h2>
+      <ul class="moves" id="list-down"></ul>
+    </section>
+  </div>
+
+  <section class="panel">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:baseline">
+      <h2>Prioridade de hoje</h2>
+      <span class="legend">Nota 0–100: etapa + temperatura + movimento + cadência. Opt-out e pausas ficam fora.</span>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>#</th><th>Lead</th><th>Etapa</th><th>Nota</th><th>Próxima ação</th></tr></thead>
+      <tbody id="prio"></tbody>
+    </table></div>
+  </section>
+
+  <div class="two">
+    <section class="panel">
+      <h2>Funil vs metas</h2>
+      <div class="funnel" id="funnel"></div>
+      <div class="legend">Barra = taxa atual (quantos chegaram à etapa ÷ etapa anterior). Traço preto = meta do agente "Consultor de Conversão – Rhino".</div>
+    </section>
+    <section class="panel">
+      <h2>Não contatar agora</h2>
+      <ul class="moves" id="list-block"></ul>
+      <div class="legend">Regras anti-bloqueio: respeitar PARAR/SAIR, máx. 3 contatos e pausa de 30 dias, 1–2 mensagens por semana, só das 8h às 20h.</div>
+    </section>
+  </div>
+
+  <section class="panel">
+    <h2>Histórico</h2>
+    <div class="hist" id="hist"></div>
+    <div class="legend"><span class="chip up">avançaram</span> <span class="chip down">regrediram</span> <span class="chip">novos</span> — clique num dia para abrir o resumo dele.</div>
+  </section>
+
+  <section class="panel">
+    <details class="cfg">
+      <summary>Configurar etapas (tags do CRM)</summary>
+      <p class="legend">No CRM da Future Flow cada <strong>tag</strong> é uma coluna. Escreva aqui, separadas por vírgula, as tags que significam cada etapa. Se um lead tiver várias, vale a etapa mais avançada.</p>
+      <div class="cfg-grid" id="cfg"></div>
+      <div class="controls" style="margin-top:12px">
+        <button class="btn primary" id="btn-save-cfg">Salvar etapas</button>
+        <button class="btn" id="btn-reset-cfg">Voltar ao padrão</button>
+      </div>
+    </details>
+  </section>
+
+  <section class="panel" id="backup-panel" hidden>
+    <h2>Backup</h2>
+    <p class="legend" style="margin:0">Os dias importados ficam salvos só neste navegador. Guarde este texto para restaurar em outro lugar: cole abaixo e clique em Restaurar.</p>
+    <textarea id="backup-text" rows="5" style="width:100%" class="mono"></textarea>
+    <div class="controls"><button class="btn primary" id="btn-restore">Restaurar</button></div>
+  </section>
+</div>
+
+<script>
+(() => {
+"use strict";
+const $ = (id) => document.getElementById(id);
+const KEY = "radarFF.v1";
+
+// ---------- etapas (baseadas na jornada + agente de conversão) ----------
+const DEFAULT_STAGES = [
+  { id: "novo",      label: "Novo lead",          keys: "novo lead, novo, importado, base, prospecção" },
+  { id: "abordado",  label: "Abordado",           keys: "abordado, disparo, contatado, aguardando resposta, enviado" },
+  { id: "respondeu", label: "Respondeu",          keys: "respondeu, interessado, qualificando, clicou, ver mais" },
+  { id: "agendada",  label: "Reunião agendada",   keys: "reunião agendada, reuniao agendada, agendado, agendou" },
+  { id: "realizada", label: "Reunião realizada",  keys: "reunião realizada, reuniao realizada, compareceu, diagnóstico" },
+  { id: "proposta",  label: "Proposta enviada",   keys: "proposta, proposta enviada, negociação, aguardando pagamento" },
+  { id: "piloto",    label: "Piloto 30 dias",     keys: "piloto, fechado/ganho, ganho, pago" },
+  { id: "retainer",  label: "Retainer mensal",    keys: "retainer, cliente ativo, mensal, recorrente" },
+];
+const DEFAULT_EXITS = [
+  { id: "optout",  label: "Opt-out (PARAR)", keys: "opt-out, optout, sair, parar, descadastrado, cancelar recebimento" },
+  { id: "perdido", label: "Perdido",         keys: "perdido, fechado/perdido, sem interesse, sem orçamento" },
+  { id: "pausa",   label: "Em pausa",        keys: "pausa, pausa 30 dias, pausado" },
+];
+// metas do documento "Estratégia de Conversão" (seção 2)
+const TARGETS = [
+  { from: "abordado",  to: "respondeu", label: "Resposta",       meta: .20 },
+  { from: "respondeu", to: "agendada",  label: "Agendamento",    meta: .40 },
+  { from: "agendada",  to: "realizada", label: "Comparecimento", meta: .80 },
+  { from: "realizada", to: "proposta",  label: "Proposta",       meta: .60 },
+  { from: "proposta",  to: "piloto",    label: "Fechamento",     meta: .30 },
+  { from: "piloto",    to: "retainer",  label: "Renovação p/ retainer", meta: .80 },
+];
+// tabela de preços do "Modelo de Agência"
+const VALUE = { realizada: 7000, proposta: 7000, piloto: 3000, retainer: 3000 };
+
+// ---------- storage (só conveniência local) ----------
+function load() {
+  try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.days) return s; } catch (e) {}
+  return null;
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+// ---------- utilidades ----------
+const norm = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const iso = (d) => d.toISOString().slice(0, 10);
+const addDays = (isoStr, n) => { const d = new Date(isoStr + "T12:00:00"); d.setDate(d.getDate() + n); return iso(d); };
+const daysBetween = (a, b) => Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 864e5);
+const fmtDay = (s) => new Date(s + "T12:00:00").toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long" });
+const fmtShort = (s) => new Date(s + "T12:00:00").toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" });
+const brl = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+const phoneKey = (p) => String(p ?? "").replace(/\D/g, "").replace(/^0+/, "");
+
+// Limpador de dados: regras do agente "Nomes de Empresa"
+function cleanCompany(name) {
+  let s = String(name ?? "").trim();
+  if (!s) return "";
+  s = s.replace(/\b(ltda|me|epp|eireli|s\/?a|mei)\.?$/i, "").trim();
+  s = s.replace(/\s+-\s+[A-Z]{2}$/i, "").trim();          // "Rhino - SP"
+  s = s.replace(/\s+\d[\d./-]*$/, "").trim();            // números/CNPJ no final
+  s = s.replace(/\s+(ltda|me|epp|eireli)\.?$/i, "").trim();
+  return s.replace(/\s{2,}/g, " ");
+}
+
+function parseDate(v) {
+  const s = String(v ?? "").trim();
+  let m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return `${m[1]}-${m[2]}-${m[3]}`;
+  m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})/);
+  if (m) { const y = m[3].length === 2 ? "20" + m[3] : m[3]; return `${y}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; }
+  return "";
+}
+
+// ---------- CSV ----------
+function parseCSV(text) {
+  text = text.replace(/^﻿/, "");
+  const first = text.split(/\r?\n/)[0] || "";
+  const delim = [";", ",", "\t"].sort((a, b) => first.split(b).length - first.split(a).length)[0];
+  const rows = []; let row = [], cell = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; }
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === delim) { row.push(cell); cell = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(cell); cell = ""; if (row.some((x) => x.trim())) rows.push(row); row = [];
+    } else cell += c;
+  }
+  row.push(cell); if (row.some((x) => x.trim())) rows.push(row);
+  return rows;
+}
+const FIELDS = [
+  { id: "phone",    label: "Telefone *",          hints: ["telefone", "phone", "numero", "número", "whatsapp", "celular", "contato"] },
+  { id: "tags",     label: "Tags *",              hints: ["tags", "tag", "etiquetas", "etapa", "status", "coluna"] },
+  { id: "name",     label: "Nome",                hints: ["nome", "name", "contato nome", "cliente"] },
+  { id: "company",  label: "Empresa",             hints: ["empresa", "company", "razao", "razão", "negocio", "negócio"] },
+  { id: "last",     label: "Último contato",      hints: ["ultimo contato", "último contato", "ultima mensagem", "última mensagem", "last message", "atualizado", "updated"] },
+  { id: "sent",     label: "Mensagens enviadas",  hints: ["mensagens enviadas", "enviadas", "contatos", "tentativas"] },
+  { id: "value",    label: "Valor (R$)",          hints: ["valor", "value", "ticket"] },
+];
+function guessMapping(header) {
+  const h = header.map(norm); const map = {};
+  for (const f of FIELDS) {
+    let idx = h.findIndex((x) => f.hints.some((k) => x === norm(k)));
+    if (idx < 0) idx = h.findIndex((x) => f.hints.some((k) => x.includes(norm(k))));
+    if (idx >= 0 && !Object.values(map).includes(idx)) map[f.id] = idx;
+  }
+  return map;
+}
+
+// ---------- classificação ----------
+function compileCfg(cfg) {
+  const kw = (s) => s.split(",").map(norm).filter(Boolean);
+  return { stages: cfg.stages.map((s, i) => ({ ...s, i, k: kw(s.keys) })), exits: cfg.exits.map((s) => ({ ...s, k: kw(s.keys) })) };
+}
+function tagMatches(tag, key) { return tag === key || new RegExp(`(^|[^a-z0-9])${key.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&")}([^a-z0-9]|$)`).test(tag); }
+function classify(tagsStr, C) {
+  const tags = String(tagsStr ?? "").split(/[,;|]/).map(norm).filter(Boolean);
+  let exit = null, stage = -1, temp = null;
+  for (const t of tags) {
+    for (const x of C.exits) if (x.k.some((k) => tagMatches(t, k))) { if (!exit || x.id === "optout") exit = x.id; }
+    for (const s of C.stages) if (s.k.some((k) => tagMatches(t, k))) stage = Math.max(stage, s.i);
+    if (/quente/.test(t)) temp = "quente"; else if (/morno/.test(t) && temp !== "quente") temp = "morno"; else if (/frio/.test(t) && !temp) temp = "frio";
+  }
+  if (stage < 0) stage = 0;
+  let inferred = false;
+  if (!temp) { inferred = true; temp = stage >= 2 ? "quente" : stage === 1 ? "morno" : "frio"; }
+  return { stage, exit, temp, tempInferred: inferred };
+}
+const TEMP_RANK = { frio: 0, morno: 1, quente: 2 };
+
+// ---------- estado ----------
+function defaultCfg() { return { stages: DEFAULT_STAGES.map((s) => ({ ...s })), exits: DEFAULT_EXITS.map((s) => ({ ...s })) }; }
+let state = load() || makeDemo();
+if (!state.cfg) state.cfg = defaultCfg();
+let C = compileCfg(state.cfg);
+let selected = null;
+
+function makeDemo() {
+  const today = iso(new Date()); const y = addDays(today, -1); const y2 = addDays(today, -2);
+  // [nome, empresa, tags anteontem, tags ontem, tags hoje, último contato (dias atrás), enviadas]
+  const L = [
+    ["Mariana Costa", "Clínica Sorriso Pleno LTDA", "Abordado", "Respondeu", "Reunião agendada, Quente", 0, 2],
+    ["Rafael Nunes", "Nunes Contabilidade ME", "Reunião agendada", "Reunião agendada", "Reunião realizada, Quente", 0, 3],
+    ["Juliana Prado", "Prado Estética - MG", "Reunião realizada", "Proposta enviada", "Proposta enviada, Quente", 4, 4],
+    ["Carlos Mendes", "Mendes Auto Peças", "Proposta enviada", "Proposta enviada", "Piloto, Quente", 0, 5],
+    ["Beatriz Lima", "Ótica Visão Clara", "Respondeu", "Respondeu, Quente", "Respondeu, Morno", 3, 2],
+    ["Thiago Alves", "Alves Imóveis 12345", "Reunião agendada", "Reunião agendada", "Respondeu, Morno", 1, 3],
+    ["Fernanda Rocha", "Studio Fit Rocha", "Abordado", "Abordado", "Abordado, Frio", 3, 1],
+    ["Lucas Teixeira", "Teixeira Odontologia", "Abordado", "Abordado", "Opt-out", 0, 1],
+    ["Patrícia Gomes", "Gomes Pet Shop", "Novo lead", "Novo lead", "Novo lead, Frio", 99, 0],
+    ["André Martins", "Martins Engenharia", "Abordado", "Abordado", "Abordado, Pausa", 9, 3],
+    ["Camila Ribeiro", "Restaurante Sabor de Minas", "Proposta enviada", "Proposta enviada", "Proposta enviada, Morno", 6, 4],
+    ["Diego Ferraz", "Ferraz Advocacia", "Piloto", "Piloto", "Piloto, Quente", 2, 6],
+    ["Helena Duarte", "Duarte Moda Feminina", "Respondeu", "Respondeu", "Sem interesse", 0, 2],
+    ["Gustavo Pires", "Pires Academia", "", "Novo lead", "Abordado, Frio", 0, 1],
+    ["Larissa Moura", "Moura Cosméticos", "Retainer", "Retainer", "Retainer, Quente", 1, 8],
+    ["Bruno Carvalho", "Carvalho Materiais de Construção", "Abordado", "Abordado", "Abordado, Frio", 22, 2],
+  ];
+  const mk = (col) => L.filter((l) => l[col]).map((l, i) => ({
+    phone: "5532999" + String(100000 + i * 7919).slice(-6), name: l[0], company: l[1], tags: l[col],
+    last: col === 4 ? addDays(today, -l[5]) : "", sent: col === 4 ? l[6] : Math.max(0, l[6] - 1), value: null,
+  }));
+  return { demo: true, cfg: defaultCfg(), days: { [y2]: mk(2), [y]: mk(3), [today]: mk(4) } };
+}
+
+// ---------- análise de um dia ----------
+function enrich(rec) { return { ...rec, ...classify(rec.tags, C), company: cleanCompany(rec.company) }; }
+function analyze(day) {
+  const dates = Object.keys(state.days).sort();
+  const idx = dates.indexOf(day); const prevDay = idx > 0 ? dates[idx - 1] : null;
+  const cur = state.days[day].map(enrich);
+  const prevMap = new Map((prevDay ? state.days[prevDay] : []).map((r) => [phoneKey(r.phone), enrich(r)]));
+  const curKeys = new Set(cur.map((r) => phoneKey(r.phone)));
+  const up = [], down = [], novos = [], saiu = [];
+  for (const r of cur) {
+    const p = prevMap.get(phoneKey(r.phone)); r.prev = p || null;
+    if (!p) { if (prevDay) novos.push(r); r.move = "novo"; continue; }
+    if (r.exit && !p.exit) { saiu.push(r); down.push(r); r.move = "saiu"; continue; }
+    if (!r.exit && p.exit) { up.push(r); r.move = "voltou"; continue; }
+    if (r.exit) { r.move = "igual"; continue; }
+    if (r.stage > p.stage) { up.push(r); r.move = "up"; }
+    else if (r.stage < p.stage) { down.push(r); r.move = "down"; }
+    else if (TEMP_RANK[r.temp] < TEMP_RANK[p.temp] && !r.tempInferred && !p.tempInferred) { down.push(r); r.move = "esfriou"; }
+    else if (TEMP_RANK[r.temp] > TEMP_RANK[p.temp] && !r.tempInferred && !p.tempInferred) { up.push(r); r.move = "esquentou"; }
+    else r.move = "igual";
+  }
+  const sumiram = prevDay ? [...prevMap.keys()].filter((k) => !curKeys.has(k)).length : 0;
+  // dias parado na etapa atual (andando para trás no histórico)
+  for (const r of cur) {
+    let since = day;
+    for (let j = idx - 1; j >= 0; j--) {
+      const old = state.days[dates[j]].find((x) => phoneKey(x.phone) === phoneKey(r.phone));
+      if (!old) break; const c = classify(old.tags, C);
+      if (c.stage !== r.stage || c.exit !== r.exit) break; since = dates[j];
+    }
+    r.daysInStage = daysBetween(since, day);
+    r.dSince = r.last ? daysBetween(parseDate(r.last) || r.last, day) : r.daysInStage;
+    prioritize(r);
+  }
+  return { day, prevDay, cur, up, down, novos, saiu, sumiram };
+}
+
+// nota de prioridade + próxima ação (cadência do documento de conversão)
+const STAGE_W = [6, 10, 22, 24, 26, 30, 20, 8];
+function prioritize(r) {
+  r.reasons = []; r.blocked = null; r.score = 0;
+  const sent = Number(r.sent) || 0; const d = r.dSince;
+  if (r.exit === "optout") { r.blocked = "Pediu para sair. Não enviar mais nada."; return; }
+  if (r.exit === "perdido") { r.blocked = "Sem interesse / sem orçamento. Retomar só se ele chamar."; return; }
+  if (r.exit === "pausa") { r.blocked = "Em pausa de cadência. Aguardar o fim da pausa."; return; }
+  if (r.stage <= 1 && sent >= 3 && d < 30) { r.blocked = `3 contatos sem resposta. Pausa de 30 dias (faltam ${30 - d}).`; return; }
+  if (r.stage === 1 && d >= 7 && d < 21) { r.blocked = `Pausa de 14 dias da cadência (reabordar em ${21 - d} dia${21 - d === 1 ? "" : "s"}).`; return; }
+
+  let s = STAGE_W[r.stage] ?? 6;
+  s += r.temp === "quente" ? 25 : r.temp === "morno" ? 12 : 0;
+  if (r.temp === "quente") r.reasons.push(["Quente", "up"]);
+  if (r.move === "down" || r.move === "esfriou") { s += 18; r.reasons.push(["Regrediu", "down"]); }
+  if (r.move === "up" || r.move === "esquentou") { s += 10; r.reasons.push(["Avançou", "up"]); }
+  if (r.move === "novo") r.reasons.push(["Novo hoje", ""]);
+
+  const S = state.cfg.stages[r.stage]?.id;
+  let a;
+  switch (S) {
+    case "novo": a = "Enviar 1ª mensagem (template Utilidade), entre 8h e 20h."; break;
+    case "abordado":
+      if (d < 3) { a = `Aguardar. Acompanhamento no dia 3 (faltam ${3 - d}).`; s -= 10; }
+      else if (d < 7) { a = "Enviar 1 acompanhamento (dia 3 da cadência)."; s += 15; r.reasons.push(["Follow-up vence hoje", "warn"]); }
+      else { a = "Reabordar com novo ângulo (dia 21)."; s += 10; r.reasons.push(["Reabordagem", "warn"]); }
+      break;
+    case "respondeu": a = "Fazer as 3 perguntas de qualificação e oferecer horário de 20 min."; if (d >= 1) { s += 12; r.reasons.push([`Sem retorno há ${d}d`, "warn"]); } break;
+    case "agendada": a = "Confirmar a reunião e mandar o link (Mensagem 3)."; s += 8; break;
+    case "realizada": a = "Enviar proposta em PDF em até 24h, com case similar."; if (d >= 1) { s += 15; r.reasons.push(["Proposta atrasada", "warn"]); } break;
+    case "proposta": if (d >= 3) { a = "Cobrar retorno da proposta."; s += 15; r.reasons.push([`Proposta parada ${d}d`, "warn"]); } else a = "Acompanhar a proposta."; break;
+    case "piloto": a = "Mostrar resultados do piloto e propor retainer (R$3.000/mês)."; if (r.daysInStage >= 20) { s += 15; r.reasons.push(["Piloto acabando", "warn"]); } break;
+    case "retainer": a = "Enviar relatório semanal e ajustar campanhas."; s -= 5; break;
+    default: a = "Revisar contato.";
+  }
+  if (r.move === "down" || r.move === "esfriou") a = "Resgatar: " + a.charAt(0).toLowerCase() + a.slice(1);
+  r.action = a;
+  r.value = Number(r.value) || VALUE[S] || 0;
+  if (r.value >= 3000) s += 5;
+  r.score = Math.max(0, Math.min(100, Math.round(s)));
+}
+
+// ---------- render ----------
+function stageLabel(i) { return state.cfg.stages[i]?.label ?? "—"; }
+function exitLabel(id) { return state.cfg.exits.find((x) => x.id === id)?.label ?? id; }
+function statusChip(r) { return r.exit ? `<span class="chip down">${esc(exitLabel(r.exit))}</span>` : `<span class="chip">${esc(stageLabel(r.stage))}</span>`; }
+function tempChip(r) { const cls = r.temp === "quente" ? "up" : r.temp === "morno" ? "warn" : "ghost"; return `<span class="chip ${cls}" title="${r.tempInferred ? "Temperatura inferida pela etapa" : "Tag de temperatura"}">${r.temp}${r.tempInferred ? "*" : ""}</span>`; }
+function who(r) { return `<div class="who">${esc(r.name || r.phone)}<div class="co">${esc(r.company || r.phone)}</div></div>`; }
+
+function moveItem(r) {
+  const p = r.prev; const from = p ? (p.exit ? `<span class="chip ghost">${esc(exitLabel(p.exit))}</span>` : `<span class="chip ghost">${esc(stageLabel(p.stage))}</span>`) : "";
+  const label = { esfriou: "esfriou", esquentou: "esquentou" }[r.move];
+  const tempNote = label ? ` <span class="legend">(${label}: ${p.temp} → ${r.temp})</span>` : "";
+  return `<li>${who(r)}<div>${tempChip(r)}</div><div class="path">${from} <span aria-hidden="true">→</span> ${statusChip(r)}${tempNote}</div></li>`;
+}
+
+function render() {
+  const dates = Object.keys(state.days).sort();
+  $("demo-banner").hidden = !state.demo;
+  if (!dates.length) {
+    $("summary").textContent = "Nenhum dia importado ainda. Clique em “Importar CSV do dia”.";
+    ["tiles", "list-up", "list-down", "prio", "funnel", "list-block", "hist"].forEach((id) => ($(id).innerHTML = ""));
+    $("day").innerHTML = ""; $("sum-date").textContent = ""; return;
+  }
+  if (!selected || !state.days[selected]) selected = dates[dates.length - 1];
+  $("day").innerHTML = dates.slice().reverse().map((d) => `<option value="${d}" ${d === selected ? "selected" : ""}>${fmtShort(d)} · ${state.days[d].length} leads</option>`).join("");
+  const A = analyze(selected);
+  const active = A.cur.filter((r) => !r.exit);
+  const queue = A.cur.filter((r) => !r.blocked).sort((a, b) => b.score - a.score);
+  const blocked = A.cur.filter((r) => r.blocked);
+  const emJogo = active.reduce((t, r) => t + (["realizada", "proposta", "piloto"].includes(state.cfg.stages[r.stage]?.id) ? r.value : 0), 0);
+
+  $("sum-date").textContent = fmtDay(selected) + (A.prevDay ? ` · comparado com ${fmtShort(A.prevDay)}` : " · primeiro dia importado");
+  const top = queue.slice(0, 3).map((r) => r.name || r.phone);
+  $("summary").innerHTML = A.prevDay
+    ? `<strong>${A.up.length}</strong> lead${A.up.length === 1 ? "" : "s"} avançaram, <strong>${A.down.length}</strong> regrediram${A.saiu.length ? ` (${A.saiu.length} saíram do funil)` : ""} e <strong>${A.novos.length}</strong> entraram. ` +
+      (top.length ? `Comece por <strong>${top.map(esc).join("</strong>, <strong>")}</strong>.` : "")
+    : `Primeiro retrato da base: ${active.length} leads ativos. Importe o próximo dia para ver quem avançou ou regrediu.`;
+
+  $("tiles").innerHTML = [
+    ["Leads ativos", active.length, "acc"], ["Avançaram", A.up.length, "up"], ["Regrediram", A.down.length, "down"],
+    ["Novos", A.novos.length, ""], ["Valor em jogo", brl(emJogo), "acc", "Reunião realizada e proposta = R$7.000 (projeto); piloto = R$3.000/mês (retainer)"],
+  ].map(([k, v, c, t]) => `<div class="tile ${c}" ${t ? `title="${esc(t)}"` : ""}><div class="eyebrow">${k}</div><div class="v">${v}</div></div>`).join("");
+
+  $("list-up").innerHTML = A.up.length ? A.up.map(moveItem).join("") : `<li class="empty">${A.prevDay ? "Ninguém avançou neste dia." : "Precisa de 2 dias importados para comparar."}</li>`;
+  $("list-down").innerHTML = A.down.length ? A.down.map(moveItem).join("") : `<li class="empty">${A.prevDay ? "Ninguém regrediu. 👍" : "Precisa de 2 dias importados para comparar."}</li>`;
+
+  $("prio").innerHTML = queue.length ? queue.map((r, i) => `<tr>
+    <td class="num">${i + 1}</td>
+    <td>${who(r)}</td>
+    <td>${statusChip(r)} ${tempChip(r)}</td>
+    <td><div class="score"><div class="bar ${r.score >= 70 ? "hot" : ""}"><i style="width:${r.score}%"></i></div><span class="num">${r.score}</span></div></td>
+    <td><div class="action">${esc(r.action)}</div><div class="reasons">${r.reasons.map(([t, c]) => `<span class="chip ${c}">${esc(t)}</span>`).join("")}</div></td>
+  </tr>`).join("") : `<tr><td colspan="5" class="empty">Nenhum lead para acionar hoje.</td></tr>`;
+
+  // funil: quantos chegaram a cada etapa (etapa atual ≥ X), sem contar saídas
+  const reached = (id) => { const i = state.cfg.stages.findIndex((s) => s.id === id); return A.cur.filter((r) => r.stage >= i && (!r.exit || r.exit === "pausa")).length; };
+  $("funnel").innerHTML = TARGETS.map((t) => {
+    const base = reached(t.from), got = reached(t.to); const rate = base ? got / base : 0; const ok = rate >= t.meta;
+    return `<div class="frow"><div><div style="font-weight:600">${t.label}</div><div class="legend num">${got} de ${base}</div></div>
+      <div class="track" role="img" aria-label="${t.label}: ${Math.round(rate * 100)}% (meta ${Math.round(t.meta * 100)}%)"><i style="width:${Math.min(100, rate * 100)}%;background:var(${ok ? "--up" : "--down"})"></i><b style="left:${t.meta * 100}%"></b></div>
+      <div class="num" style="color:var(${ok ? "--up" : "--down"});font-weight:600">${Math.round(rate * 100)}% <span class="legend">/ ${Math.round(t.meta * 100)}%</span></div></div>`;
+  }).join("");
+
+  $("list-block").innerHTML = blocked.length ? blocked.map((r) => `<li>${who(r)}<div>${statusChip(r)}</div><div class="path"><span class="chip warn">Não enviar</span> ${esc(r.blocked)}</div></li>`).join("") : `<li class="empty">Nenhum bloqueio hoje.</li>`;
+
+  // histórico
+  const hist = dates.map((d) => { const a = analyze(d); return { d, up: a.up.length, down: a.down.length, novos: a.prevDay ? a.novos.length : 0 }; });
+  const mx = Math.max(1, ...hist.flatMap((h) => [h.up, h.down, h.novos]));
+  const h = (v) => `${Math.round((v / mx) * 66) + 2}px`;
+  $("hist").innerHTML = hist.map((x) => `<div class="hcol ${x.d === selected ? "sel" : ""}"><button data-day="${x.d}" aria-label="Abrir ${fmtShort(x.d)}">
+      <span class="hbars"><i style="height:${h(x.up)};background:var(--up)" title="${x.up} avançaram"></i><i style="height:${h(x.down)};background:var(--down)" title="${x.down} regrediram"></i><i style="height:${h(x.novos)};background:var(--accent)" title="${x.novos} novos"></i></span>
+      <span class="num">${fmtShort(x.d)}</span></button></div>`).join("");
+}
+
+function renderCfg() {
+  const all = [...state.cfg.stages.map((s, i) => ({ ...s, grp: "stages", i })), ...state.cfg.exits.map((s, i) => ({ ...s, grp: "exits", i }))];
+  $("cfg").innerHTML = all.map((s) => `<label for="cfg-${s.grp}-${s.i}">${s.grp === "exits" ? "Saída · " : ""}${esc(s.label)}<textarea id="cfg-${s.grp}-${s.i}" data-grp="${s.grp}" data-i="${s.i}">${esc(s.keys)}</textarea></label>`).join("");
+}
+
+function toast(msg) {
+  const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; t.setAttribute("role", "status");
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2600);
+}
+
+// ---------- eventos ----------
+$("day").addEventListener("change", (e) => { selected = e.target.value; render(); });
+$("hist").addEventListener("click", (e) => { const b = e.target.closest("button[data-day]"); if (b) { selected = b.dataset.day; render(); } });
+$("btn-import").addEventListener("click", () => { const p = $("import-panel"); p.hidden = !p.hidden; $("import-date").value = iso(new Date()); if (!p.hidden) p.scrollIntoView({ behavior: "smooth", block: "start" }); });
+$("btn-clear-demo").addEventListener("click", () => { state = { cfg: state.cfg, days: {} }; selected = null; save(); render(); toast("Exemplos apagados"); $("import-panel").hidden = false; $("import-date").value = iso(new Date()); });
+
+let pending = null;
+$("file").addEventListener("change", async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const rows = parseCSV(await f.text());
+  if (rows.length < 2) { toast("O arquivo está vazio ou sem cabeçalho."); return; }
+  const header = rows[0]; const map = guessMapping(header);
+  pending = { header, rows: rows.slice(1) };
+  const opts = (sel) => `<option value="">— não tem —</option>` + header.map((h, i) => `<option value="${i}" ${sel === i ? "selected" : ""}>${esc(h)}</option>`).join("");
+  $("mapping").innerHTML = FIELDS.map((f) => `<label for="map-${f.id}">${f.label}<select id="map-${f.id}" data-f="${f.id}">${opts(map[f.id])}</select></label>`).join("");
+  $("import-info").textContent = `${pending.rows.length} linhas encontradas.`;
+  $("mapping-box").hidden = false;
+});
+$("btn-save-import").addEventListener("click", () => {
+  if (!pending) return;
+  const m = {}; document.querySelectorAll("#mapping select").forEach((s) => { if (s.value !== "") m[s.dataset.f] = Number(s.value); });
+  if (m.phone == null || m.tags == null) { toast("Escolha as colunas de Telefone e Tags."); return; }
+  const day = $("import-date").value || iso(new Date());
+  const get = (r, k) => (m[k] == null ? "" : (r[m[k]] ?? "").trim());
+  const seen = new Set(); const recs = [];
+  for (const r of pending.rows) {
+    const phone = phoneKey(get(r, "phone")); if (!phone || seen.has(phone)) continue; seen.add(phone);
+    recs.push({ phone, name: get(r, "name"), company: get(r, "company"), tags: get(r, "tags"), last: parseDate(get(r, "last")), sent: Number(get(r, "sent")) || 0, value: Number(String(get(r, "value")).replace(/[^\d,]/g, "").replace(",", ".")) || null });
+  }
+  if (state.demo) state = { cfg: state.cfg, days: {} };
+  state.days[day] = recs; selected = day; save();
+  $("mapping-box").hidden = true; $("import-panel").hidden = true; $("file").value = ""; pending = null;
+  render(); toast(`${recs.length} leads salvos em ${fmtShort(day)}`);
+});
+
+$("btn-save-cfg").addEventListener("click", () => {
+  document.querySelectorAll("#cfg textarea").forEach((t) => { state.cfg[t.dataset.grp][Number(t.dataset.i)].keys = t.value; });
+  C = compileCfg(state.cfg); save(); render(); toast("Etapas salvas");
+});
+$("btn-reset-cfg").addEventListener("click", () => { state.cfg = defaultCfg(); C = compileCfg(state.cfg); save(); renderCfg(); render(); toast("Etapas voltaram ao padrão"); });
+
+$("btn-backup").addEventListener("click", async () => {
+  const p = $("backup-panel"); p.hidden = false; const txt = JSON.stringify(state);
+  $("backup-text").value = txt; p.scrollIntoView({ behavior: "smooth", block: "start" });
+  try { await navigator.clipboard.writeText(txt); toast("Backup copiado"); } catch (e) { $("backup-text").select(); toast("Selecione e copie o texto do backup"); }
+});
+$("btn-restore").addEventListener("click", () => {
+  try { const s = JSON.parse($("backup-text").value); if (!s.days) throw 0; state = s; if (!state.cfg) state.cfg = defaultCfg(); C = compileCfg(state.cfg); selected = null; save(); renderCfg(); render(); toast("Backup restaurado"); }
+  catch (e) { toast("Esse texto não é um backup válido do painel."); }
+});
+
+renderCfg(); render();
+})();
+</script>
+</body>
+</html>
