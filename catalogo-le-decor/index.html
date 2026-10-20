@@ -83,19 +83,19 @@
   .divider p.list { color: var(--areia); }
 
   /* Páginas de peça: foto em destaque colada no topo, texto e ficha no terço inferior */
-  .piece .main { top: 0; left: 0; width: 1080px; height: 780px; }
-  .piece .info { position: absolute; top: 828px; width: 320px; }
+  .piece .main { top: 0; left: 0; width: 1080px; height: 840px; }
+  .piece .info { position: absolute; top: 884px; width: 320px; }
   .piece .eyebrow { color: var(--nogueira); }
-  .piece h3 { font-family: var(--serif); font-weight: 600; font-size: 46px; line-height: 1.04; margin-top: 18px; }
+  .piece h3 { font-variant-numeric: lining-nums; font-family: var(--serif); font-weight: 600; font-size: 46px; line-height: 1.04; margin-top: 18px; }
   .piece .sense { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 22px; line-height: 1.32; margin-top: 12px; }
-  .piece .detail { top: 1060px; width: 220px; height: 220px; }
+  .piece .detail { top: 1084px; width: 200px; height: 200px; }
   .piece .detail:not(.has-img)::after { font-size: 9pt; letter-spacing: .1em; padding: 18px; }
-  .piece .ficha { position: absolute; top: 900px; height: 380px; width: 584px; }
+  .piece .ficha { position: absolute; top: 924px; height: 360px; width: 584px; }
   .piece.info-l .info, .piece.info-l .detail { left: 72px; }
   .piece.info-l .ficha { left: 424px; }
   .piece.info-l .folio { right: 72px; }
   .piece.info-r .info { left: 688px; }
-  .piece.info-r .detail { left: 788px; }
+  .piece.info-r .detail { left: 688px; }
   .piece.info-r .ficha { left: 72px; }
   .piece.info-r .folio { left: 72px; }
   .piece .folio { bottom: 30px; }
@@ -105,13 +105,10 @@
   .ficha::before { content: ""; display: block; height: 1px; background: var(--champagne); margin: 0 -28px; }
   .ficha .label { color: var(--nogueira); font-size: 9pt; letter-spacing: .24em; }
   .ficha .val { font-family: var(--sans); font-weight: 400; font-size: 10.5pt; line-height: 1.55; margin-top: 4px; }
-  .ficha .f-row, .ficha .f-grid3, .ficha .f-grid2 { padding-top: 14px; }
-  .ficha .f-row + *, .ficha .f-grid3 + *, .ficha .f-grid2 + * { border-top: 1px solid var(--offwhite); }
-  .ficha .f-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 14px; }
-  .ficha .f-grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; padding-bottom: 14px; }
-  .ficha .f-row:first-of-type { padding-bottom: 14px; }
-  .ficha .m { font-family: var(--serif); font-weight: 400; font-size: 25px; line-height: 1.2; margin-top: 4px; }
-  .ficha .price { font-family: var(--serif); font-weight: 400; font-size: 25px; }
+  .ficha .f-row, .ficha .f-grid2 { padding-top: 14px; padding-bottom: 14px; }
+  .ficha .f-row + *, .ficha .f-grid2 + * { border-top: 1px solid var(--offwhite); }
+  .ficha > :last-child { padding-bottom: 0; }
+  .ficha .f-grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
   .seal { display: inline-block; background: var(--floresta); color: var(--offwhite); font-family: var(--sans); font-size: 9pt; letter-spacing: .24em; text-transform: uppercase; padding: 5px 10px 4px 12px; margin-top: 6px; white-space: nowrap; }
 
   /* 13 · Como comprar */
@@ -121,7 +118,7 @@
   .buy ol { position: absolute; top: 560px; left: 416px; right: 96px; list-style: none; }
   .buy li { display: flex; align-items: baseline; gap: 36px; padding: 30px 0; border-top: 1px solid var(--champagne); }
   .buy li:last-child { border-bottom: 1px solid var(--champagne); }
-  .buy li .n { font-family: var(--serif); font-weight: 300; font-size: 34px; color: var(--champagne); width: 44px; flex: none; }
+  .buy li .n { font-variant-numeric: lining-nums; font-family: var(--serif); font-weight: 300; font-size: 34px; color: var(--champagne); width: 44px; flex: none; }
   .buy li .t { font-family: var(--sans); font-weight: 300; font-size: 11pt; line-height: 1.7; }
   .buy .folio { right: 72px; }
 
@@ -241,14 +238,10 @@
       <h3>[nome]</h3>
       <p class="sense">Onde a conversa se alonga depois do último prato.</p>
     </div>
-    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-01.webp" alt="" style="object-position:49% 64%;transform-origin:49% 64%;transform:scale(2.4)"></div>
+    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-01.webp" alt="" style="object-position:51.4% 69.4%;transform-origin:51.4% 69.4%;transform:scale(3.4)"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -264,14 +257,10 @@
       <h3>[nome]</h3>
       <p class="sense">Linhas serenas para o tempo sem pressa.</p>
     </div>
-    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-04.webp" alt="" style="object-position:50% 68%;transform-origin:50% 68%;transform:scale(2.2)"></div>
+    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-04.webp" alt="" style="object-position:45.6% 48.6%;transform-origin:45.6% 48.6%;transform:scale(3)"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -281,20 +270,16 @@
     <div class="folio"></div>
   </section>
   <section class="page piece info-l">
-    <div class="ph main has-img" data-label="[FOTO: Mesa 3]"><img src="fotos/ambiente-03.webp" alt="" style="object-position:45% 50%;transform-origin:45% 50%;transform:scale(1)"></div>
+    <div class="ph main has-img" data-label="[FOTO: Mesa 3]"><img src="fotos/ambiente-03.webp" alt="" style="object-position:18% 55%;transform-origin:18% 55%;transform:scale(1.25)"></div>
     <div class="info">
       <div class="caps eyebrow">Mesas de jantar · 03</div>
       <h3>[nome]</h3>
       <p class="sense">Presença firme, desenho que não pede licença.</p>
     </div>
-    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-03.webp" alt="" style="object-position:64% 40%;transform-origin:64% 40%;transform:scale(2.4)"></div>
+    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-03.webp" alt="" style="object-position:19.5% 41.7%;transform-origin:19.5% 41.7%;transform:scale(2.8)"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -313,11 +298,7 @@
     <div class="ph detail" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -348,11 +329,7 @@
     <div class="ph detail" data-label="[FOTO: detalhe — Cadeira Júlia]"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">Encosto curvo, tecidos claros, detalhe caramelo, estrutura metálica preta</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">[uso]</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -371,11 +348,7 @@
     <div class="ph detail" data-label="[FOTO: detalhe — Trio Onix]"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">Tampos circulares de madeira, bordas metálicas escuras</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">Mesas de apoio</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -394,11 +367,7 @@
     <div class="ph detail" data-label="[FOTO: detalhe — Carrinho 01]"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">Madeira e metal, cantos arredondados</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">Para servir, apoiar e compor</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -417,11 +386,7 @@
     <div class="ph detail" data-label="[FOTO: detalhe — Bandeja Redonda]"></div>
     <div class="ficha">
       <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais]</div></div>
-      <div class="f-grid3">
-        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
-        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
-        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
-      </div>
+      <div class="f-row"><div class="caps label">Medidas · comprimento × largura × altura</div><div class="val">[comprimento] × [largura] × [altura]</div></div>
       <div class="f-grid2">
         <div><div class="caps label">Uso ou capacidade</div><div class="val">[uso]</div></div>
         <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
@@ -469,7 +434,7 @@
 (function () {
   var main = document.getElementById('catalogo');
   var KEY = 'ledecor-2026:' + location.pathname;
-  var TEXT = 'h1,h2,h3,blockquote,p,li,dd,.caps,.val,.m,.t,.n,.seal';
+  var TEXT = 'h1,h2,h3,blockquote,p,li,.caps,.val,.t,.n,.seal';
   var statusEl = document.getElementById('ed-status');
 
   /* ---------- Armazenamento (IndexedDB: cabe fotos grandes) ---------- */
@@ -505,7 +470,7 @@
       store('readwrite', function (s) { return s.put(cleanHtml(), KEY); }).then(function () {
         statusEl.textContent = 'Alterações salvas neste navegador';
       });
-    }, 500);
+    }, 1200);
   }
 
   /* ---------- Interface de edição ---------- */
@@ -554,8 +519,9 @@
 
   function shrink(file) {
     // Reduz fotos muito grandes para manter o arquivo leve (lado maior até 2400 px)
-    return new Promise(function (res) {
+    return new Promise(function (res, rej) {
       var r = new FileReader();
+      r.onerror = rej;
       r.onload = function () {
         var im = new Image();
         im.onload = function () {
@@ -566,6 +532,7 @@
           c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
           res(c.toDataURL('image/jpeg', 0.88));
         };
+        im.onerror = rej;
         im.src = r.result;
       };
       r.readAsDataURL(file);
@@ -582,8 +549,9 @@
       target.prepend(img);
       target.classList.add('has-img');
       decorate(); save();
-      picker.value = '';
-    });
+    }).catch(function () {
+      alert('Não foi possível abrir esta imagem. Use um arquivo JPG, PNG ou WEBP.');
+    }).then(function () { picker.value = ''; });
   });
   function zoom(ph, delta) {
     var img = ph.querySelector('img');
@@ -652,11 +620,13 @@
   document.getElementById('ed-print').onclick = function () { window.print(); };
   document.getElementById('ed-reset').onclick = function () {
     if (!confirm('Descartar todas as alterações e voltar ao catálogo original?')) return;
+    clearTimeout(timer);
     store('readwrite', function (s) { return s.delete(KEY); }).then(function () { location.reload(); });
   };
   document.getElementById('ed-download').onclick = function () {
     var doc = document.documentElement.cloneNode(true);
     doc.querySelector('#catalogo').innerHTML = cleanHtml();
+    doc.querySelector('#ed-status').textContent = 'Alterações são salvas automaticamente neste navegador';
     doc.querySelectorAll('body > input').forEach(function (n) { n.remove(); });
     // Embute as fotos que ainda são arquivos externos, para o HTML funcionar sozinho
     var imgs = [].slice.call(doc.querySelectorAll('#catalogo img')).filter(function (i) { return !/^data:/.test(i.getAttribute('src')); });
