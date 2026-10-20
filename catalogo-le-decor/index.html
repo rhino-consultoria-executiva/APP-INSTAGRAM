@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le Decor 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  /* Paleta oficial — nenhuma cor fora destas */
+  :root {
+    --grafite: #2B2B29;
+    --offwhite: #F5F0E8;
+    --nogueira: #6B3A1E;
+    --champagne: #C9A36A;
+    --areia: #C8B8A3;
+    --floresta: #1F5B3A; /* somente selo Série Limitada */
+    --serif: "Cormorant Garamond", "EB Garamond", Garamond, serif;
+    --sans: "Lato", sans-serif;
+  }
+
+  @page { size: 1080px 1350px; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--offwhite); }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; color: var(--grafite); }
+
+  .page {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden;
+    background: var(--offwhite); page-break-after: always; break-after: page;
+  }
+  .page:last-child { page-break-after: auto; break-after: auto; }
+  @media screen {
+    body { padding: 40px 0; }
+    .page { margin: 0 auto 40px; outline: 1px solid var(--areia); }
+  }
+
+  /* Tipografia base */
+  .caps { font-family: var(--sans); font-weight: 400; font-size: 9pt; letter-spacing: .32em; text-transform: uppercase; }
+  .body { font-family: var(--sans); font-weight: 300; font-size: 11pt; line-height: 1.85; }
+  .rule { width: 96px; height: 1px; background: var(--champagne); }
+  .folio { position: absolute; bottom: 44px; font-family: var(--sans); font-size: 9pt; letter-spacing: .2em; color: var(--champagne); }
+  .folio.r { right: 56px; } .folio.l { left: 56px; }
+
+  /* Placeholder de foto */
+  .ph {
+    position: absolute; background: var(--areia); color: var(--grafite);
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-family: var(--sans); font-weight: 300; font-size: 10pt; letter-spacing: .14em; padding: 24px;
+  }
+
+  /* Logo */
+  .logo { display: flex; flex-direction: column; align-items: center; color: var(--grafite); }
+  .logo svg { width: 64px; height: 44px; overflow: visible; }
+  .logo .roof { stroke: var(--champagne); }
+  .logo .mark { font-family: var(--serif); font-weight: 400; font-size: 34px; letter-spacing: 2px; fill: currentColor; }
+  .logo .word { font-family: var(--serif); font-weight: 400; font-size: 15px; letter-spacing: .42em; margin: 10px 0 0 .42em; }
+  .logo .tag { font-family: var(--sans); font-weight: 300; font-size: 8pt; letter-spacing: .24em; margin: 5px 0 0 .24em; }
+
+  /* 1 · Capa */
+  .cover .ph { inset: 0; padding-bottom: 260px; }
+  .cover .logo { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); }
+  .cover .title { position: absolute; left: 80px; bottom: 140px; width: 760px; }
+  .cover h1 { font-family: var(--serif); font-weight: 300; font-size: 92px; line-height: 1.02; letter-spacing: -.01em; }
+  .cover .rule { margin: 40px 0 22px; }
+
+  /* 2 · Manifesto */
+  .manifesto .eyebrow { position: absolute; top: 96px; left: 96px; color: var(--nogueira); }
+  .manifesto blockquote {
+    position: absolute; top: 360px; left: 216px; width: 720px;
+    font-family: var(--serif); font-weight: 300; font-size: 50px; line-height: 1.22;
+  }
+  .manifesto blockquote em { font-style: italic; }
+  .manifesto .values { position: absolute; left: 216px; right: 96px; bottom: 210px; }
+  .manifesto .values .rule { width: 100%; margin-bottom: 26px; }
+  .manifesto .values ul { list-style: none; display: flex; justify-content: space-between; }
+  .manifesto .values li + li::before { content: ""; display: inline-block; width: 1px; height: 11px; background: var(--champagne); margin-right: 24px; vertical-align: -1px; }
+  .manifesto .values li { display: flex; align-items: center; gap: 0; }
+
+  /* 3, 8 · Divisórias */
+  .divider { background: var(--grafite); color: var(--offwhite); }
+  .divider .wrap { position: absolute; left: 96px; bottom: 300px; width: 820px; }
+  .divider .eyebrow { color: var(--champagne); margin-bottom: 40px; }
+  .divider h2 { font-family: var(--serif); font-weight: 300; font-size: 68px; line-height: 1.12; letter-spacing: .08em; text-transform: uppercase; }
+  .divider .rule { margin: 44px 0 30px; }
+  .divider p.phrase { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 30px; }
+  .divider p.list { color: var(--areia); }
+
+  /* 4–7, 9–12 · Páginas de peça */
+  .piece .main { top: 0; bottom: 0; width: 640px; }
+  .piece .col { position: absolute; top: 0; bottom: 0; width: 328px; }
+  .piece.photo-l .main { left: 0; }   .piece.photo-l .col { left: 696px; }
+  .piece.photo-r .main { right: 0; }  .piece.photo-r .col { left: 56px; }
+  .piece .eyebrow { position: absolute; top: 80px; left: 0; color: var(--nogueira); }
+  .piece .detail { top: 136px; width: 224px; height: 264px; font-size: 9pt; letter-spacing: .1em; }
+  .piece.photo-l .detail { right: 0; } .piece.photo-r .detail { left: 0; }
+  .piece .head { position: absolute; top: 470px; left: 0; right: 0; }
+  .piece h3 { font-family: var(--serif); font-weight: 600; font-size: 48px; line-height: 1.05; }
+  .piece .sense { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 23px; line-height: 1.35; margin-top: 18px; }
+  .piece .desc { margin-top: 18px; }
+
+  .ficha { position: absolute; top: 900px; left: 0; right: 0; background: var(--areia); padding: 0 24px 22px; }
+  .ficha::before { content: ""; display: block; height: 1px; background: var(--champagne); margin: 0 -24px 18px; }
+  .ficha .label { color: var(--nogueira); font-size: 9pt; letter-spacing: .24em; }
+  .ficha dl > div { padding: 11px 0; border-top: 1px solid var(--offwhite); }
+  .ficha dl > div:first-child { border-top: 0; padding-top: 0; }
+  .ficha dd { font-family: var(--sans); font-weight: 400; font-size: 10pt; line-height: 1.6; margin-top: 3px; }
+  .seal { display: inline-block; background: var(--floresta); color: var(--offwhite); font-family: var(--sans); font-size: 9pt; letter-spacing: .24em; text-transform: uppercase; padding: 5px 10px 4px 12px; margin-top: 4px; }
+
+  /* 13 · Como comprar */
+  .buy .eyebrow { position: absolute; top: 96px; left: 96px; color: var(--nogueira); }
+  .buy h2 { position: absolute; top: 210px; left: 96px; font-family: var(--serif); font-weight: 300; font-size: 76px; line-height: 1.05; }
+  .buy .lead { position: absolute; top: 410px; left: 96px; width: 300px; font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 24px; line-height: 1.4; }
+  .buy ol { position: absolute; top: 560px; left: 416px; right: 96px; list-style: none; }
+  .buy li { display: flex; align-items: baseline; gap: 36px; padding: 30px 0; border-top: 1px solid var(--champagne); }
+  .buy li:last-child { border-bottom: 1px solid var(--champagne); }
+  .buy li .n { font-family: var(--serif); font-weight: 300; font-size: 34px; color: var(--champagne); width: 44px; flex: none; }
+  .buy li .t { font-family: var(--sans); font-weight: 300; font-size: 11pt; line-height: 1.7; }
+
+  /* 14 · Contracapa */
+  .back { background: var(--grafite); color: var(--offwhite); }
+  .back .logo { position: absolute; top: 120px; left: 96px; align-items: flex-start; color: var(--offwhite); }
+  .back .logo svg { width: 96px; height: 66px; }
+  .back .logo .word { font-size: 22px; margin-left: 0; }
+  .back .logo .tag { margin-left: 0; color: var(--areia); }
+  .back .contact { position: absolute; left: 96px; bottom: 140px; }
+  .back .contact .rule { margin-bottom: 30px; }
+  .back .contact p { font-family: var(--serif); font-weight: 300; font-size: 34px; line-height: 1.5; }
+  .back .contact .caps { color: var(--champagne); margin-bottom: 4px; margin-top: 18px; }
+  .back .qr { right: 96px; bottom: 140px; width: 200px; height: 200px; font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<!-- 01 · CAPA -->
+<section class="page cover">
+  <div class="ph">[FOTO: mesa de jantar principal]</div>
+  <div class="logo">
+    <svg viewBox="0 0 64 44"><polyline class="roof" points="10,13 32,2 54,13" fill="none" stroke-width="1"/><text class="mark" x="32" y="42" text-anchor="middle">LD</text></svg>
+    <div class="word">LE DECOR</div>
+    <div class="tag">móveis autorais</div>
+  </div>
+  <div class="title">
+    <h1>A mesa onde a casa se encontra</h1>
+    <div class="rule"></div>
+    <div class="caps">Coleção 2026</div>
+  </div>
+</section>
+
+<!-- 02 · MANIFESTO -->
+<section class="page manifesto">
+  <div class="caps eyebrow">Manifesto</div>
+  <blockquote>Cada peça é desenhada para ser o ponto focal do ambiente, não o fundo dele. Produzimos em série limitada: <em>exclusividade é método.</em></blockquote>
+  <div class="values">
+    <div class="rule"></div>
+    <ul class="caps">
+      <li>Autoral</li><li>Contemporâneo</li><li>Artesanal</li><li>Elegante</li><li>Humano</li>
+    </ul>
+  </div>
+  <div class="folio r">02</div>
+</section>
+
+<!-- 03 · DIVISÓRIA MESAS -->
+<section class="page divider">
+  <div class="wrap">
+    <div class="caps eyebrow">Capítulo I</div>
+    <h2>Mesas de jantar</h2>
+    <div class="rule"></div>
+    <p class="phrase">O centro da casa começa aqui.</p>
+  </div>
+  <div class="folio r">03</div>
+</section>
+
+<!-- 04 · MESA 1 -->
+<section class="page piece photo-l">
+  <div class="ph main">[FOTO: Mesa 1]</div>
+  <div class="col">
+    <div class="caps eyebrow">Mesas de jantar · 01</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
+    <div class="head">
+      <h3>[nome]</h3>
+      <p class="sense">Onde a conversa se alonga depois do último prato.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio r">04</div>
+</section>
+
+<!-- 05 · MESA 2 -->
+<section class="page piece photo-r">
+  <div class="ph main">[FOTO: Mesa 2]</div>
+  <div class="col">
+    <div class="caps eyebrow">Mesas de jantar · 02</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
+    <div class="head">
+      <h3>[nome]</h3>
+      <p class="sense">Linhas serenas para o tempo sem pressa.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio l">05</div>
+</section>
+
+<!-- 06 · MESA 3 -->
+<section class="page piece photo-l">
+  <div class="ph main">[FOTO: Mesa 3]</div>
+  <div class="col">
+    <div class="caps eyebrow">Mesas de jantar · 03</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
+    <div class="head">
+      <h3>[nome]</h3>
+      <p class="sense">Presença firme, desenho que não pede licença.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio r">06</div>
+</section>
+
+<!-- 07 · MESA 4 -->
+<section class="page piece photo-r">
+  <div class="ph main">[FOTO: Mesa 4]</div>
+  <div class="col">
+    <div class="caps eyebrow">Mesas de jantar · 04</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
+    <div class="head">
+      <h3>[nome]</h3>
+      <p class="sense">Feita para os encontros que viram memória.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio l">07</div>
+</section>
+
+<!-- 08 · DIVISÓRIA COMPLEMENTOS -->
+<section class="page divider">
+  <div class="wrap">
+    <div class="caps eyebrow">Capítulo II</div>
+    <h2>A linha que completa o ambiente</h2>
+    <div class="rule"></div>
+    <p class="caps list">Cadeira Júlia · Trio Onix · Carrinho 01 · Bandeja Redonda</p>
+  </div>
+  <div class="folio r">08</div>
+</section>
+
+<!-- 09 · CADEIRA JÚLIA -->
+<section class="page piece photo-l">
+  <div class="ph main">[FOTO: Cadeira Júlia]</div>
+  <div class="col">
+    <div class="caps eyebrow">A linha que completa · 01</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Cadeira Júlia]</div>
+    <div class="head">
+      <h3>Cadeira Júlia</h3>
+      <p class="sense">Uma curva que acolhe o corpo e o olhar.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>Encosto curvo, tecidos claros, detalhe caramelo, estrutura metálica preta</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>[uso]</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio r">09</div>
+</section>
+
+<!-- 10 · TRIO ONIX -->
+<section class="page piece photo-r">
+  <div class="ph main">[FOTO: Trio Onix]</div>
+  <div class="col">
+    <div class="caps eyebrow">A linha que completa · 02</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Trio Onix]</div>
+    <div class="head">
+      <h3>Trio Onix</h3>
+      <p class="sense">Três círculos que conversam entre si.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>Tampos circulares de madeira, bordas metálicas escuras</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>Mesas de apoio</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio l">10</div>
+</section>
+
+<!-- 11 · CARRINHO 01 -->
+<section class="page piece photo-l">
+  <div class="ph main">[FOTO: Carrinho 01]</div>
+  <div class="col">
+    <div class="caps eyebrow">A linha que completa · 03</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Carrinho 01]</div>
+    <div class="head">
+      <h3>Carrinho 01</h3>
+      <p class="sense">Servir também é uma forma de receber.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>Madeira e metal, cantos arredondados</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>Para servir, apoiar e compor</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio r">11</div>
+</section>
+
+<!-- 12 · BANDEJA REDONDA -->
+<section class="page piece photo-r">
+  <div class="ph main">[FOTO: Bandeja Redonda]</div>
+  <div class="col">
+    <div class="caps eyebrow">A linha que completa · 04</div>
+    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Bandeja Redonda]</div>
+    <div class="head">
+      <h3>Bandeja Redonda</h3>
+      <p class="sense">O gesto de oferecer, desenhado em círculo.</p>
+    </div>
+    <div class="ficha"><dl>
+      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais]</dd></div>
+      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
+      <div><dt class="caps label">Uso ou capacidade</dt><dd>[uso]</dd></div>
+      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
+      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
+    </dl></div>
+  </div>
+  <div class="folio l">12</div>
+</section>
+
+<!-- 13 · COMO COMPRAR -->
+<section class="page buy">
+  <div class="caps eyebrow">Atendimento</div>
+  <h2>Como<br>comprar</h2>
+  <p class="lead">Da primeira conversa à peça em sua casa.</p>
+  <ol>
+    <li><span class="n">01</span><span class="t">Atendimento consultivo pelo WhatsApp</span></li>
+    <li><span class="n">02</span><span class="t">Composição assistida do ambiente</span></li>
+    <li><span class="n">03</span><span class="t">Orçamento com frete calculado por CEP</span></li>
+    <li><span class="n">04</span><span class="t">Condições de pagamento claras</span></li>
+    <li><span class="n">05</span><span class="t">Acompanhamento até a entrega</span></li>
+  </ol>
+  <div class="folio r">13</div>
+</section>
+
+<!-- 14 · CONTRACAPA -->
+<section class="page back">
+  <div class="logo">
+    <svg viewBox="0 0 64 44"><polyline class="roof" points="10,13 32,2 54,13" fill="none" stroke-width="1"/><text class="mark" x="32" y="42" text-anchor="middle">LD</text></svg>
+    <div class="word">LE DECOR</div>
+    <div class="tag">móveis autorais</div>
+  </div>
+  <div class="contact">
+    <div class="rule"></div>
+    <div class="caps">Instagram</div>
+    <p>@le.decor.design</p>
+    <div class="caps">WhatsApp</div>
+    <p>[NÚMERO]</p>
+  </div>
+  <div class="ph qr">[QR CODE]</div>
+</section>
+
+</body>
+</html>
