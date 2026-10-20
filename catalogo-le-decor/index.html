@@ -6,7 +6,7 @@
 <title>Le Decor 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 <style>
   /* Paleta oficial — nenhuma cor fora destas */
   :root {
@@ -30,39 +30,36 @@
     background: var(--offwhite); page-break-after: always; break-after: page;
   }
   .page:last-child { page-break-after: auto; break-after: auto; }
-  @media screen {
-    body { padding: 40px 0; }
-    .page { margin: 0 auto 40px; outline: 1px solid var(--areia); }
-  }
 
   /* Tipografia base */
   .caps { font-family: var(--sans); font-weight: 400; font-size: 9pt; letter-spacing: .32em; text-transform: uppercase; }
-  .body { font-family: var(--sans); font-weight: 300; font-size: 11pt; line-height: 1.85; }
   .rule { width: 96px; height: 1px; background: var(--champagne); }
-  .folio { position: absolute; bottom: 44px; font-family: var(--sans); font-size: 9pt; letter-spacing: .2em; color: var(--champagne); }
-  .folio.r { right: 56px; } .folio.l { left: 56px; }
+  .folio { position: absolute; bottom: 34px; font-family: var(--sans); font-size: 9pt; letter-spacing: .2em; color: var(--champagne); }
 
-  /* Placeholder de foto */
-  .ph {
-    position: absolute; background: var(--areia); color: var(--grafite);
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    font-family: var(--sans); font-weight: 300; font-size: 10pt; letter-spacing: .14em; padding: 24px;
+  /* Fotos: a imagem preenche o quadro; sem foto, aparece o placeholder */
+  .ph { position: absolute; overflow: hidden; background: var(--areia); }
+  .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; user-select: none; -webkit-user-drag: none; }
+  .ph:not(.has-img)::after {
+    content: attr(data-label); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    padding: 24px; text-align: center; color: var(--grafite);
+    font-family: var(--sans); font-weight: 300; font-size: 10pt; letter-spacing: .14em;
   }
 
-  /* Logo */
+  /* Logo (monograma LE com traço de teto) */
   .logo { display: flex; flex-direction: column; align-items: center; color: var(--grafite); }
-  .logo svg { width: 64px; height: 44px; overflow: visible; }
-  .logo .roof { stroke: var(--champagne); }
-  .logo .mark { font-family: var(--serif); font-weight: 400; font-size: 34px; letter-spacing: 2px; fill: currentColor; }
-  .logo .word { font-family: var(--serif); font-weight: 400; font-size: 15px; letter-spacing: .42em; margin: 10px 0 0 .42em; }
-  .logo .tag { font-family: var(--sans); font-weight: 300; font-size: 8pt; letter-spacing: .24em; margin: 5px 0 0 .24em; }
+  .logo svg { width: 76px; height: 66px; overflow: visible; }
+  .logo .roof, .logo .under { stroke: var(--champagne); }
+  .logo .mark { font-family: var(--serif); font-weight: 500; font-size: 66px; letter-spacing: -7px; fill: currentColor; }
+  .logo .word { font-family: var(--serif); font-weight: 500; font-size: 17px; letter-spacing: .36em; margin: 12px 0 0 .36em; }
+  .logo .tag { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 400; font-size: 13px; letter-spacing: .06em; margin-top: 4px; }
+  .logo .tag i { display: block; width: 22px; height: 1px; background: var(--champagne); }
 
   /* 1 · Capa */
-  .cover .ph { inset: 0; padding-bottom: 260px; }
-  .cover .logo { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); }
-  .cover .title { position: absolute; left: 80px; bottom: 140px; width: 760px; }
-  .cover h1 { font-family: var(--serif); font-weight: 300; font-size: 92px; line-height: 1.02; letter-spacing: -.01em; }
-  .cover .rule { margin: 40px 0 22px; }
+  .cover .cover-photo { top: 0; left: 0; right: 0; height: 960px; }
+  .cover .logo { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); }
+  .cover .title { position: absolute; left: 80px; top: 1010px; width: 920px; }
+  .cover h1 { font-family: var(--serif); font-weight: 300; font-size: 84px; line-height: 1.02; letter-spacing: -.01em; }
+  .cover .rule { margin: 30px 0 18px; }
 
   /* 2 · Manifesto */
   .manifesto .eyebrow { position: absolute; top: 96px; left: 96px; color: var(--nogueira); }
@@ -70,12 +67,11 @@
     position: absolute; top: 360px; left: 216px; width: 720px;
     font-family: var(--serif); font-weight: 300; font-size: 50px; line-height: 1.22;
   }
-  .manifesto blockquote em { font-style: italic; }
   .manifesto .values { position: absolute; left: 216px; right: 96px; bottom: 210px; }
   .manifesto .values .rule { width: 100%; margin-bottom: 26px; }
   .manifesto .values ul { list-style: none; display: flex; justify-content: space-between; }
-  .manifesto .values li + li::before { content: ""; display: inline-block; width: 1px; height: 11px; background: var(--champagne); margin-right: 24px; vertical-align: -1px; }
-  .manifesto .values li { display: flex; align-items: center; gap: 0; }
+  .manifesto .values li { display: flex; align-items: center; }
+  .manifesto .values li + li::before { content: ""; display: inline-block; width: 1px; height: 11px; background: var(--champagne); margin-right: 24px; }
 
   /* 3, 8 · Divisórias */
   .divider { background: var(--grafite); color: var(--offwhite); }
@@ -86,26 +82,37 @@
   .divider p.phrase { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 30px; }
   .divider p.list { color: var(--areia); }
 
-  /* 4–7, 9–12 · Páginas de peça */
-  .piece .main { top: 0; bottom: 0; width: 640px; }
-  .piece .col { position: absolute; top: 0; bottom: 0; width: 328px; }
-  .piece.photo-l .main { left: 0; }   .piece.photo-l .col { left: 696px; }
-  .piece.photo-r .main { right: 0; }  .piece.photo-r .col { left: 56px; }
-  .piece .eyebrow { position: absolute; top: 80px; left: 0; color: var(--nogueira); }
-  .piece .detail { top: 136px; width: 224px; height: 264px; font-size: 9pt; letter-spacing: .1em; }
-  .piece.photo-l .detail { right: 0; } .piece.photo-r .detail { left: 0; }
-  .piece .head { position: absolute; top: 470px; left: 0; right: 0; }
-  .piece h3 { font-family: var(--serif); font-weight: 600; font-size: 48px; line-height: 1.05; }
-  .piece .sense { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 23px; line-height: 1.35; margin-top: 18px; }
-  .piece .desc { margin-top: 18px; }
+  /* Páginas de peça: foto em destaque colada no topo, texto e ficha no terço inferior */
+  .piece .main { top: 0; left: 0; width: 1080px; height: 780px; }
+  .piece .info { position: absolute; top: 828px; width: 320px; }
+  .piece .eyebrow { color: var(--nogueira); }
+  .piece h3 { font-family: var(--serif); font-weight: 600; font-size: 46px; line-height: 1.04; margin-top: 18px; }
+  .piece .sense { font-family: var(--serif); font-style: italic; font-weight: 300; font-size: 22px; line-height: 1.32; margin-top: 12px; }
+  .piece .detail { top: 1060px; width: 220px; height: 220px; }
+  .piece .detail:not(.has-img)::after { font-size: 9pt; letter-spacing: .1em; padding: 18px; }
+  .piece .ficha { position: absolute; top: 900px; height: 380px; width: 584px; }
+  .piece.info-l .info, .piece.info-l .detail { left: 72px; }
+  .piece.info-l .ficha { left: 424px; }
+  .piece.info-l .folio { right: 72px; }
+  .piece.info-r .info { left: 688px; }
+  .piece.info-r .detail { left: 788px; }
+  .piece.info-r .ficha { left: 72px; }
+  .piece.info-r .folio { left: 72px; }
+  .piece .folio { bottom: 30px; }
 
-  .ficha { position: absolute; top: 900px; left: 0; right: 0; background: var(--areia); padding: 0 24px 22px; }
-  .ficha::before { content: ""; display: block; height: 1px; background: var(--champagne); margin: 0 -24px 18px; }
+  /* Ficha técnica */
+  .ficha { background: var(--areia); padding: 0 28px; display: flex; flex-direction: column; justify-content: space-between; padding-bottom: 22px; }
+  .ficha::before { content: ""; display: block; height: 1px; background: var(--champagne); margin: 0 -28px; }
   .ficha .label { color: var(--nogueira); font-size: 9pt; letter-spacing: .24em; }
-  .ficha dl > div { padding: 11px 0; border-top: 1px solid var(--offwhite); }
-  .ficha dl > div:first-child { border-top: 0; padding-top: 0; }
-  .ficha dd { font-family: var(--sans); font-weight: 400; font-size: 10pt; line-height: 1.6; margin-top: 3px; }
-  .seal { display: inline-block; background: var(--floresta); color: var(--offwhite); font-family: var(--sans); font-size: 9pt; letter-spacing: .24em; text-transform: uppercase; padding: 5px 10px 4px 12px; margin-top: 4px; }
+  .ficha .val { font-family: var(--sans); font-weight: 400; font-size: 10.5pt; line-height: 1.55; margin-top: 4px; }
+  .ficha .f-row, .ficha .f-grid3, .ficha .f-grid2 { padding-top: 14px; }
+  .ficha .f-row + *, .ficha .f-grid3 + *, .ficha .f-grid2 + * { border-top: 1px solid var(--offwhite); }
+  .ficha .f-grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding-bottom: 14px; }
+  .ficha .f-grid2 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; padding-bottom: 14px; }
+  .ficha .f-row:first-of-type { padding-bottom: 14px; }
+  .ficha .m { font-family: var(--serif); font-weight: 400; font-size: 25px; line-height: 1.2; margin-top: 4px; }
+  .ficha .price { font-family: var(--serif); font-weight: 400; font-size: 25px; }
+  .seal { display: inline-block; background: var(--floresta); color: var(--offwhite); font-family: var(--sans); font-size: 9pt; letter-spacing: .24em; text-transform: uppercase; padding: 5px 10px 4px 12px; margin-top: 6px; white-space: nowrap; }
 
   /* 13 · Como comprar */
   .buy .eyebrow { position: absolute; top: 96px; left: 96px; color: var(--nogueira); }
@@ -116,271 +123,563 @@
   .buy li:last-child { border-bottom: 1px solid var(--champagne); }
   .buy li .n { font-family: var(--serif); font-weight: 300; font-size: 34px; color: var(--champagne); width: 44px; flex: none; }
   .buy li .t { font-family: var(--sans); font-weight: 300; font-size: 11pt; line-height: 1.7; }
+  .buy .folio { right: 72px; }
 
   /* 14 · Contracapa */
   .back { background: var(--grafite); color: var(--offwhite); }
-  .back .logo { position: absolute; top: 120px; left: 96px; align-items: flex-start; color: var(--offwhite); }
-  .back .logo svg { width: 96px; height: 66px; }
-  .back .logo .word { font-size: 22px; margin-left: 0; }
-  .back .logo .tag { margin-left: 0; color: var(--areia); }
+  .back .logo { position: absolute; top: 140px; left: 96px; align-items: flex-start; color: var(--offwhite); }
+  .back .logo svg { width: 120px; height: 104px; }
+  .back .logo .word { font-size: 24px; margin-left: 0; }
+  .back .logo .tag { font-size: 16px; color: var(--areia); }
   .back .contact { position: absolute; left: 96px; bottom: 140px; }
   .back .contact .rule { margin-bottom: 30px; }
   .back .contact p { font-family: var(--serif); font-weight: 300; font-size: 34px; line-height: 1.5; }
   .back .contact .caps { color: var(--champagne); margin-bottom: 4px; margin-top: 18px; }
-  .back .qr { right: 96px; bottom: 140px; width: 200px; height: 200px; font-size: 9pt; }
+  .back .qr { right: 96px; bottom: 140px; width: 200px; height: 200px; }
+  .divider .folio, .manifesto .folio { right: 72px; }
+
+  /* ---------- Modo edição (só na tela; nada disso sai no PDF) ---------- */
+  @media screen {
+    body { padding: 96px 0 40px; }
+    .page { margin: 0 auto 48px; outline: 1px solid var(--areia); }
+    .ed-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 14px 24px; background: var(--grafite); color: var(--offwhite); font-family: var(--sans); font-size: 13px;
+    }
+    .ed-bar strong { font-family: var(--serif); font-weight: 500; font-size: 18px; letter-spacing: .2em; margin-right: auto; }
+    .ed-bar .ed-status { color: var(--areia); }
+    .ed-btn {
+      font: inherit; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+      padding: 9px 14px; border: 1px solid var(--champagne); background: transparent; color: var(--offwhite);
+    }
+    .ed-btn.solid { background: var(--champagne); color: var(--grafite); }
+    .ed-help { max-width: 1080px; margin: 0 auto 28px; font-family: var(--sans); font-size: 13px; line-height: 1.7; color: var(--grafite); }
+    .ed-help b { color: var(--nogueira); }
+
+    [contenteditable]:hover { outline: 1px dashed var(--champagne); outline-offset: 4px; }
+    [contenteditable]:focus { outline: 1px solid var(--champagne); outline-offset: 4px; }
+
+    .ph { cursor: pointer; }
+    .ph.has-img { cursor: grab; }
+    .ph.dragging { cursor: grabbing; }
+    .ph:not(.has-img):hover { outline: 2px dashed var(--grafite); outline-offset: -10px; }
+    .ph-tools { position: absolute; top: 10px; right: 10px; z-index: 3; display: none; gap: 6px; }
+    .ph:hover .ph-tools { display: flex; }
+    .ph-tools button, .page-tools button {
+      font-family: var(--sans); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+      padding: 7px 10px; border: 0; background: var(--grafite); color: var(--offwhite);
+    }
+    .page-tools { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 4; display: none; gap: 6px; }
+    .page:hover .page-tools { display: flex; }
+  }
+  @media screen and (max-width: 1100px) {
+    body { padding-top: 140px; }
+    .ed-help { padding: 0 16px; }
+  }
+  @media print { .ed-ui { display: none !important; } }
 </style>
 </head>
 <body>
 
-<!-- 01 · CAPA -->
-<section class="page cover">
-  <div class="ph">[FOTO: mesa de jantar principal]</div>
-  <div class="logo">
-    <svg viewBox="0 0 64 44"><polyline class="roof" points="10,13 32,2 54,13" fill="none" stroke-width="1"/><text class="mark" x="32" y="42" text-anchor="middle">LD</text></svg>
-    <div class="word">LE DECOR</div>
-    <div class="tag">móveis autorais</div>
-  </div>
-  <div class="title">
-    <h1>A mesa onde a casa se encontra</h1>
-    <div class="rule"></div>
-    <div class="caps">Coleção 2026</div>
-  </div>
-</section>
+<div class="ed-bar ed-ui">
+  <strong>LE DECOR · editor</strong>
+  <span class="ed-status" id="ed-status">Alterações são salvas automaticamente neste navegador</span>
+  <button class="ed-btn solid" id="ed-print">Salvar em PDF</button>
+  <button class="ed-btn" id="ed-download">Baixar HTML editado</button>
+  <button class="ed-btn" id="ed-reset">Restaurar original</button>
+</div>
+<div class="ed-help ed-ui">
+  <b>Textos:</b> clique em qualquer texto e digite. &nbsp;
+  <b>Fotos:</b> clique num quadro vazio para inserir; passe o mouse numa foto para <b>Trocar</b>, <b>Zoom</b> ou <b>Remover</b>; arraste a foto para ajustar o enquadramento. &nbsp;
+  <b>Páginas:</b> passe o mouse no rodapé de uma página para <b>Duplicar</b> (nova peça), <b>Espelhar</b> ou <b>Excluir</b>. &nbsp;
+  <b>PDF:</b> “Salvar em PDF” e, na janela de impressão, escolha “Salvar como PDF”.
+</div>
 
-<!-- 02 · MANIFESTO -->
-<section class="page manifesto">
-  <div class="caps eyebrow">Manifesto</div>
-  <blockquote>Cada peça é desenhada para ser o ponto focal do ambiente, não o fundo dele. Produzimos em série limitada: <em>exclusividade é método.</em></blockquote>
-  <div class="values">
-    <div class="rule"></div>
-    <ul class="caps">
-      <li>Autoral</li><li>Contemporâneo</li><li>Artesanal</li><li>Elegante</li><li>Humano</li>
-    </ul>
-  </div>
-  <div class="folio r">02</div>
-</section>
+<main id="catalogo">
 
-<!-- 03 · DIVISÓRIA MESAS -->
-<section class="page divider">
-  <div class="wrap">
-    <div class="caps eyebrow">Capítulo I</div>
-    <h2>Mesas de jantar</h2>
-    <div class="rule"></div>
-    <p class="phrase">O centro da casa começa aqui.</p>
-  </div>
-  <div class="folio r">03</div>
-</section>
+  <!-- CAPA -->
+  <section class="page cover">
+    <div class="ph cover-photo has-img" data-label="[FOTO: mesa de jantar principal]"><img src="fotos/ambiente-01.webp" alt="" style="object-position:47% 50%;transform-origin:47% 50%;transform:scale(1)"></div>
+    <div class="logo">
+      <svg viewBox="0 0 120 104" aria-hidden="true"><polyline class="roof" points="12,36 60,6 108,36" fill="none" stroke-width="1.6"/><text class="mark" x="60" y="88" text-anchor="middle">LE</text><line class="under" x1="30" y1="98" x2="90" y2="98" stroke-width="1"/></svg>
+      <div class="word">LE DECOR</div>
+      <div class="tag"><i></i>móveis autorais<i></i></div>
+    </div>
+    <div class="title">
+      <h1>A mesa onde a casa se encontra</h1>
+      <div class="rule"></div>
+      <div class="caps">Coleção 2026</div>
+    </div>
+  </section>
 
-<!-- 04 · MESA 1 -->
-<section class="page piece photo-l">
-  <div class="ph main">[FOTO: Mesa 1]</div>
-  <div class="col">
-    <div class="caps eyebrow">Mesas de jantar · 01</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
-    <div class="head">
+  <!-- MANIFESTO -->
+  <section class="page manifesto">
+    <div class="caps eyebrow">Manifesto</div>
+    <blockquote>Cada peça é desenhada para ser o ponto focal do ambiente, não o fundo dele. Produzimos em série limitada: <em>exclusividade é método.</em></blockquote>
+    <div class="values">
+      <div class="rule"></div>
+      <ul class="caps"><li>Autoral</li><li>Contemporâneo</li><li>Artesanal</li><li>Elegante</li><li>Humano</li></ul>
+    </div>
+    <div class="folio"></div>
+  </section>
+
+  <!-- DIVISÓRIA · MESAS -->
+  <section class="page divider">
+    <div class="wrap">
+      <div class="caps eyebrow">Capítulo I</div>
+      <h2>Mesas de jantar</h2>
+      <div class="rule"></div>
+      <p class="phrase">O centro da casa começa aqui.</p>
+    </div>
+    <div class="folio"></div>
+  </section>
+
+  <section class="page piece info-l">
+    <div class="ph main has-img" data-label="[FOTO: Mesa 1]"><img src="fotos/ambiente-02.webp" alt="" style="object-position:50% 55%;transform-origin:50% 55%;transform:scale(1)"></div>
+    <div class="info">
+      <div class="caps eyebrow">Mesas de jantar · 01</div>
       <h3>[nome]</h3>
       <p class="sense">Onde a conversa se alonga depois do último prato.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio r">04</div>
-</section>
-
-<!-- 05 · MESA 2 -->
-<section class="page piece photo-r">
-  <div class="ph main">[FOTO: Mesa 2]</div>
-  <div class="col">
-    <div class="caps eyebrow">Mesas de jantar · 02</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
-    <div class="head">
+    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-01.webp" alt="" style="object-position:49% 64%;transform-origin:49% 64%;transform:scale(2.4)"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
+  <section class="page piece info-r">
+    <div class="ph main has-img" data-label="[FOTO: Mesa 2]"><img src="fotos/ambiente-04.webp" alt="" style="object-position:50% 50%;transform-origin:50% 50%;transform:scale(1)"></div>
+    <div class="info">
+      <div class="caps eyebrow">Mesas de jantar · 02</div>
       <h3>[nome]</h3>
       <p class="sense">Linhas serenas para o tempo sem pressa.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio l">05</div>
-</section>
-
-<!-- 06 · MESA 3 -->
-<section class="page piece photo-l">
-  <div class="ph main">[FOTO: Mesa 3]</div>
-  <div class="col">
-    <div class="caps eyebrow">Mesas de jantar · 03</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
-    <div class="head">
+    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-04.webp" alt="" style="object-position:50% 68%;transform-origin:50% 68%;transform:scale(2.2)"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
+  <section class="page piece info-l">
+    <div class="ph main has-img" data-label="[FOTO: Mesa 3]"><img src="fotos/ambiente-03.webp" alt="" style="object-position:45% 50%;transform-origin:45% 50%;transform:scale(1)"></div>
+    <div class="info">
+      <div class="caps eyebrow">Mesas de jantar · 03</div>
       <h3>[nome]</h3>
       <p class="sense">Presença firme, desenho que não pede licença.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio r">06</div>
-</section>
-
-<!-- 07 · MESA 4 -->
-<section class="page piece photo-r">
-  <div class="ph main">[FOTO: Mesa 4]</div>
-  <div class="col">
-    <div class="caps eyebrow">Mesas de jantar · 04</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira]</div>
-    <div class="head">
+    <div class="ph detail has-img" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"><img src="fotos/ambiente-03.webp" alt="" style="object-position:64% 40%;transform-origin:64% 40%;transform:scale(2.4)"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
+  <section class="page piece info-r">
+    <div class="ph main" data-label="[FOTO: Mesa 4]"></div>
+    <div class="info">
+      <div class="caps eyebrow">Mesas de jantar · 04</div>
       <h3>[nome]</h3>
       <p class="sense">Feita para os encontros que viram memória.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais] · [acabamento]</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>[capacidade]</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio l">07</div>
-</section>
+    <div class="ph detail" data-label="[FOTO: detalhe de textura ou junção metal-madeira]"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais] · [acabamento]</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">[capacidade]</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
 
-<!-- 08 · DIVISÓRIA COMPLEMENTOS -->
-<section class="page divider">
-  <div class="wrap">
-    <div class="caps eyebrow">Capítulo II</div>
-    <h2>A linha que completa o ambiente</h2>
-    <div class="rule"></div>
-    <p class="caps list">Cadeira Júlia · Trio Onix · Carrinho 01 · Bandeja Redonda</p>
-  </div>
-  <div class="folio r">08</div>
-</section>
+  <!-- DIVISÓRIA · LINHA COMPLEMENTAR -->
+  <section class="page divider">
+    <div class="wrap">
+      <div class="caps eyebrow">Capítulo II</div>
+      <h2>A linha que completa o ambiente</h2>
+      <div class="rule"></div>
+      <p class="caps list">Cadeira Júlia · Trio Onix · Carrinho 01 · Bandeja Redonda</p>
+    </div>
+    <div class="folio"></div>
+  </section>
 
-<!-- 09 · CADEIRA JÚLIA -->
-<section class="page piece photo-l">
-  <div class="ph main">[FOTO: Cadeira Júlia]</div>
-  <div class="col">
-    <div class="caps eyebrow">A linha que completa · 01</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Cadeira Júlia]</div>
-    <div class="head">
+  <section class="page piece info-l">
+    <div class="ph main" data-label="[FOTO: Cadeira Júlia]"></div>
+    <div class="info">
+      <div class="caps eyebrow">A linha que completa · 01</div>
       <h3>Cadeira Júlia</h3>
       <p class="sense">Uma curva que acolhe o corpo e o olhar.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>Encosto curvo, tecidos claros, detalhe caramelo, estrutura metálica preta</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>[uso]</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio r">09</div>
-</section>
-
-<!-- 10 · TRIO ONIX -->
-<section class="page piece photo-r">
-  <div class="ph main">[FOTO: Trio Onix]</div>
-  <div class="col">
-    <div class="caps eyebrow">A linha que completa · 02</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Trio Onix]</div>
-    <div class="head">
+    <div class="ph detail" data-label="[FOTO: detalhe — Cadeira Júlia]"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">Encosto curvo, tecidos claros, detalhe caramelo, estrutura metálica preta</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">[uso]</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
+  <section class="page piece info-r">
+    <div class="ph main" data-label="[FOTO: Trio Onix]"></div>
+    <div class="info">
+      <div class="caps eyebrow">A linha que completa · 02</div>
       <h3>Trio Onix</h3>
       <p class="sense">Três círculos que conversam entre si.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>Tampos circulares de madeira, bordas metálicas escuras</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>Mesas de apoio</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio l">10</div>
-</section>
-
-<!-- 11 · CARRINHO 01 -->
-<section class="page piece photo-l">
-  <div class="ph main">[FOTO: Carrinho 01]</div>
-  <div class="col">
-    <div class="caps eyebrow">A linha que completa · 03</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Carrinho 01]</div>
-    <div class="head">
+    <div class="ph detail" data-label="[FOTO: detalhe — Trio Onix]"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">Tampos circulares de madeira, bordas metálicas escuras</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">Mesas de apoio</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
+  <section class="page piece info-l">
+    <div class="ph main" data-label="[FOTO: Carrinho 01]"></div>
+    <div class="info">
+      <div class="caps eyebrow">A linha que completa · 03</div>
       <h3>Carrinho 01</h3>
       <p class="sense">Servir também é uma forma de receber.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>Madeira e metal, cantos arredondados</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>Para servir, apoiar e compor</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio r">11</div>
-</section>
-
-<!-- 12 · BANDEJA REDONDA -->
-<section class="page piece photo-r">
-  <div class="ph main">[FOTO: Bandeja Redonda]</div>
-  <div class="col">
-    <div class="caps eyebrow">A linha que completa · 04</div>
-    <div class="ph detail">[FOTO: detalhe de textura ou junção metal-madeira — Bandeja Redonda]</div>
-    <div class="head">
+    <div class="ph detail" data-label="[FOTO: detalhe — Carrinho 01]"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">Madeira e metal, cantos arredondados</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">Para servir, apoiar e compor</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
+  <section class="page piece info-r">
+    <div class="ph main" data-label="[FOTO: Bandeja Redonda]"></div>
+    <div class="info">
+      <div class="caps eyebrow">A linha que completa · 04</div>
       <h3>Bandeja Redonda</h3>
       <p class="sense">O gesto de oferecer, desenhado em círculo.</p>
     </div>
-    <div class="ficha"><dl>
-      <div><dt class="caps label">Materiais e acabamento</dt><dd>[materiais]</dd></div>
-      <div><dt class="caps label">Medidas (C × L × A)</dt><dd>[comprimento] × [largura] × [altura]</dd></div>
-      <div><dt class="caps label">Uso ou capacidade</dt><dd>[uso]</dd></div>
-      <div><dt class="caps label">Edição</dt><dd><span class="seal">Série Limitada</span></dd></div>
-      <div><dt class="caps label">Preço</dt><dd>[preço]</dd></div>
-    </dl></div>
-  </div>
-  <div class="folio l">12</div>
-</section>
+    <div class="ph detail" data-label="[FOTO: detalhe — Bandeja Redonda]"></div>
+    <div class="ficha">
+      <div class="f-row"><div class="caps label">Materiais e acabamento</div><div class="val">[materiais]</div></div>
+      <div class="f-grid3">
+        <div><div class="caps label">Comprimento</div><div class="m">[comprimento]</div></div>
+        <div><div class="caps label">Largura</div><div class="m">[largura]</div></div>
+        <div><div class="caps label">Altura</div><div class="m">[altura]</div></div>
+      </div>
+      <div class="f-grid2">
+        <div><div class="caps label">Uso ou capacidade</div><div class="val">[uso]</div></div>
+        <div><div class="caps label">Edição</div><span class="seal">Série Limitada</span></div>
+      </div>
+      <div class="f-row"><div class="caps label">Preço</div><div class="val price">[preço]</div></div>
+    </div>
+    <div class="folio"></div>
+  </section>
 
-<!-- 13 · COMO COMPRAR -->
-<section class="page buy">
-  <div class="caps eyebrow">Atendimento</div>
-  <h2>Como<br>comprar</h2>
-  <p class="lead">Da primeira conversa à peça em sua casa.</p>
-  <ol>
-    <li><span class="n">01</span><span class="t">Atendimento consultivo pelo WhatsApp</span></li>
-    <li><span class="n">02</span><span class="t">Composição assistida do ambiente</span></li>
-    <li><span class="n">03</span><span class="t">Orçamento com frete calculado por CEP</span></li>
-    <li><span class="n">04</span><span class="t">Condições de pagamento claras</span></li>
-    <li><span class="n">05</span><span class="t">Acompanhamento até a entrega</span></li>
-  </ol>
-  <div class="folio r">13</div>
-</section>
+  <!-- COMO COMPRAR -->
+  <section class="page buy">
+    <div class="caps eyebrow">Atendimento</div>
+    <h2>Como<br>comprar</h2>
+    <p class="lead">Da primeira conversa à peça em sua casa.</p>
+    <ol>
+      <li><span class="n">01</span><span class="t">Atendimento consultivo pelo WhatsApp</span></li>
+      <li><span class="n">02</span><span class="t">Composição assistida do ambiente</span></li>
+      <li><span class="n">03</span><span class="t">Orçamento com frete calculado por CEP</span></li>
+      <li><span class="n">04</span><span class="t">Condições de pagamento claras</span></li>
+      <li><span class="n">05</span><span class="t">Acompanhamento até a entrega</span></li>
+    </ol>
+    <div class="folio"></div>
+  </section>
 
-<!-- 14 · CONTRACAPA -->
-<section class="page back">
-  <div class="logo">
-    <svg viewBox="0 0 64 44"><polyline class="roof" points="10,13 32,2 54,13" fill="none" stroke-width="1"/><text class="mark" x="32" y="42" text-anchor="middle">LD</text></svg>
-    <div class="word">LE DECOR</div>
-    <div class="tag">móveis autorais</div>
-  </div>
-  <div class="contact">
-    <div class="rule"></div>
-    <div class="caps">Instagram</div>
-    <p>@le.decor.design</p>
-    <div class="caps">WhatsApp</div>
-    <p>[NÚMERO]</p>
-  </div>
-  <div class="ph qr">[QR CODE]</div>
-</section>
+  <!-- CONTRACAPA -->
+  <section class="page back">
+    <div class="logo">
+      <svg viewBox="0 0 120 104" aria-hidden="true"><polyline class="roof" points="12,36 60,6 108,36" fill="none" stroke-width="1.6"/><text class="mark" x="60" y="88" text-anchor="middle">LE</text><line class="under" x1="30" y1="98" x2="90" y2="98" stroke-width="1"/></svg>
+      <div class="word">LE DECOR</div>
+      <div class="tag"><i></i>móveis autorais<i></i></div>
+    </div>
+    <div class="contact">
+      <div class="rule"></div>
+      <div class="caps">Instagram</div>
+      <p>@le.decor.design</p>
+      <div class="caps">WhatsApp</div>
+      <p>[NÚMERO]</p>
+    </div>
+    <div class="ph qr" data-label="[QR CODE]"></div>
+  </section>
 
+</main>
+
+<script>
+(function () {
+  var main = document.getElementById('catalogo');
+  var KEY = 'ledecor-2026:' + location.pathname;
+  var TEXT = 'h1,h2,h3,blockquote,p,li,dd,.caps,.val,.m,.t,.n,.seal';
+  var statusEl = document.getElementById('ed-status');
+
+  /* ---------- Armazenamento (IndexedDB: cabe fotos grandes) ---------- */
+  function openDb() {
+    return new Promise(function (res, rej) {
+      var r = indexedDB.open('ledecor-editor', 1);
+      r.onupgradeneeded = function () { r.result.createObjectStore('s'); };
+      r.onsuccess = function () { res(r.result); };
+      r.onerror = function () { rej(r.error); };
+    });
+  }
+  function store(mode, fn) {
+    return openDb().then(function (db) {
+      return new Promise(function (res) {
+        var q = fn(db.transaction('s', mode).objectStore('s'));
+        q.onsuccess = function () { res(q.result); };
+        q.onerror = function () { res(null); };
+      });
+    }).catch(function () { return null; });
+  }
+  function cleanHtml() {
+    var c = main.cloneNode(true);
+    c.querySelectorAll('.ed-ui').forEach(function (n) { n.remove(); });
+    c.querySelectorAll('[contenteditable]').forEach(function (n) { n.removeAttribute('contenteditable'); });
+    c.querySelectorAll('.dragging').forEach(function (n) { n.classList.remove('dragging'); });
+    return c.innerHTML;
+  }
+  var timer;
+  function save() {
+    clearTimeout(timer);
+    statusEl.textContent = 'Salvando…';
+    timer = setTimeout(function () {
+      store('readwrite', function (s) { return s.put(cleanHtml(), KEY); }).then(function () {
+        statusEl.textContent = 'Alterações salvas neste navegador';
+      });
+    }, 500);
+  }
+
+  /* ---------- Interface de edição ---------- */
+  function button(label, action) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = label; b.dataset.action = action;
+    return b;
+  }
+  function decorate() {
+    main.querySelectorAll('.ed-ui').forEach(function (n) { n.remove(); });
+    main.querySelectorAll(TEXT).forEach(function (el) {
+      if (!el.closest('.ph') && !el.querySelector(TEXT)) el.setAttribute('contenteditable', 'true');
+    });
+    main.querySelectorAll('.ph').forEach(function (ph) {
+      var t = document.createElement('div');
+      t.className = 'ph-tools ed-ui';
+      if (ph.classList.contains('has-img')) {
+        t.append(button('Trocar', 'swap'), button('Zoom +', 'zin'), button('Zoom −', 'zout'), button('Remover', 'remove'));
+      } else {
+        t.append(button('Inserir foto', 'swap'));
+      }
+      ph.appendChild(t);
+    });
+    main.querySelectorAll('.page').forEach(function (pg) {
+      var t = document.createElement('div');
+      t.className = 'page-tools ed-ui';
+      t.append(button('Duplicar página', 'dup'));
+      if (pg.classList.contains('piece')) t.append(button('Espelhar', 'mirror'));
+      t.append(button('Excluir página', 'del'));
+      pg.appendChild(t);
+    });
+    renumber();
+  }
+  function renumber() {
+    main.querySelectorAll('.page').forEach(function (pg, i) {
+      var f = pg.querySelector('.folio');
+      if (f) f.textContent = String(i + 1).padStart(2, '0');
+    });
+  }
+
+  /* ---------- Fotos ---------- */
+  var picker = document.createElement('input');
+  picker.type = 'file'; picker.accept = 'image/*'; picker.hidden = true; picker.className = 'ed-ui';
+  document.body.appendChild(picker);
+  var target = null;
+
+  function shrink(file) {
+    // Reduz fotos muito grandes para manter o arquivo leve (lado maior até 2400 px)
+    return new Promise(function (res) {
+      var r = new FileReader();
+      r.onload = function () {
+        var im = new Image();
+        im.onload = function () {
+          var max = 2400, k = Math.min(1, max / Math.max(im.width, im.height));
+          if (k === 1 && file.size < 1500000) return res(r.result);
+          var c = document.createElement('canvas');
+          c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+          c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+          res(c.toDataURL('image/jpeg', 0.88));
+        };
+        im.src = r.result;
+      };
+      r.readAsDataURL(file);
+    });
+  }
+  picker.addEventListener('change', function () {
+    var file = picker.files[0];
+    if (!file || !target) return;
+    shrink(file).then(function (src) {
+      var img = target.querySelector('img') || document.createElement('img');
+      img.src = src; img.alt = '';
+      img.style.objectPosition = img.style.transformOrigin = '50% 50%';
+      img.style.transform = 'scale(1)';
+      target.prepend(img);
+      target.classList.add('has-img');
+      decorate(); save();
+      picker.value = '';
+    });
+  });
+  function zoom(ph, delta) {
+    var img = ph.querySelector('img');
+    var z = parseFloat((img.style.transform.match(/scale\(([\d.]+)\)/) || [0, 1])[1]);
+    z = Math.min(4, Math.max(1, Math.round((z + delta) * 10) / 10));
+    img.style.transform = 'scale(' + z + ')';
+    save();
+  }
+
+  main.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-action]');
+    var ph = e.target.closest('.ph');
+    var pg = e.target.closest('.page');
+    if (!b) {
+      if (ph && !ph.classList.contains('has-img')) { target = ph; picker.click(); }
+      return;
+    }
+    var a = b.dataset.action;
+    if (a === 'swap') { target = ph; picker.click(); }
+    else if (a === 'zin') zoom(ph, .2);
+    else if (a === 'zout') zoom(ph, -.2);
+    else if (a === 'remove') { ph.querySelector('img').remove(); ph.classList.remove('has-img'); decorate(); save(); }
+    else if (a === 'dup') { pg.after(pg.cloneNode(true)); decorate(); save(); }
+    else if (a === 'mirror') {
+      pg.classList.toggle('info-l'); pg.classList.toggle('info-r'); save();
+    }
+    else if (a === 'del' && confirm('Excluir esta página?')) { pg.remove(); decorate(); save(); }
+  });
+
+  // Arrastar a foto ajusta o enquadramento (object-position)
+  var drag = null;
+  main.addEventListener('pointerdown', function (e) {
+    var ph = e.target.closest('.ph.has-img');
+    if (!ph || e.target.closest('button')) return;
+    var img = ph.querySelector('img');
+    var pos = (img.style.objectPosition || '50% 50%').split(' ').map(parseFloat);
+    drag = { ph: ph, img: img, x: e.clientX, y: e.clientY, px: pos[0], py: pos[1], moved: false };
+    ph.classList.add('dragging');
+    ph.setPointerCapture(e.pointerId);
+  });
+  main.addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    var r = drag.ph.getBoundingClientRect();
+    var px = Math.min(100, Math.max(0, drag.px - (e.clientX - drag.x) / r.width * 100));
+    var py = Math.min(100, Math.max(0, drag.py - (e.clientY - drag.y) / r.height * 100));
+    drag.img.style.objectPosition = drag.img.style.transformOrigin = px.toFixed(1) + '% ' + py.toFixed(1) + '%';
+    drag.moved = true;
+  });
+  function endDrag() {
+    if (!drag) return;
+    drag.ph.classList.remove('dragging');
+    if (drag.moved) save();
+    drag = null;
+  }
+  main.addEventListener('pointerup', endDrag);
+  main.addEventListener('pointercancel', endDrag);
+  main.addEventListener('input', save);
+  // Colar texto sempre como texto simples, para não trazer cores e fontes de fora
+  main.addEventListener('paste', function (e) {
+    if (!e.target.closest('[contenteditable]')) return;
+    e.preventDefault();
+    document.execCommand('insertText', false, (e.clipboardData || window.clipboardData).getData('text'));
+  });
+
+  /* ---------- Barra de ações ---------- */
+  document.getElementById('ed-print').onclick = function () { window.print(); };
+  document.getElementById('ed-reset').onclick = function () {
+    if (!confirm('Descartar todas as alterações e voltar ao catálogo original?')) return;
+    store('readwrite', function (s) { return s.delete(KEY); }).then(function () { location.reload(); });
+  };
+  document.getElementById('ed-download').onclick = function () {
+    var doc = document.documentElement.cloneNode(true);
+    doc.querySelector('#catalogo').innerHTML = cleanHtml();
+    doc.querySelectorAll('body > input').forEach(function (n) { n.remove(); });
+    // Embute as fotos que ainda são arquivos externos, para o HTML funcionar sozinho
+    var imgs = [].slice.call(doc.querySelectorAll('#catalogo img')).filter(function (i) { return !/^data:/.test(i.getAttribute('src')); });
+    Promise.all(imgs.map(function (i) {
+      return fetch(i.src).then(function (r) { return r.blob(); }).then(function (b) {
+        return new Promise(function (res) { var fr = new FileReader(); fr.onload = function () { i.setAttribute('src', fr.result); res(); }; fr.readAsDataURL(b); });
+      }).catch(function () {});
+    })).then(function () {
+      var blob = new Blob(['<!doctype html>\n' + doc.outerHTML], { type: 'text/html' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'LE-DECOR-Catalogo-2026-editado.html';
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    });
+  };
+
+  /* ---------- Início ---------- */
+  store('readonly', function (s) { return s.get(KEY); }).then(function (saved) {
+    if (saved) main.innerHTML = saved;
+    decorate();
+  });
+})();
+</script>
 </body>
 </html>
